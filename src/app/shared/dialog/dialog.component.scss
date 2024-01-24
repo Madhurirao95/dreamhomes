@@ -1,0 +1,13 @@
+.dialog-wrapper {
+    height: 100%;
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 0;
+    }
+
+    .close-button {
+        margin-top: -25px;
+    }
+}

@@ -1,0 +1,15 @@
+<div class="dialog-wrapper">
+<div mat-dialog-title class="dialog-header">
+    <h1 [ngStyle] = "data.titleStyle">{{data.title}}
+    </h1>
+    <button mat-icon-button *ngIf="data.showCloseButton" class="close-button" (click)="onCloseClick()" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div mat-dialog-content>
+    <ng-container *ngComponentOutlet="data.contentComponent"></ng-container>
+</div>
+<div mat-dialog-actions>
+    <ng-container *ngComponentOutlet="data.actionButtonComponent"></ng-container>
+</div>
+</div>

@@ -1,0 +1,49 @@
+.toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+}
+
+
+.spacer {
+    flex: 1;
+}
+
+.signIn-buttons {
+    color: white !important;
+    margin: 10px;
+}
+
+.home-icon {
+    font-size: xx-large;
+    width: 30px;
+}
+
+.spotahome-title {
+    font-size: 30px;
+    font-family: auto;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    background-color: transparent;
+}
+
+.mdc-button {
+    border: 2px solid blue !important;
+    border-color: white !important;
+    border-radius: 0px !important;
+}
+
+// 83677b, 501b1d
+// 7e685a, white  - ok
+// eee2dc, current color - nope 
+// a4b3b6, current color - nope
+// 9d8d8f, white -  hmm
+// 9b786f, white - better than ok
+// d4a59a, 5c2018

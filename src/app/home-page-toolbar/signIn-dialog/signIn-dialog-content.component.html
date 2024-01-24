@@ -1,0 +1,70 @@
+<span class="signIn-dialog-content-wrapper">
+    <h2 class="error-message" *ngIf="hasServiceError">
+        {{serviceErrorMessage}}
+    </h2>
+    <mat-tab-group fitInkBarToContent (selectedTabChange)="onTabChange()">
+        <mat-tab label="Sign In">
+            <form class="submit-form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
+                <mat-label class="label-text">Email</mat-label>
+                <mat-form-field floatLabel="always" appearance="outline">
+                    <input matInput placeholder="Enter your Email" formControlName="email">
+                    <mat-error *ngIf="signInForm.get('email')?.errors?.['email']">Enter a valid email
+                        address.</mat-error>
+                    <mat-error *ngIf="signInForm.get('email')?.errors?.['required']">Email is required.</mat-error>
+                </mat-form-field>
+                <mat-label class="label-text">Password</mat-label>
+                <mat-form-field floatLabel="always" appearance="outline">
+                    <input matInput placeholder="Enter your Password" formControlName="password">
+                    <mat-error *ngIf="signInForm.get('password')?.errors?.['required']">Password is
+                        required.</mat-error>
+                    <mat-error *ngIf="signInForm.get('password')?.hasError('minLength')
+                    || signInForm.get('password')?.hasError('hasNumber')
+                    || signInForm.get('password')?.hasError('hasCapitalCase')
+                    || signInForm.get('password')?.hasError('hasSmallCase')
+                    || signInForm.get('password')?.hasError('hasSpecialCharacters')">Password is
+                        invalid.</mat-error>
+                </mat-form-field>
+                <div class="submit-button">
+                    <button mat-raised-button color="primary" type="submit" class="button signIn-button-text"
+                        [disabled]="!signInForm.valid">Sign In</button>
+                </div>
+            </form>
+        </mat-tab>
+        <mat-tab label="Create Account">
+            <form class="submit-form" [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
+                <mat-label class="label-text">Email</mat-label>
+                <mat-form-field floatLabel="always" appearance="outline">
+                    <input matInput placeholder="Enter your Email" formControlName="email">
+                    <mat-error *ngIf="createAccountForm.get('email')?.errors?.['email']">Enter a valid email
+                        address.</mat-error>
+                    <mat-error *ngIf="createAccountForm.get('email')?.errors?.['required']">Email is
+                        required.</mat-error>
+                </mat-form-field>
+                <mat-label class="label-text">Password</mat-label>
+                <mat-form-field floatLabel="always" appearance="outline">
+                    <input matInput placeholder="Create your Password" formControlName="password">
+                    <mat-error *ngIf="createAccountForm.get('password')?.errors?.['required']">Password is
+                        required.</mat-error>
+                    <mat-error *ngIf="createAccountForm.get('password')?.hasError('minLength')
+                    || createAccountForm.get('password')?.hasError('hasNumber')
+                    || createAccountForm.get('password')?.hasError('hasCapitalCase')
+                    || createAccountForm.get('password')?.hasError('hasSmallCase')
+                    || createAccountForm.get('password')?.hasError('hasSpecialCharacters')"><span>At least 8 characters</span><br>
+                    <span> Mix of letters and numbers</span><br>
+                    <span>At least 1 special character</span><br>
+                    <span> At least 1 lowercase letter and 1 uppercase letter</span></mat-error>
+                    <mat-hint>
+                        <span>At least 8 characters</span><br>
+                        <span> Mix of letters and numbers</span><br>
+                        <span>At least 1 special character</span><br>
+                        <span> At least 1 lowercase letter and 1 uppercase letter</span>
+                    </mat-hint>
+                </mat-form-field>
+                <div class="submit-button">
+                    <button mat-raised-button color="primary" type="submit" class="button signIn-button-text"
+                        [disabled]="!createAccountForm.valid">Submit</button>
+                </div>
+            </form>
+        </mat-tab>
+    </mat-tab-group>
+</span>

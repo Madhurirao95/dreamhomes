@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; min-height: 1000px; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-pane {
+    width: 27%;
+    height: 80%;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__content {
+    height: 75%;
+}
+
+////#9b4d3a
