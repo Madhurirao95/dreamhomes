@@ -13,7 +13,7 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
   styleUrls: ['./home-page-toolbar.component.scss']
 })
 export class HomePageToolBarComponent {
-  title = 'Welcome to SpotAHome!';
+  title = 'Welcome to DreamHomes!';
   titleStyle = {
     'font-weight': 500,
     'font-size.px': 25,
