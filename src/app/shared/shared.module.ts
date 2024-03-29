@@ -7,8 +7,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { CommonModule } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -23,8 +29,15 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatGridListModule,
+    MatStepperModule,
+    MatToolbarModule,
+    MatProgressBarModule,
+    MatExpansionModule,
     CommonModule
   ],
   providers: []
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -1,0 +1,112 @@
+<div class="listing-details-dialog-wrapper">
+    <mat-vertical-stepper #stepper>
+        <mat-step [stepControl]="postForm">
+            <ng-template matStepLabel>
+                <div class="stepper-label">Fill out the basic details of your listing</div>
+            </ng-template>
+            
+            <fieldset class="fieldset-disable" [disabled]="(authService.isAuthorized$ | async) === false">
+                <geoapify-geocoder-autocomplete [value]="selectedAddress" (placeSelect)="placeSelected($event)"
+                    (suggestionsChange)="suggestionsChanged($event)">
+                </geoapify-geocoder-autocomplete>
+            </fieldset>
+            <form class="post-form" [formGroup]="postForm">
+                <mat-grid-list cols="5" rowHeight="120px">
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <mat-form-field floatLabel="always" appearance="outline">
+                                <div class="default-text" *ngIf="postForm.get('type')?.value === null">Select the Type of Listing</div>
+                            <mat-select formControlName="type">
+                                <mat-option *ngFor="let typeListing of typeOfListing" [value]="typeListing">{{typeListing}}</mat-option>
+                                <!-- <mat-option [value]="typeOfListing.House">House</mat-option>
+                                <mat-option [value]="typeOfListing.Apartment">Apartment</mat-option>
+                                <mat-option [value]="typeOfListing.Plot">Plot</mat-option> -->
+                            </mat-select>
+                            <mat-error *ngIf="postForm.get('type')?.errors?.['required']">Type is required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Unit Number" formControlName="unit" maxlength="10">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Zip Code" formControlName="zipCode">
+                            <mat-error *ngIf="postForm.get('zipCode')?.errors?.['required']">Zip Code is
+                                required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <input matInput placeholder="City" formControlName="city">
+                            <mat-error *ngIf="postForm.get('city')?.errors?.['required']">City is required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <mat-form-field floatLabel="always" appearance="outline">
+                            <mat-select formControlName="state">
+                                <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="postForm.get('state')?.errors?.['required']">State is required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>
+                <div class="stepper-label">Add Photos/Videos<span class="stepper-label-message"> (Add atleast one photo/video)</span></div>
+                
+            </ng-template>
+            <app-upload-documents [selectedFiles]="uploadedDocuments" (selectedFilesEvent)="onDocumentsReceived($event)"></app-upload-documents>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>
+                <div class="stepper-label">Remarks & Other Details</div>
+            </ng-template>
+            <form class="post-form" [formGroup]="postForm">
+                <mat-grid-list cols="3" rowHeight="120px">
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <input matInput type="number" [appMaxDigits]="8" placeholder="Price(in dollars)" formControlName="price">
+                            <mat-error *ngIf="postForm.get('price')?.errors?.['required']">Price is
+                                required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <mat-form-field>
+                            <input matInput type="number" [appMaxDigits]="5" placeholder="Area of your listing(in sq ft)"
+                                formControlName="area">
+                            <mat-error *ngIf="postForm.get('area')?.errors?.['required']">Area is required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Contact Number" formControlName="contactNumber" maxlength="10">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+
+                        <mat-form-field>
+                            <textarea matInput maxlength="500" formControlName="remarks"
+                                placeholder="Remarks(if any)"></textarea>
+                            <mat-hint align="end">Max. 500 characters</mat-hint>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                </mat-grid-list>
+                
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+    <div class="submit-button">
+        <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!postForm.dirty || !postForm.valid || uploadedDocuments === undefined || uploadedDocuments.length <= 0"
+            (click)="onPostOrUpdate()">{{submitButtonText}}</button>
+    </div>
+</div>

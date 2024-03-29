@@ -1,0 +1,121 @@
+@import '../../../styles.scss';
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+
+.listing-details-dialog-wrapper {
+    position: relative;
+    top: 15%;
+    width: 100%;
+    height: 75%;
+    display: inline-block;
+    background: white;
+
+    border-radius: 6px;
+    clip-path: polygon(75px 0px, 100% 0px, 100% 100%, 0% 100%, 0% 75px);
+    margin: 0 8px;
+    font-weight: 600;
+    font-size: 18px;
+    // color: var(--color-text);
+    transition: clip-path 500ms;
+
+    .post-form {
+        padding: 15px;
+    }
+
+    .submit-button {
+        margin-top: 12%;
+    }
+
+    .mat-mdc-raised-button {
+        width: 10%;
+    }
+
+    .mat-mdc-raised-button:not(:disabled) {
+        background-color: $primaryColor;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+        border-color: $primaryColor !important;
+        border-width: 2px;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+        border-color: $primaryColor !important;
+    }
+
+    .mdc-text-field--filled .mdc-line-ripple::after {
+        border-bottom-color: $primaryColor !important;
+    }
+
+    .mdc-text-field--filled .mdc-line-ripple::before {
+        border-bottom-color: $primaryColor !important;
+    }
+
+    input::placeholder {
+        font-weight: normal;
+    }
+
+    .mat-mdc-form-field {
+        width: 98%;
+    }
+
+    .mat-step-header .mat-step-icon-selected,
+    .mat-step-header .mat-step-icon-state-done,
+    .mat-step-header .mat-step-icon-state-edit {
+        background-color: $primaryColor;
+    }
+
+
+    .mdc-text-field .mdc-text-field__input {
+        caret-color: $primaryColor;
+    }
+
+    .mat-stepper-vertical {
+        position: relative;
+        padding-top: 70px;
+    }
+
+    .stepper-label {
+        font-family: "Dancing Script", cursive;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-style: normal;
+        font-size: x-large;
+        height: 25px;
+    }
+
+    .stepper-label-message {
+        font-size: medium;
+    }
+      
+      .default-text {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        padding: 0.5rem;
+        color: #888;
+        pointer-events: none;
+      }
+}
+
+.listing-details-dialog-wrapper:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -2px;
+    width: 75px;
+    height: 75px;
+    background: #e1e6eb;
+    opacity: 0.9;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 6px 0;
+    transition: transform 500ms;
+}
+
+.fieldset-disable {
+    border: none;
+}
+

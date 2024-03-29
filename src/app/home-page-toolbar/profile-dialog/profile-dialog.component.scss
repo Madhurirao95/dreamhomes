@@ -1,0 +1,13 @@
+@import '../../../styles.scss';
+
+.profile-dialog-wrapper {
+    .mat-mdc-raised-button:not(:disabled) {
+        background-color: $primaryColor;
+    }
+
+    .sign-out-button {
+        border-radius: 30px;
+        width: 50%;
+        height: 50px;
+    }
+}

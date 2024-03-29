@@ -1,13 +1,37 @@
 .dialog-wrapper {
     height: 100%;
     .dialog-header {
-        display: flex;
-        justify-content: space-between;
+        // display: flex;
+        // justify-content: space-between;
         align-items: center;
-        padding-right: 0;
+        // padding-right: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
     .close-button {
-        margin-top: -25px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+    }
+
+    .icon-container {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .title-icon {
+        font-size: 60px;
+        width: auto;
+        height: auto;
+    }
+
+    .message-info {
+        text-align: center;
+        font-weight: 500;
     }
 }

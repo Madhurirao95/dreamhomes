@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { Component } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../shared/dialog/dialog.component';
 import { SignInDialogContentComponent } from './signIn-dialog/signIn-dialog-content.component';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication-service';
+import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 
 @Component({
   selector: 'home-page-toolbar',
@@ -11,8 +14,31 @@ import { SignInDialogContentComponent } from './signIn-dialog/signIn-dialog-cont
 })
 export class HomePageToolBarComponent {
   title = 'Welcome to SpotAHome!';
-  titleStyle = { 'font-weight': 500, 'font-size.px': 25, 'margin-top.px': 25, 'margin-bottom.px': 0 };
-  constructor (public dialog: MatDialog) {}
+  titleStyle = {
+    'font-weight': 500,
+    'font-size.px': 25,
+    'margin-top.px': 25,
+    'margin-bottom.px': 0,
+    'font-family': '"Protest Revolution", sans-serif'
+  };
+
+  selectedButton = 'Buy';
+  showSignInButton = true;
+  showProfileButton = false;
+
+  userName = '';
+  constructor (public dialog: MatDialog, private readonly router: Router, private readonly authService: AuthenticationService) {
+    this.authService.isAuthorized$.subscribe((res) => {
+      if (res) {
+        this.showProfileButton = true;
+        this.showSignInButton = false;
+        this.userName = this.getUserName(this.authService.getEmail());
+      } else {
+        this.showSignInButton = true;
+        this.showProfileButton = false;
+      }
+    });
+  }
 
   openDialog (): void {
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -25,7 +51,46 @@ export class HomePageToolBarComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isCallSuccessful) {
+        this.showSignInButton = false;
+        this.showProfileButton = true;
+        this.userName = this.getUserName(result.email);
+      }
       console.log('The dialog was closed');
     });
+  }
+
+  openProfileDialog (): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Hey ' + this.userName.toLocaleUpperCase() + '!',
+        titleStyle: this.titleStyle,
+        contentComponent: ProfileDialogComponent,
+        showCloseButton: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isSignedOut) {
+        this.showProfileButton = false;
+        this.showSignInButton = true;
+        this.userName = '';
+      }
+    });
+  }
+
+  getUserName(email: string): string {
+    const parts = email.split('@');
+    return parts[0].toLocaleUpperCase();
+  }
+
+  goToSellPage (): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.router.navigate(['/sell']);
+  }
+
+  goToBuyPage (): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.router.navigate(['/buy']);
   }
 }

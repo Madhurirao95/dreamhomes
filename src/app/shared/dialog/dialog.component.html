@@ -1,15 +1,26 @@
 <div class="dialog-wrapper">
-<div mat-dialog-title class="dialog-header">
-    <h1 [ngStyle] = "data.titleStyle">{{data.title}}
-    </h1>
-    <button mat-icon-button *ngIf="data.showCloseButton" class="close-button" (click)="onCloseClick()" mat-dialog-close>
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<div mat-dialog-content>
-    <ng-container *ngComponentOutlet="data.contentComponent"></ng-container>
-</div>
-<div mat-dialog-actions>
-    <ng-container *ngComponentOutlet="data.actionButtonComponent"></ng-container>
-</div>
+
+    <div mat-dialog-title class="dialog-header">
+        <button mat-icon-button *ngIf="data.showCloseButton" class="close-button" (click)="onCloseClick({})"
+            mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <div *ngIf="data.titleIcon" class="icon-container">
+            <mat-icon class="title-icon" >{{data.titleIcon}}</mat-icon>
+        </div>
+        
+        <h1 *ngIf="data.title" [ngStyle]="data.titleStyle">{{data.title}}
+        </h1>
+
+    </div>
+    <div *ngIf="data.contentComponent" mat-dialog-content>
+        <!-- <ng-container #container *ngComponentOutlet="data.contentComponent"></ng-container> -->
+        <ng-container #container>
+            <!-- <ng-container *ngComponentOutlet="data.contentComponent"></ng-container> -->
+          </ng-container>
+    </div>
+    <div *ngIf="data.messages && data.messages.length > 0" mat-dialog-content>
+        <div *ngFor="let message of data.messages" class="message-info">{{message}}</div>
+    </div>
 </div>

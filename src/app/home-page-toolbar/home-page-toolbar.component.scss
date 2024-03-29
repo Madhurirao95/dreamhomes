@@ -1,24 +1,82 @@
+@import '../../styles.scss';
 .toolbar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 7%;
     display: flex;
     align-items: center;
     color: white;
     font-weight: 600;
+    background: $primaryColor;
 }
 
+.mat-button-toggle-checked {
+    opacity: 0.6;
+}
+
+.mat-button-toggle {
+    background-color: transparent;
+}
+
+.toggle-buttons {
+    border: none; 
+}
+
+.toggle-button {
+    border-bottom: 2px solid white;
+    color: white;
+    margin-left: 30px;
+    border-left: none !important;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.menu-buttons {
+    flex: 1;
+    text-align: center;
+}
 
 .spacer {
     flex: 1;
 }
 
-.signIn-buttons {
+.signIn-button {
+    border: 2px solid blue !important;
+    border-color: white !important;
+    border-radius: 0px !important;
     color: white !important;
     margin: 10px;
 }
+
+.profile-button {
+    width: 8%;
+    height: 70%;
+    border: 2px solid blue !important;
+    border-color: white !important;
+    border-radius: 50px !important;
+    color: white !important;
+    margin: 10px;
+}
+
+.profile-button-div {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    margin: 4px;
+    line-height: 1;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+  }
 
 .home-icon {
     font-size: xx-large;
@@ -33,17 +91,3 @@
 .mat-mdc-raised-button:not(:disabled) {
     background-color: transparent;
 }
-
-.mdc-button {
-    border: 2px solid blue !important;
-    border-color: white !important;
-    border-radius: 0px !important;
-}
-
-// 83677b, 501b1d
-// 7e685a, white  - ok
-// eee2dc, current color - nope 
-// a4b3b6, current color - nope
-// 9d8d8f, white -  hmm
-// 9b786f, white - better than ok
-// d4a59a, 5c2018

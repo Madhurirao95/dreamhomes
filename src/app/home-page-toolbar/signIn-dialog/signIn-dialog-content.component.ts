@@ -1,12 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { ApiService } from 'src/app/services/api-services';
+import { AuthenticationService } from 'src/app/services/authentication-service';
 import { patternValidator } from 'src/app/shared/custom-validator';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
@@ -23,8 +21,8 @@ export class SignInDialogContentComponent {
 
   constructor (
     private readonly formBuilder: FormBuilder,
-    private readonly apiService: ApiService,
-    private readonly dialogComponent: DialogComponent
+    private readonly dialogComponent: DialogComponent,
+    private readonly authService: AuthenticationService
   ) {
     this.createSignInForm();
     this.createNewAccountForm();
@@ -66,13 +64,12 @@ export class SignInDialogContentComponent {
       Password: this.createAccountForm.get('password')?.value
     };
 
-    this.apiService
-      .add('Account/createAccount', obj)
-      .subscribe(
-        {
-          next: () => { this.dialogComponent.onCloseClick(); },
-          error: err => { this.handleErrors(err); }
-        });
+    this.authService.createAccount(obj).subscribe({
+      next: () => {
+        this.signInService(obj);
+      },
+      error: err => { this.handleErrors(err); }
+    });
   }
 
   onSignIn (): void {
@@ -83,9 +80,26 @@ export class SignInDialogContentComponent {
       Password: this.signInForm.get('password')?.value
     };
 
-    this.apiService.add('Account/signIn', obj).subscribe({
-      next: () => { this.dialogComponent.onCloseClick(); },
-      error: err => { this.handleErrors(err); }
+    this.signInService(obj);
+  }
+
+  signInService (obj: any): void {
+    this.authService.signIn(obj).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res.token !== undefined && res.token !== null) {
+          this.authService.setAuthToken(res.token);
+          this.authService.setIsAuthorized(true);
+          this.authService.setEmail(obj.Email);
+        }
+        this.dialogComponent.onCloseClick({
+          isCallSuccessful: true,
+          email: obj.Email
+        });
+      },
+      error: (err) => {
+        this.handleErrors(err);
+      }
     });
   }
 
@@ -117,6 +131,6 @@ export class SignInDialogContentComponent {
 
   handleErrors (error: HttpErrorResponse): void {
     this.hasServiceError = true;
-    this.serviceErrorMessage = error.error[0];
+    this.serviceErrorMessage = error.error.message;
   }
 }

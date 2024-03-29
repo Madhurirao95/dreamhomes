@@ -13,6 +13,12 @@
         "semi": ["error", "always"],
         "@typescript-eslint/semi": "off",
         "quotes": ["error", "single"],
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "space-before-function-paren": "off",
+        "comma-dangle": "off",
+        "@typescript-eslint/prefer-optional-chain": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+        "@typescript-eslint/space-before-function-paren": "off"
     }
 }

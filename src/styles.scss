@@ -1,15 +1,115 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; min-height: 1000px; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+    min-height: 1000px;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+$primaryColor: #481414;
+$lightGray: #ebe8e8;
+$lighterGray: #fbf8f8;
+$beige: #cfb09545;
 
 .cdk-overlay-pane {
-    width: 27%;
-    height: 80%;
+    width: 30%;
+    // height: 80%;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__content {
-    height: 75%;
+    height: auto;
 }
 
-////#9b4d3a
+.content {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 7%;
+}
+
+.background-image {
+    min-height: 40%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 40%;
+    top: 50%;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.label-text {
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.submit-button {
+    text-align: center;
+    margin-top: 20%;
+}
+
+.mat-mdc-dialog-content {
+    max-height: unset !important;
+}
+
+.mdc-menu-surface.mat-mdc-select-panel {
+    height: fit-content;
+    //background: transparent;
+}
+
+.geocoder-container {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.geoapify-autocomplete-input {
+
+    background-color: whitesmoke;
+    width: 30%;
+    height: 55px;
+    border: 5px solid $primaryColor;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 17px;
+    padding-left: 16px;
+}
+
+.geoapify-autocomplete-items {    
+ .main-part {
+    color: rgba(0, 0, 0, 0.6);
+}
+    width: 33%;
+    position: relative;
+    top: 0
+}
+
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
+    color: $primaryColor;
+}
+
+.mat-mdc-select-arrow {
+    color: $primaryColor;
+}
+
+.mat-mdc-form-field-hint-end {
+    color: black;
+}
+
+.mat-expansion-indicator, .mat-expansion-indicator::after {
+    color: white !important;
+}

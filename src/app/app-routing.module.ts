@@ -1,8 +1,16 @@
 import { NgModule } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { RouterModule, Routes } from '@angular/router';
+import { HomePageBodyComponent } from './home-page-body/home-page-body.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SellPageComponent } from './sell-page/sell-page.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: '/buy', pathMatch: 'full' },
+  { path: 'buy', component: HomePageBodyComponent },
+  { path: 'sell', component: SellPageComponent },
+  { path: '**', component: PageNotFoundComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,17 @@
+<span class="posted-listing-details-wrapper">
+    <div *ngIf="isAuthorized" class="grid-container">
+        <mat-card *ngFor="let listing of listings" class="example-card">
+            <div class="image-container">
+                <img mat-card-image class="image-size" [src]="listing.Source" alt="Photo of a Shiba Inu">
+                <div (click)="onViewDetails(listing.Id)" class="overlay">
+                    <div class="card-text">Click to View details</div>
+                </div>
+            </div>
+            <mat-card-content class="card-content">
+                <p class="image-details">
+                    {{listing.Text}}
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</span>

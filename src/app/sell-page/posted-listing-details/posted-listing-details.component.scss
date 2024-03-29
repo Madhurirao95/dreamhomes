@@ -1,0 +1,78 @@
+@import '../../../styles.scss';
+
+.posted-listing-details-wrapper {
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-gap: 20px;
+    }
+
+    .example-card {
+        max-width: 300px;
+        max-height: 300px;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+    .image-container {
+        position: relative;
+        min-width: 300px;
+        min-height: 200px;
+    }
+
+    .image-size {
+        max-width: 300px;
+        max-height: 200px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .image-container:hover .overlay {
+        opacity: 0;
+    }
+
+    .card-text {
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .example-card:hover .overlay {
+        opacity: 0;
+    }
+
+    .image-details {
+        text-align: left;
+        font-weight: 400;
+        font-size: 15px;
+        padding-top: 10px;
+        color: white;
+        min-height: 40px;
+    }
+
+    .card-content {
+        margin-top: -5px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background: $primaryColor;
+        min-width: 268px;
+        min-height: 50px;
+    }
+}
