@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomePageToolBarModule } from './home-page-toolbar/home-page-toolbar.module';
 import { SharedModule } from './shared/shared.module';
-import { HomePageBodyModule } from './home-page-body/home-page-body.module';
+import { BuyPageModule } from './buy-page/buy-page.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ApiService } from './services/api-services';
 import { AuthenticationService } from './services/authentication-service';
@@ -16,8 +16,9 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { SellPageService } from './services/sell-page-service';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { SellPageModule } from './sell-page/sell-page.module';
-import { ImageCarouselModule } from './sell-page/image-carousel/image-carousel.module';
+import { ImageCarouselModule } from './shared/image-carousel/image-carousel.module';
 import { PostedListingDetailsModule } from './sell-page/posted-listing-details/posted-listing-details.module';
+import { BuyPageService } from './services/buy-page-service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +27,7 @@ import { PostedListingDetailsModule } from './sell-page/posted-listing-details/p
     AppRoutingModule,
     BrowserAnimationsModule,
     HomePageToolBarModule,
-    HomePageBodyModule,
+    BuyPageModule,
     SharedModule,
     HttpClientModule,
     ListingDetailsDialogModule,
@@ -43,6 +44,7 @@ import { PostedListingDetailsModule } from './sell-page/posted-listing-details/p
     ApiService,
     AuthenticationService,
     SellPageService,
+    BuyPageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

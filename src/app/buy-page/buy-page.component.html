@@ -1,0 +1,44 @@
+<span class="buy-page-wrapper">
+    <div class="content" role="main">
+        <div class="background-image">
+            <div class="buy-page-heading">
+                <h1 class="image-main-text">Home isn't a place, it's a feeling!</h1>
+                <p class="image-sub-text">Let us help you find your perfect home!</p>
+            </div>
+            <div class="buy-page-address">
+                <geoapify-geocoder-autocomplete [value]="searchLocation" [filterByCountryCode]="['us']" (placeSelect)="placeSelected($event)">
+                </geoapify-geocoder-autocomplete>
+            </div>
+        </div>
+        <div class="load-spinner" *ngIf="loading">
+            <mat-spinner [strokeWidth]="5" [diameter]="70"></mat-spinner>
+        </div>
+        <div class="grid-container">
+            <mat-card *ngFor="let listing of listings" class="listing-card">
+                <app-image-carousel [autoChange]="false" [items]="listing.sourceList"></app-image-carousel>
+                <mat-card-content class="listing-card-content">
+                    <p class="listing-card-content-text">
+                       {{listing.text}}
+                    </p>
+                    <br/>
+                    <div class="listing-details">
+                    <span class="listing-price">${{listing.price | number}}</span>
+                    <span class="listing-area">{{listing.area | number}} sq. ft.</span>
+                </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="no-search-results" *ngIf="listings.length === 0">
+            No results with the given criteria. Try other locations.
+        </div>
+        
+        <mat-paginator *ngIf="listings && listings.length > 0" #paginator class="buy-page-paginator"
+            (page)="handlePageEvent($event)" [pageSize]="pageSize" [hidePageSize]="false" [showFirstLastButtons]="true"
+            [length]="length" [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+        <!-- Footer -->
+        <footer>
+            Love Us?&nbsp;
+        </footer>
+    </div>
+</span>

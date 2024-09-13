@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -5,6 +7,7 @@ import { AuthenticationService } from 'src/app/services/authentication-service';
 import { SellPageService } from 'src/app/services/sell-page-service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ListingDetailsDialogComponent } from '../listing-details/listing-details.component';
+import { IListingWithSource } from 'src/app/shared/Interfaces/IListing';
 
 @Component({
   selector: 'app-posted-listing-details',
@@ -13,7 +16,7 @@ import { ListingDetailsDialogComponent } from '../listing-details/listing-detail
 })
 export class PostedListingDetailsComponent {
   isAuthorized = false;
-  listings: Listing[] = [];
+  listings: IListingWithSource[] = [];
   titleStyle = {
     'font-weight': 500,
     'font-size.px': 25,
@@ -40,22 +43,18 @@ export class PostedListingDetailsComponent {
 
   buildTiles(results: []): void {
     results.forEach((res: any) => {
-      const listing = new Listing(
-        res.streetAddress +
-          ', ' +
-          res.city +
-          ', ' +
-          res.state +
-          ', ' +
-          res.zipCode +
-          ', ' +
-          res.country,
-        'data:' +
-          res.randomDocument.documentType +
-          ';base64,' +
-          res.randomDocument.documentBase64,
-        res.id
-      );
+      const listing = {} as IListingWithSource;
+      listing.text = res.unit
+        ? `${res.unit}, ${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`
+        : `${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`;
+      listing.source = `data:${res.randomDocument.documentType};base64,${res.randomDocument.documentBase64}`;
+      listing.id = res.id;
+
+      if (res.randomDocument.documentType.includes('video')) {
+        listing.sourceType = 'video';
+      } else if (res.randomDocument.documentType.includes('image')) {
+        listing.sourceType = 'image';
+      }
 
       this.listings.push(listing);
     });
@@ -71,6 +70,7 @@ export class PostedListingDetailsComponent {
   openListingDetailsDialog(res: any): void {
     const config = new MatDialogConfig();
     config.width = '100%';
+    config.height = '80%';
     config.data = {
       title: 'Update your Listing',
       titleStyle: this.titleStyle,
@@ -83,17 +83,5 @@ export class PostedListingDetailsComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
-  }
-}
-
-export class Listing {
-  Text: string = '';
-  Source: string = '';
-  Id: number = 0;
-
-  constructor(text: string, source: string, id: number) {
-    this.Text = text;
-    this.Source = source;
-    this.Id = id;
   }
 }

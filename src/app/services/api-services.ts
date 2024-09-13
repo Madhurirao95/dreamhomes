@@ -12,8 +12,8 @@ export class ApiService {
 
   constructor (private readonly http: HttpClient) {}
 
-  getAll (api: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${api}`);
+  getAll (api: string, params?: any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${api}`, { params });
   }
 
   getById (api: string, id: number): Observable<any> {

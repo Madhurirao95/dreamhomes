@@ -15,6 +15,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -36,6 +40,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatToolbarModule,
     MatProgressBarModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatSlideToggleModule,
     CommonModule
   ],
   providers: []

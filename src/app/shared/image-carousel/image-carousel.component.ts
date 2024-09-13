@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild
+} from '@angular/core';
+import { IListingWithSource } from '../Interfaces/IListing';
 
 @Component({
   selector: 'app-image-carousel',
@@ -7,19 +14,17 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class ImageCarouselComponent implements AfterViewInit {
   @ViewChild('carouselInner') carouselInner!: ElementRef;
-  items = [
-    { imageUrl: 'assets/carousel-img2.jpg', alt: 'Image 1' },
-    { imageUrl: 'assets/carousel-img1.jpg', alt: 'Image 2' },
-    { imageUrl: 'assets/carousel-img3.jpg', alt: 'Image 3' },
-    { imageUrl: 'assets/carousel-img4.jpg', alt: 'Image 4' }
-  ];
+  @Input() items: IListingWithSource[] = [];
+  @Input() autoChange = true;
 
   currentIndex = 0;
 
   ngAfterViewInit(): void {
-    setInterval(() => {
-      this.nextSlide();
-    }, 10000); // Change slide every 10 seconds
+    if (this.autoChange) {
+      setInterval(() => {
+        this.nextSlide();
+      }, 10000); // Change slide every 10 seconds
+    }
   }
 
   prevSlide(): void {

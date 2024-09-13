@@ -58,7 +58,6 @@ export class SignInDialogContentComponent {
   }
 
   onSubmit (): void {
-    console.log('Your form data : ', this.createAccountForm.value);
     const obj = {
       Email: this.createAccountForm.get('email')?.value,
       Password: this.createAccountForm.get('password')?.value
@@ -73,8 +72,6 @@ export class SignInDialogContentComponent {
   }
 
   onSignIn (): void {
-    console.log('Your form data : ', this.signInForm.value);
-
     const obj = {
       Email: this.signInForm.get('email')?.value,
       Password: this.signInForm.get('password')?.value
@@ -86,7 +83,6 @@ export class SignInDialogContentComponent {
   signInService (obj: any): void {
     this.authService.signIn(obj).subscribe({
       next: (res) => {
-        console.log(res);
         if (res.token !== undefined && res.token !== null) {
           this.authService.setAuthToken(res.token);
           this.authService.setIsAuthorized(true);
@@ -107,14 +103,8 @@ export class SignInDialogContentComponent {
     this.signInForm.get('email')?.setErrors(null);
     this.signInForm.get('password')?.setErrors(null);
 
-    this.signInForm.get('email')?.clearValidators();
-    this.signInForm.get('password')?.clearValidators();
-
     this.createAccountForm.get('email')?.setErrors(null);
     this.createAccountForm.get('password')?.setErrors(null);
-
-    this.createAccountForm.get('email')?.clearValidators();
-    this.createAccountForm.get('password')?.clearValidators();
 
     this.signInForm.reset();
     this.createAccountForm.reset();

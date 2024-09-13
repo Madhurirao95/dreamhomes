@@ -1,0 +1,126 @@
+@import '../../styles.scss';
+
+.buy-page-wrapper {
+
+    .text-content {
+        position: fixed;
+    }
+
+    .background-image {
+        background-image: url('../../assets/home-img6.webp');
+    }
+
+    .image-main-text {
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    .image-sub-text {
+        color: white;
+        font-size: 25px;
+        font-weight: 500;
+    }
+
+    .details-size {
+        width: 100%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 20px;
+        padding: 10px;
+    }
+
+    .listing-card {
+        max-width: 400px;
+        border-radius: 15px;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+    }
+
+    .listing-card-content {
+        background: $primaryColor;
+    }
+
+    .listing-card-content-text {
+        color: white;
+    }
+
+    .buy-page-heading {
+        position: relative;
+    }
+
+    .buy-page-address {
+        position: relative;
+        top: 10%;
+        width: 25%;
+    }
+
+    .buy-page-paginator {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .load-spinner {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mat-mdc-card-content {
+        padding: 16px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .listing-details {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .listing-price {
+        color: white;
+        font-size: x-large;
+        font-weight: 500;
+    }
+
+    .listing-area {
+        color: white;
+        font-size: large;
+        font-weight: 500;
+    }
+
+    .no-search-results {
+        display: flex;
+        justify-content: center;
+        font-size: large;
+        color: $primaryColor;
+        font-weight: 500;
+    }
+
+    ::ng-deep .carousel {
+        height: 100% !important;
+    }
+
+    ::ng-deep .carousel .carousel-item {
+        width: 300px !important;
+        height: 300px !important;
+    }
+
+
+    ::ng-deep .geoapify-autocomplete-input {
+        width: 100%;
+        border-radius: 50px;
+    }
+
+    ::ng-deep .geocoder-container {
+        position: absolute !important;
+    }
+
+    ::ng-deep .geoapify-autocomplete-items {
+        width: 100%;
+    }
+}

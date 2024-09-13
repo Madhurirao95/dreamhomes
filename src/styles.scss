@@ -115,3 +115,37 @@ $beige: #cfb09545;
 .mat-expansion-indicator, .mat-expansion-indicator::after {
     color: white !important;
 }
+
+.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle, .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+    stroke: $primaryColor !important;
+}
+
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
+    border-color: $primaryColor !important;
+}
+
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle {
+    border-color: $primaryColor !important;
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: $primaryColor;
+}
+
+.mat-mdc-form-field-hint-end {
+    color: blue;
+}
+
+.mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #481414;
+    --mdc-switch-selected-handle-color: #481414;
+    --mdc-switch-selected-hover-state-layer-color: #481414;
+    --mdc-switch-selected-pressed-state-layer-color: #481414;
+    --mdc-switch-selected-focus-handle-color: #481414;
+    --mdc-switch-selected-hover-handle-color: #481414;
+    --mdc-switch-selected-pressed-handle-color: #481414;
+    --mdc-switch-selected-focus-track-color: #481414;
+    --mdc-switch-selected-hover-track-color: #481414;
+    --mdc-switch-selected-pressed-track-color: #481414;
+    --mdc-switch-selected-track-color: #481414;
+}

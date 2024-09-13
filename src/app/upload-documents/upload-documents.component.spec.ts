@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UploadDocumentsComponent } from './upload-documents.component';
+import { AuthenticationService } from '../services/authentication-service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SharedModule } from '../shared/shared.module';
 
 describe('UploadDocumentsComponent', () => {
   let component: UploadDocumentsComponent;
@@ -8,7 +11,9 @@ describe('UploadDocumentsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UploadDocumentsComponent]
+      imports: [HttpClientTestingModule, SharedModule],
+      declarations: [UploadDocumentsComponent],
+      providers: [AuthenticationService]
     });
     fixture = TestBed.createComponent(UploadDocumentsComponent);
     component = fixture.componentInstance;

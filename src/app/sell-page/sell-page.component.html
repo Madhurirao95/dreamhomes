@@ -1,7 +1,7 @@
 <span class="sell-page-wrapper">
     
     <div class="content" role="main">
-        <app-image-carousel></app-image-carousel>
+        <app-image-carousel [items]="items"></app-image-carousel>
         <div class="background-image">
             <p *ngIf="(authService.isAuthorized$ | async) === false" class="info-para"><mat-icon class="info-icon">info</mat-icon><span class="info-message">Please Sign-In to Post/View your Listing(s).</span></p>
             <mat-accordion class="panel-headers-align" multi>
