@@ -19,6 +19,7 @@ import { SellPageModule } from './sell-page/sell-page.module';
 import { ImageCarouselModule } from './shared/image-carousel/image-carousel.module';
 import { PostedListingDetailsModule } from './sell-page/posted-listing-details/posted-listing-details.module';
 import { BuyPageService } from './services/buy-page-service';
+import { ComponentLibraryModule } from '@arcgis/map-components-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { BuyPageService } from './services/buy-page-service';
     SellPageModule,
     ImageCarouselModule,
     PostedListingDetailsModule,
+    ComponentLibraryModule,
     GeoapifyGeocoderAutocompleteModule.withConfig(
       '1c550161c4074077b4fe42fd127d6139'
     )
