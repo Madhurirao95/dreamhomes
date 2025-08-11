@@ -1,20 +1,26 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { BuyPageService } from '../services/buy-page-service';
 import {
   IListingWithSource,
   IListingWithSourceList
 } from '../shared/Interfaces/IListing';
 import { PageEvent } from '@angular/material/paginator';
-
+import { ArcgisMapService } from '../services/arcgis-map.service';
+import { MapOptions } from '../services/models/map-options';
 @Component({
   selector: 'buy-page',
   templateUrl: './buy-page.component.html',
   styleUrls: ['./buy-page.component.scss']
 })
-export class BuyPageComponent implements OnInit {
+export class BuyPageComponent implements OnInit, OnDestroy {
   listings: IListingWithSourceList[] = [];
   page = 0;
   pageSize = 20;
@@ -24,25 +30,102 @@ export class BuyPageComponent implements OnInit {
   length = 0;
   pageSizeOptions = [1, 50, 100];
   searchLocation: any;
+  view: any;
+  defaultView = 'List';
+  constructor(
+    private readonly buyPageService: BuyPageService,
+    private readonly mapService: ArcgisMapService,
+    private readonly injector: EnvironmentInjector
+  ) {}
 
-  constructor(private readonly buyPageService: BuyPageService) {
-  }
-
-  ngOnInit (): void {
+  ngOnInit(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          this.loadAllMatchingListing(position.coords.longitude, position.coords.latitude);
+          this.loadAllMatchingListing(
+            position.coords.longitude,
+            position.coords.latitude
+          );
         },
         (error) => {
           console.error('Error getting location:', error);
           this.searchLocation = localStorage.getItem('buySearchLocation');
+          const x = localStorage.getItem('buyCoordinateX') as any;
+          const y = localStorage.getItem('buyCoordinateY') as any;
+          if (x != null && y != null) {
+            this.loadAllMatchingListing(x, y);
+          }
         }
       );
-    } else {
-      console.error('Geolocation is not supported by this browser.');
-      this.searchLocation = localStorage.getItem('buySearchLocation');
     }
+
+    // else {
+    //   console.error('Geolocation is not supported by this browser.');
+    //   this.searchLocation = localStorage.getItem('buySearchLocation');
+    //   const x = localStorage.getItem('buyCoordinateX') as any;
+    //   const y = localStorage.getItem('buyCoordinateY') as any;
+    //   this.loadAllMatchingListing(x, y);
+    // }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up the MapView when the component is destroyed
+    if (this.view) {
+      this.view.destroy();
+    }
+  }
+
+  async displayMap(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.mapService
+      .initializeMap(
+        'viewDiv',
+        new MapOptions(this.coordinatey, this.coordinatex, 9)
+      )
+      .then((view) => {
+        this.view = view;
+        this.renderLocationsOnMap();
+
+        this.view.popup.enabled = true;
+
+        this.view.on('click', (event: any) => {
+          this.view.hitTest(event).then((response: any) => {
+            const graphic = response.results.find(
+              (result: any) => result.graphic.layer.id === 'graphicsLayer1'
+            )?.graphic;
+            if (graphic) {
+              console.log(this.view.popup);
+              this.view.popup.open({
+                location: event.mapPoint,
+                features: [graphic]
+              });
+            }
+          });
+        });
+        // this.view.on('pointer-move', (event: any) => {
+        //   this.view.hitTest(event).then((response: any) => {
+        //     const graphic = response.results.find(
+        //       (result: any) => result.graphic.layer.id === 'graphicsLayer1'
+        //     )?.graphic;
+
+        //     if (graphic) {
+        //       console.log(this.view.popup);
+        //       console.log(graphic.geometry);
+        //       this.view.popup.open({
+        //         location: graphic.geometry,
+        //         title: 'Hello',
+        //         content: 'How are ya?'
+        //       });
+        //     } else {
+        //       // this.view.popup.close();
+        //     }
+        //   });
+        // });
+      });
+  }
+
+  renderLocationsOnMap(): void {
+    void this.mapService.addPointMarker(this.listings, this.view);
   }
 
   handlePageEvent(e: PageEvent): void {
@@ -61,6 +144,8 @@ export class BuyPageComponent implements OnInit {
     if (event && event.geometry) {
       this.coordinatex = event.geometry.coordinates[0];
       this.coordinatey = event.geometry.coordinates[1];
+      localStorage.setItem('buyCoordinateX', this.coordinatex.toString());
+      localStorage.setItem('buyCoordinateY', this.coordinatey.toString());
       this.loadAllMatchingListing(this.coordinatex, this.coordinatey);
     }
   }
@@ -87,6 +172,8 @@ export class BuyPageComponent implements OnInit {
               : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
             listing.price = item.price;
             listing.id = item.id;
+            listing.latitude = item.coordinateY;
+            listing.longitude = item.coordinateX;
             listing.sourceList = [];
             item.documentList.forEach((document: any) => {
               const source = {} as IListingWithSource;

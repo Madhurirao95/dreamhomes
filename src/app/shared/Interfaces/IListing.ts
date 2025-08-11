@@ -11,5 +11,7 @@ export interface IListingWithSource extends IListing {
 export interface IListingWithSourceList extends IListing {
   price: number
   area: number
+  longitude: number
+  latitude: number
   sourceList: IListingWithSource[]
 }

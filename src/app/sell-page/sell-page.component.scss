@@ -42,7 +42,7 @@
         margin: 30px;
         border-radius: 30px;
         background-color: $primaryColor;
-        color: white;
+        color: $accentColor;
     }
 
     .mat-mdc-raised-button:disabled {
@@ -78,15 +78,15 @@
     }
 
     .panel-title {
-        color: white;
+        color: $accentColor;
     }
 
     .panel-desc {
-        color: white;
+        color: $accentColor;
     }
 
     .panel-icon {
-        color: white;
+        color: $accentColor;
     }
 
     .mat-accordion .mat-expansion-panel {
@@ -97,7 +97,7 @@
         width: 15%;
         display: block;
         background: $primaryColor;
-        color: white;
+        color: $accentColor;
         padding: 10px;
         margin: 5px;
         margin-top: 20px;

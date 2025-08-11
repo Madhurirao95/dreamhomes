@@ -1,0 +1,37 @@
+@import '../../../styles.scss';
+.listing-card {
+    max-width: 400px;
+    border-radius: 15px;
+}
+
+.listing-card-content {
+    background: $primaryColor;
+}
+
+.listing-card-content-text {
+    color: $accentColor;
+}
+
+.listing-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listing-price {
+    color: $accentColor;
+    font-size: x-large;
+    font-weight: 500;
+}
+
+.listing-area {
+    color: $accentColor;
+    font-size: large;
+    font-weight: 500;
+}
+
+.mat-mdc-card-content {
+    padding: 16px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
