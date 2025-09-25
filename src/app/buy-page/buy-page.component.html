@@ -17,14 +17,14 @@
         <div class="right-align-buttons">
             <mat-button-toggle-group class="toggle-buttons" [(ngModel)]="defaultView">
                 <mat-button-toggle class="toggle-button" value="List">List</mat-button-toggle>
-                <mat-button-toggle class="toggle-button" value="Map" (click)="displayMap()">Map</mat-button-toggle>
+                <mat-button-toggle class="toggle-button" value="Map">Map</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
         <div class="grid-container" *ngIf="defaultView === 'List'">
             <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card">
             </app-image-card>
         </div>
-        <div id="viewDiv" class="map-display" *ngIf="defaultView === 'Map' && listings.length !== 0"></div>
+        <app-map *ngIf="defaultView === 'Map' && listings.length !== 0" [center]="[searchLocationLat, searchLocationLng]" [mapLocations]="listings" [popupComponent]="mapPopupComponent"></app-map>
         <div class="no-search-results" *ngIf="listings.length === 0">
             No results with the given criteria. Try other locations.
         </div>

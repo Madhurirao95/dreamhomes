@@ -20,6 +20,11 @@ $lightGray: #ebe8e8;
 $lighterGray: #fbf8f8;
 $beige: #cfb09545;
 
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
 .cdk-overlay-pane {
     width: 30%;
     // height: 80%;
