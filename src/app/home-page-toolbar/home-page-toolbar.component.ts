@@ -22,7 +22,6 @@ export class HomePageToolBarComponent {
     'font-family': '"Protest Revolution", sans-serif'
   };
 
-  selectedButton = 'Buy';
   showSignInButton = true;
   showProfileButton = false;
 

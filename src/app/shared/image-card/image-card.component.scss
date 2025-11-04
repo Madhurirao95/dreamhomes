@@ -1,53 +1,175 @@
 @import '../../../styles.scss';
+
 :host {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .popup-content {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 4px;
-  white-space: normal;
-  word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 4px;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
-.listing-card {
-    max-width: 400px;
-    border-radius: 15px;
+// .listing-card {
+//     // max-width: 400px;
+//     // border-radius: 15px;
+//     display: flex;
+//   flex-direction: column;
+//   height: 360px; /* fixed card height */
+//   min-height: 0; /* allow flex children to shrink correctly */
+//   overflow: hidden;
+//   border-radius: 8px;
+//   background: #fff;
+//   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+// }
+
+// .listing-card-content {
+//     padding: 12px;
+//     display: flex;
+//     flex-direction: column;
+//     gap: 8px;
+//     flex: 1 1 auto;
+//     min-height: 0;
+//     /* critical for children to be able to shrink and be clipped */
+//     overflow: hidden;
+//     background: $primaryColor;
+// }
+
+// .listing-card-content-text {
+//     color: $accentColor;
+// }
+
+// .listing-details {
+//     // display: flex;
+//     // justify-content: space-between;
+//     flex: 0 0 auto; /* never shrink */
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   gap: 8px;
+//   padding-top: 4px;
+//   white-space: nowrap; 
+// }
+
+// .listing-price {
+//     color: $accentColor;
+//     font-size: x-large;
+//     font-weight: 500;
+// }
+
+// .listing-area {
+//     color: $accentColor;
+//     font-size: large;
+//     font-weight: 500;
+// }
+
+// .mat-mdc-card-content {
+//     padding: 16px;
+//     border-bottom-left-radius: 15px;
+//     border-bottom-right-radius: 15px;
+// }
+
+
+/* card layout */
+mat-card.listing-card {
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    min-height: 0;
+    overflow: hidden;
 }
 
-.listing-card-content {
+/* fixed image / carousel area */
+mat-card.listing-card app-image-carousel {
+    width: 100%;
+    height: 210px;
+    flex: 0 0 180px;
+}
+
+/* content area: flex column, allow children to shrink */
+mat-card.listing-card .listing-card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    /* critical so children can shrink properly inside a flex column */
+    overflow: hidden;
     background: $primaryColor;
 }
 
+/* description: uses remaining space, clamped to N lines */
 .listing-card-content-text {
+    margin: 0;
+    font-size: 0.95rem;
     color: $accentColor;
+    /* WebKit multi-line clamp */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* show 2 lines then ellipsis */
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Fallback for non-WebKit browsers (keeps it to ~2 lines) */
+    line-height: 1.2em;
+    /* tweak to match design */
+    max-height: calc(1.2em * 2);
+    /* 2 lines */
+    /* ensure flex children can shrink correctly */
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
+/* details row: always visible, never shrinks */
 .listing-details {
+    flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4px;
 }
 
+/* price & area */
 .listing-price {
     color: $accentColor;
     font-size: x-large;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .listing-area {
     color: $accentColor;
     font-size: large;
     font-weight: 500;
+    white-space: nowrap;
 }
 
-.mat-mdc-card-content {
-    padding: 16px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+.clickable-card {
+  cursor: pointer;
+  outline: none;
+}
+.clickable-card:focus {
+  box-shadow: 0 0 0 3px rgba(74,144,226,0.18);
+  border-radius: 6px;
 }
 
+/* responsive */
+@media (max-width: 420px) {
+    mat-card.listing-card {
+        height: 320px;
+    }
+
+    mat-card.listing-card app-image-carousel {
+        height: 150px;
+        flex: 0 0 150px;
+    }
+}

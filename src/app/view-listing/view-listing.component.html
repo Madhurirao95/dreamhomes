@@ -1,0 +1,60 @@
+<div class="page-wrapper">
+    <div class="content" role="main">
+        <ng-container *ngIf="photos?.length; else noPhotos">
+            <div class="photos-grid">
+                <div class="photo-tile" *ngFor="let p of photos | slice:0:6; let i = index" (click)="tileClick(i)">
+                    <img *ngIf="p.mediaType === 'image'" [src]="p.media" [alt]="'Photo ' + (i + 1)">
+                    <video *ngIf="p.mediaType === 'video'" [src]="p.media" controls></video>
+                    <div class="more-overlay" *ngIf="i === 5 && photos.length > 6">
+                        +{{ photos.length - 6 }} View all
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noPhotos>
+            <p>No photos available.</p>
+        </ng-template>
+        <div *ngIf="listing !== null && listing !== undefined">
+            <div class="listing-info">
+                <h1 class="status">
+                    <span class="status-dot" [ngStyle]="{
+            'background-color':
+              listing.status === 'Active' ? 'green' :
+              listing.status === 'ComingSoon' ? 'orange' :
+              listing.status === ('Sold' || 'UnderContractOrPending') ? 'red' : 'gray'
+          }">
+                    </span>
+                    {{listing.status}}
+                </h1>
+                <h2 class="price">${{listing.listingPrice}}</h2>
+                <div class="details">
+                    <h2>{{listing.bedRooms}} bd | {{listing.bathRooms}} ba | {{listing.area}} sqft</h2>
+                    <h2>{{listing.streetAddress}}, {{listing.city}}, {{listing.state}} {{listing.zipCode}}</h2>
+                </div>
+            </div>
+            <div class="listing-details">
+                <div class="home-decription">
+                    <h1 class="about-the-house-title">About the house!</h1>
+                    <p class="house-description">{{listing.description}}</p>
+                </div>
+                <h2 class="property-details">Property Details:</h2>
+                    <ul class="property-details-list">
+                        <li><strong>Year Built:</strong> {{listing.yearBuilt}}</li>
+                        <li><strong>Built Area:</strong> {{listing.area}}</li>
+                        <li><strong>Lot Size:</strong> {{listing.lotArea}} sq.ft.</li>
+                        <li><strong>Type:</strong> {{listing.buildingType}}</li>
+                        <li><strong>HOA:</strong> {{listing.hoa}}</li>
+                        <li><strong>Number of BedRooms:</strong> {{listing.bedRooms}}</li>
+                        <li><strong>Number of BathRooms:</strong> {{listing.bathRooms}}</li>
+                        <li><strong>Amount Per Sq. Ft.:</strong> ${{listing.amountPerSqFt}}</li>
+                        <li><strong>Garage:</strong> {{listing.hasGarage ? listing.numberOfGarageSpace + ' car
+                            garage(s)' : 'No garage'}}</li>
+                        <li><strong>Fireplace:</strong> {{listing.hasFireplace ? listing.numberOfFireplace + '
+                            fireplace(s)' : 'No fireplace'}}</li>
+                        <li><strong>Pool:</strong> {{listing.hasPool ? 'Yes' : 'No'}}</li>
+                        <li *ngFor="let feature of features"><strong>{{feature}}</strong></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>

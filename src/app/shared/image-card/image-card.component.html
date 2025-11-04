@@ -1,12 +1,11 @@
 <div class="popup-content">
-<mat-card class="listing-card">
-    <app-image-carousel [autoChange]="false" [items]="listing.sourceList"></app-image-carousel>
+<mat-card class="listing-card clickable-card" role="button" tabindex="0" (click)="onCardClick()" >
+    <app-image-carousel [autoChange]="false" [items]="listing.mediaList"></app-image-carousel>
     <mat-card-content class="listing-card-content">
         <p class="listing-card-content-text">
             {{listing.text}}
         </p>
-        <br />
-        <div class="listing-details">
+ <div class="listing-details">
             <span class="listing-price">${{listing.price | number}}</span>
             <span class="listing-area">{{listing.area | number}} sq. ft.</span>
         </div>

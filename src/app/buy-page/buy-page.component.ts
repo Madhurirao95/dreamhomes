@@ -1,25 +1,23 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import {
-  Component,
-  EnvironmentInjector,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BuyPageService } from '../services/buy-page-service';
-import {
-  IListingWithSource,
-  IListingWithSourceList
-} from '../shared/Interfaces/IListing';
+import { IListingWithMediaList } from '../shared/Interfaces/IListing';
 import { PageEvent } from '@angular/material/paginator';
 import { ImageCardComponent } from '../shared/image-card/image-card.component';
+import { Router } from '@angular/router';
+import { getMediaList } from '../shared/media-helper';
+import { MapComponent } from '../shared/map/map.component';
 @Component({
   selector: 'buy-page',
   templateUrl: './buy-page.component.html',
   styleUrls: ['./buy-page.component.scss']
 })
 export class BuyPageComponent implements OnInit {
-  listings: IListingWithSourceList[] = [];
+  @ViewChild(MapComponent) mapComponent!: MapComponent;
+
+  listings: IListingWithMediaList[] = [];
   page = 0;
   pageSize = 20;
   loading = false;
@@ -31,10 +29,18 @@ export class BuyPageComponent implements OnInit {
   searchLocationLat: number = 0;
   searchLocationLng: number = 0;
   defaultView = 'List';
+  titleStyle = {
+    'font-weight': 500,
+    'font-size.px': 25,
+    'margin-top.px': 25,
+    'margin-bottom.px': 0,
+    'font-family': '"Protest Revolution", sans-serif'
+  };
+
   mapPopupComponent = ImageCardComponent;
   constructor(
     private readonly buyPageService: BuyPageService,
-    private readonly injector: EnvironmentInjector
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -49,10 +55,20 @@ export class BuyPageComponent implements OnInit {
         (error) => {
           console.error('Error getting location:', error);
           this.searchLocation = localStorage.getItem('buySearchLocation');
-          this.searchLocationLng = localStorage.getItem('buyCoordinateX') as any;
-          this.searchLocationLat = localStorage.getItem('buyCoordinateY') as any;
-          if (this.searchLocationLng != null && this.searchLocationLat != null) {
-            this.loadAllMatchingListing(this.searchLocationLng, this.searchLocationLat);
+          this.searchLocationLng = localStorage.getItem(
+            'buyCoordinateX'
+          ) as any;
+          this.searchLocationLat = localStorage.getItem(
+            'buyCoordinateY'
+          ) as any;
+          if (
+            this.searchLocationLng != null &&
+            this.searchLocationLat != null
+          ) {
+            this.loadAllMatchingListing(
+              this.searchLocationLng,
+              this.searchLocationLat
+            );
           }
         }
       );
@@ -104,33 +120,39 @@ export class BuyPageComponent implements OnInit {
         this.listings = [];
         if (res && res.results && res.results.length > 0) {
           res.results.forEach((item: any) => {
-            const listing = {} as IListingWithSourceList;
+            const listing = {} as IListingWithMediaList;
             listing.area = item.area;
             listing.text = item.unit
               ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
               : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
-            listing.price = item.price;
+            listing.price = item.listingPrice;
             listing.id = item.id;
             listing.latitude = item.coordinateY;
             listing.longitude = item.coordinateX;
-            listing.sourceList = [];
-            item.documentList.forEach((document: any) => {
-              const source = {} as IListingWithSource;
-              source.source = `data:${document.documentType};base64,${document.documentBase64}`;
-              if (document.documentType.includes('video')) {
-                source.sourceType = 'video';
-              } else if (document.documentType.includes('image')) {
-                source.sourceType = 'image';
-              }
-              listing.sourceList.push(source);
-            });
-
+            listing.mediaList = [];
+            listing.mediaList.push(...getMediaList(item));
             this.listings.push(listing);
           });
         }
 
         this.length = res.totalCount;
+        if (this.mapComponent) {
+          this.mapComponent.displayMarkers([this.coordinatey, this.coordinatex], this.mapComponent.zoom, this.listings);
+        }
         this.loading = false;
       });
+  }
+
+  viewListing(listing: IListingWithMediaList): void {
+    // this.sellPageService
+    //   .getSellerInformationById(listing.id)
+    //   .subscribe((res) => {
+    this.goToListingDetailsPage(listing.id);
+    // });
+  }
+
+  goToListingDetailsPage(id: number): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.router.navigate(['/view-listing', id]);
   }
 }

@@ -2,9 +2,9 @@
     <div *ngIf="isAuthorized" class="grid-container">
         <mat-card *ngFor="let listing of listings" class="example-card">
             <div class="image-container">
-                <img *ngIf="listing.sourceType === 'image'" mat-card-image class="image-size" [src]="listing.source"
+                <img *ngIf="listing.mediaType === 'image'" mat-card-image class="image-size" [src]="listing.media"
                     alt="Photo of a Shiba Inu">
-                <video *ngIf="listing.sourceType === 'video'" [src]="listing.source" class="image-size" controls></video>
+                <video *ngIf="listing.mediaType === 'video'" [src]="listing.media" class="image-size" controls></video>
                 <div (click)="onViewDetails(listing.id)" class="overlay">
                     <div class="card-text">Click to View details</div>
                 </div>

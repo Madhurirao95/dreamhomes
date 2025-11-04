@@ -58,7 +58,8 @@ describe('ListingDetailsDialogComponent', () => {
       price: new FormControl('', []),
       area: new FormControl('', []),
       contactNumber: new FormControl('', []),
-      remarks: new FormControl('', [])
+      description: new FormControl('', []),
+      features: new FormControl('', [])
     });
 
     formBuilder.group.and.returnValue(mockFormGroup);

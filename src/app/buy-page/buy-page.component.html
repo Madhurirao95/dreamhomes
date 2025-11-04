@@ -21,11 +21,11 @@
             </mat-button-toggle-group>
         </div>
         <div class="grid-container" *ngIf="defaultView === 'List'">
-            <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card">
+            <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card" (view)="viewListing($event)">
             </app-image-card>
         </div>
-        <app-map *ngIf="defaultView === 'Map' && listings.length !== 0" [center]="[searchLocationLat, searchLocationLng]" [mapLocations]="listings" [popupComponent]="mapPopupComponent"></app-map>
-        <div class="no-search-results" *ngIf="listings.length === 0">
+        <app-map *ngIf="defaultView === 'Map'" [center]="[searchLocationLat, searchLocationLng]" [mapLocations]="listings" [popupComponent]="mapPopupComponent"></app-map>
+        <div class="no-search-results" *ngIf="defaultView === 'List' && listings.length === 0">
             No results with the given criteria. Try other locations.
         </div>
 
@@ -33,8 +33,6 @@
             class="buy-page-paginator" (page)="handlePageEvent($event)" [pageSize]="pageSize" [hidePageSize]="false"
             [showFirstLastButtons]="true" [length]="length" [pageSizeOptions]="pageSizeOptions">
         </mat-paginator>
-        <footer>
-            Love Us?&nbsp;
-        </footer>
+        <app-footer></app-footer>
     </div>
 </span>

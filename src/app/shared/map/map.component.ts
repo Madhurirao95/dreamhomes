@@ -1,17 +1,28 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ComponentRef,
   createComponent,
   EnvironmentInjector,
   Input,
+  NgZone,
   OnDestroy,
-  Type,
-  ViewContainerRef
+  Type
 } from '@angular/core';
 import * as L from 'leaflet';
-import { IListingWithSourceList } from '../Interfaces/IListing';
+import { IListingWithMediaList } from '../Interfaces/IListing';
+import { Router } from '@angular/router';
+import { Icon } from 'leaflet';
+
+delete (Icon.Default.prototype as any)._getIconUrl;
+
+Icon.Default.mergeOptions({
+  iconRetinaUrl: 'assets/marker-icon-2x.png',
+  iconUrl: 'assets/marker-icon.png',
+  shadowUrl: 'assets/marker-shadow.png'
+});
 
 @Component({
   selector: 'app-map',
@@ -21,14 +32,15 @@ import { IListingWithSourceList } from '../Interfaces/IListing';
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() center: [number, number] = [39.8283, -98.5795]; // default: USA center
   @Input() zoom: number = 10;
-  @Input() mapLocations: IListingWithSourceList[] = [];
+  @Input() mapLocations: IListingWithMediaList[] = [];
   @Input() popupComponent!: Type<any>;
   private map!: L.Map;
+  private readonly markersLayer = L.layerGroup();
 
   constructor(
-    private readonly viewContainerRef: ViewContainerRef,
     private readonly injector: EnvironmentInjector,
-    private readonly cdr: ChangeDetectorRef
+    private readonly router: Router,
+    private readonly ngZone: NgZone
   ) {}
 
   ngAfterViewInit(): void {
@@ -41,7 +53,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private initMap(): void {
+  initMap(): void {
     // Initialize map
     this.map = L.map('map', {
       center: this.center,
@@ -54,9 +66,26 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+    this.markersLayer.addTo(this.map);
+    this.displayMarkers(this.center, this.zoom, this.mapLocations);
+  }
+
+  displayMarkers(center: [number, number], zoom: number, mapLocations: IListingWithMediaList[]): void {
+    this.map.invalidateSize();
+
+    this.ngZone.run(() => {
+      setTimeout(() => {
+        this.map.flyTo(center, zoom);
+      }, 100);
+    });
+
+    this.markersLayer.clearLayers();
+
     // Add markers with hover popups
-    this.mapLocations.forEach((m) => {
-      const marker = L.marker([m.latitude, m.longitude]).addTo(this.map);
+    mapLocations.forEach((m) => {
+      const marker = L.marker([m.latitude, m.longitude]).addTo(
+        this.markersLayer
+      );
 
       const hostElem = document.createElement('div');
 
@@ -66,7 +95,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       // Pass the whole marker
       compRef.instance.listing = m;
-
+      compRef.instance.view.subscribe((data: any) => {
+        const url = this.router.serializeUrl(
+          this.router.createUrlTree(['/view-listing', data.id])
+        );
+        const fullUrl = window.location.origin + url;
+        window.open(fullUrl, '_blank');
+      });
       compRef.changeDetectorRef.detectChanges();
       // Attach component's DOM to hostElem
       hostElem.appendChild(compRef.location.nativeElement);

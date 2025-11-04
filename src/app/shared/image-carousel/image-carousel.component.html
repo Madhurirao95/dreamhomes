@@ -1,10 +1,10 @@
 <span class="image-carousel-wrapper">
-<div class="carousel">
+<div class="carousel" (click)="$event.stopPropagation()">
   <button class="carousel-nav prev" (click)="prevSlide()">&#10094;</button>
   <div #carouselInner class="carousel-inner">
     <div *ngFor="let item of items" class="carousel-item">
-      <img *ngIf="item.sourceType === 'image'" [src]="item.source">
-      <video *ngIf="item.sourceType === 'video'" [src]="item.source" controls></video>
+      <img *ngIf="item.mediaType === 'image'" [src]="item.media">
+      <video *ngIf="item.mediaType === 'video'" [src]="item.media" controls></video>
     </div>
   </div>
   <button class="carousel-nav next" (click)="nextSlide()">&#10095;</button>

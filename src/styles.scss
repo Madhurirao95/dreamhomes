@@ -156,3 +156,11 @@ $beige: #cfb09545;
     --mdc-switch-selected-pressed-track-color: #481414;
     --mdc-switch-selected-track-color: #481414;
 }
+
+.mat-button-toggle .mat-pseudo-checkbox {
+    display: none !important;
+}
+
+.cdk-global-overlay-wrapper {
+    justify-content: center !important;
+}

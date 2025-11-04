@@ -20,6 +20,7 @@ import { ImageCarouselModule } from './shared/image-carousel/image-carousel.modu
 import { PostedListingDetailsModule } from './sell-page/posted-listing-details/posted-listing-details.module';
 import { BuyPageService } from './services/buy-page-service';
 import { MapModule } from './shared/map/map.module';
+import { ViewListingModule } from './view-listing/view-listing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +39,7 @@ import { MapModule } from './shared/map/map.module';
     ImageCarouselModule,
     PostedListingDetailsModule,
     MapModule,
+    ViewListingModule,
     GeoapifyGeocoderAutocompleteModule.withConfig(
       '1c550161c4074077b4fe42fd127d6139'
     )

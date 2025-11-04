@@ -3,15 +3,15 @@ export interface IListing {
   id: number
 }
 
-export interface IListingWithSource extends IListing {
-  source: string
-  sourceType: string
+export interface IListingWithMediaFile extends IListing {
+  media: string
+  mediaType: string
 }
 
-export interface IListingWithSourceList extends IListing {
+export interface IListingWithMediaList extends IListing {
   price: number
   area: number
   longitude: number
   latitude: number
-  sourceList: IListingWithSource[]
+  mediaList: IListingWithMediaFile[]
 }

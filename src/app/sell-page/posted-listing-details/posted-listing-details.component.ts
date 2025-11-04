@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/app/services/authentication-service';
 import { SellPageService } from 'src/app/services/sell-page-service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ListingDetailsDialogComponent } from '../listing-details/listing-details.component';
-import { IListingWithSource } from 'src/app/shared/Interfaces/IListing';
+import { IListingWithMediaFile } from 'src/app/shared/Interfaces/IListing';
 
 @Component({
   selector: 'app-posted-listing-details',
@@ -16,7 +16,7 @@ import { IListingWithSource } from 'src/app/shared/Interfaces/IListing';
 })
 export class PostedListingDetailsComponent {
   isAuthorized = false;
-  listings: IListingWithSource[] = [];
+  listings: IListingWithMediaFile[] = [];
   titleStyle = {
     'font-weight': 500,
     'font-size.px': 25,
@@ -43,17 +43,17 @@ export class PostedListingDetailsComponent {
 
   buildTiles(results: []): void {
     results.forEach((res: any) => {
-      const listing = {} as IListingWithSource;
+      const listing = {} as IListingWithMediaFile;
       listing.text = res.unit
         ? `${res.unit}, ${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`
         : `${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`;
-      listing.source = `data:${res.randomDocument.documentType};base64,${res.randomDocument.documentBase64}`;
+      listing.media = `data:${res.randomDocument.documentType};base64,${res.randomDocument.documentBase64}`;
       listing.id = res.id;
 
       if (res.randomDocument.documentType.includes('video')) {
-        listing.sourceType = 'video';
+        listing.mediaType = 'video';
       } else if (res.randomDocument.documentType.includes('image')) {
-        listing.sourceType = 'image';
+        listing.mediaType = 'image';
       }
 
       this.listings.push(listing);
@@ -78,10 +78,6 @@ export class PostedListingDetailsComponent {
       showCloseButton: true,
       initialData: res
     };
-    const dialogRef = this.dialog.open(DialogComponent, config);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    this.dialog.open(DialogComponent, config);
   }
 }

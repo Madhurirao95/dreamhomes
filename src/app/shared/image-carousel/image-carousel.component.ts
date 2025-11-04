@@ -5,7 +5,7 @@ import {
   Input,
   ViewChild
 } from '@angular/core';
-import { IListingWithSource } from '../Interfaces/IListing';
+import { IListingWithMediaFile } from '../Interfaces/IListing';
 
 @Component({
   selector: 'app-image-carousel',
@@ -14,7 +14,7 @@ import { IListingWithSource } from '../Interfaces/IListing';
 })
 export class ImageCarouselComponent implements AfterViewInit {
   @ViewChild('carouselInner') carouselInner!: ElementRef;
-  @Input() items: IListingWithSource[] = [];
+  @Input() items: IListingWithMediaFile[] = [];
   @Input() autoChange = true;
 
   currentIndex = 0;

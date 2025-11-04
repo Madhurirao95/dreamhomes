@@ -52,6 +52,12 @@
                                 required.</mat-error>
                         </mat-form-field>
                     </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Contact Number</mat-label>
+                            <input matInput placeholder="Contact Number" formControlName="contactNumber" maxlength="10">
+                        </mat-form-field>
+                    </mat-grid-tile>
                 </mat-grid-list>
             </form>
         </mat-step>
@@ -65,7 +71,7 @@
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>
-                <div class="stepper-label">Remarks & Other Details</div>
+                <div class="stepper-label">Description & Other Details</div>
             </ng-template>
             <form class="post-form" [formGroup]="postForm">
                 <mat-grid-list cols="3" rowHeight="120px">
@@ -153,12 +159,6 @@
                             <mat-label>Number of Bathrooms</mat-label>
                         </mat-form-field>
                     </mat-grid-tile>
-                    <mat-grid-tile colspan="1" rowspan="1">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Contact Number</mat-label>
-                            <input matInput placeholder="Contact Number" formControlName="contactNumber" maxlength="10">
-                        </mat-form-field>
-                    </mat-grid-tile>
 
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-slide-toggle formControlName="hasPool">Has Pool</mat-slide-toggle>
@@ -166,7 +166,8 @@
                 </mat-grid-list>
                 <mat-grid-list cols="4" rowHeight="120px">
                     <mat-grid-tile colspan="1" rowspan="1">
-                        <mat-slide-toggle (change)="onHasGarageChange($event)" formControlName="hasGarage">Has Garage</mat-slide-toggle>
+                        <mat-slide-toggle (change)="onHasGarageChange($event)" formControlName="hasGarage">Has
+                            Garage</mat-slide-toggle>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
@@ -179,7 +180,8 @@
                         </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="1" rowspan="1">
-                        <mat-slide-toggle  (change)="onHasFireplaceChange($event)"  hideIcon="true" formControlName="hasFireplace">Has
+                        <mat-slide-toggle (change)="onHasFireplaceChange($event)" hideIcon="true"
+                            formControlName="hasFireplace">Has
                             Fireplace</mat-slide-toggle>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="1" rowspan="1">
@@ -194,12 +196,19 @@
                     </mat-grid-tile>
                 </mat-grid-list>
                 <mat-grid-list cols="4" rowHeight="120px">
-                    <mat-grid-tile colspan="4" rowspan="1">
+                    <mat-grid-tile colspan="2" rowspan="1">
                         <mat-form-field appearance="outline">
-                            <mat-label>Remarks</mat-label>
-                            <textarea matInput maxlength="2000" formControlName="remarks"
-                                placeholder="Remarks(if any). Ex. Style: Tri-Level"></textarea>
-                            <mat-hint align="end"><mat-icon class="info-icon">info</mat-icon>Add details in the format 'Field: Details' in new line to make it individual fields.</mat-hint>
+                            <mat-label>Other Features</mat-label>
+                            <textarea matInput maxlength="10000" formControlName="features"
+                                placeholder="Features of your Listing!"></textarea>
+                            <mat-hint align="end"><mat-icon class="info-icon">info</mat-icon>Add each feature in 'key: value' format (e.g. Roof: Shingles) in new line.</mat-hint>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput maxlength="2000" formControlName="description"
+                                placeholder="Description of your Listing!"></textarea>
                         </mat-form-field>
                     </mat-grid-tile>
                 </mat-grid-list>

@@ -1,4 +1,5 @@
 @import '../../styles.scss';
+
 .toolbar {
     position: absolute;
     top: 0;
@@ -21,7 +22,7 @@
 }
 
 .toggle-buttons {
-    border: none; 
+    border: none;
 }
 
 .toggle-button {
@@ -50,33 +51,62 @@
     margin: 10px;
 }
 
-.profile-button {
-    width: 8%;
-    height: 70%;
-    border: 2px solid blue !important;
-    border-color: $accentColor !important;
-    border-radius: 50px !important;
-    color: $accentColor !important;
-    margin: 10px;
-}
+// .profile-button {
+//     width: 8%;
+//     height: 70%;
+//     border: 2px solid blue !important;
+//     border-color: $accentColor !important;
+//     border-radius: 50px !important;
+//     color: $accentColor !important;
+//     margin: 10px;
+// }
 
-.profile-button-div {
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-}
+// .profile-button-div {
+//     font-size: 15px;
+//     display: flex;
+//     align-items: center;
+// }
 
 .profile-icon {
     margin: 4px;
     line-height: 1;
 }
 
-.ellipsis {
+// .ellipsis {
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     width: 100px;
+//   }
+
+.profile-button {
+    border: 2px solid blue;
+    border-color: $accentColor;
+    border-radius: 50px;
+    color: $accentColor;
+    max-width: 200px;
+    /* Adjust as needed */
+    padding: 0 12px;
+    overflow: hidden;
+}
+
+.profile-button-div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    color: $accentColor;
+}
+
+.ellipsis-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100px;
-  }
+    max-width: 120px;
+    /* Adjust based on button width and icon size */
+    display: inline-block;
+}
+
 
 .home-icon {
     font-size: xx-large;

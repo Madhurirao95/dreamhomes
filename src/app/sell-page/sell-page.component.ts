@@ -5,7 +5,7 @@ import { AuthenticationService } from '../services/authentication-service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ListingDetailsDialogComponent } from './listing-details/listing-details.component';
 import { DialogComponent } from '../shared/dialog/dialog.component';
-import { IListingWithSource } from '../shared/Interfaces/IListing';
+import { IListingWithMediaFile } from '../shared/Interfaces/IListing';
 
 @Component({
   selector: 'app-sell-page',
@@ -13,7 +13,7 @@ import { IListingWithSource } from '../shared/Interfaces/IListing';
   styleUrls: ['./sell-page.component.scss']
 })
 export class SellPageComponent {
-  items: IListingWithSource[] = [];
+  items: IListingWithMediaFile[] = [];
 
   titleStyle = {
     'font-weight': 500,
@@ -27,21 +27,21 @@ export class SellPageComponent {
     public readonly authService: AuthenticationService,
     public dialog: MatDialog
   ) {
-    const listingWithSource1 = {} as IListingWithSource;
-    listingWithSource1.source = 'assets/carousel-img2.jpg';
-    listingWithSource1.sourceType = 'image';
+    const listingWithSource1 = {} as IListingWithMediaFile;
+    listingWithSource1.media = 'assets/carousel-img2.jpg';
+    listingWithSource1.mediaType = 'image';
 
-    const listingWithSource2 = {} as IListingWithSource;
-    listingWithSource2.source = 'assets/carousel-img1.jpg';
-    listingWithSource2.sourceType = 'image';
+    const listingWithSource2 = {} as IListingWithMediaFile;
+    listingWithSource2.media = 'assets/carousel-img1.jpg';
+    listingWithSource2.mediaType = 'image';
 
-    const listingWithSource3 = {} as IListingWithSource;
-    listingWithSource3.source = 'assets/carousel-img3.jpg';
-    listingWithSource3.sourceType = 'image';
+    const listingWithSource3 = {} as IListingWithMediaFile;
+    listingWithSource3.media = 'assets/carousel-img3.jpg';
+    listingWithSource3.mediaType = 'image';
 
-    const listingWithSource4 = {} as IListingWithSource;
-    listingWithSource4.source = 'assets/carousel-img4.jpg';
-    listingWithSource4.sourceType = 'image';
+    const listingWithSource4 = {} as IListingWithMediaFile;
+    listingWithSource4.media = 'assets/carousel-img4.jpg';
+    listingWithSource4.mediaType = 'image';
 
     this.items.push(listingWithSource1);
     this.items.push(listingWithSource2);

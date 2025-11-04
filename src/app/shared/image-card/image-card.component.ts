@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { IListingWithSourceList } from '../Interfaces/IListing';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IListingWithMediaList } from '../Interfaces/IListing';
 
 @Component({
   selector: 'app-image-card',
@@ -7,5 +7,10 @@ import { IListingWithSourceList } from '../Interfaces/IListing';
   styleUrl: './image-card.component.scss'
 })
 export class ImageCardComponent {
-  @Input() listing!: IListingWithSourceList;
+  @Input() listing!: IListingWithMediaList;
+  @Output() view = new EventEmitter<any>();
+
+  onCardClick(): void {
+    this.view.emit(this.listing);
+  }
 }

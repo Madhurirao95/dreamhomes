@@ -103,7 +103,8 @@ export class ListingDetailsDialogComponent implements IComponentData {
       price: initialData.listingPrice,
       area: initialData.area,
       contactNumber: initialData.contactNumber,
-      remarks: initialData.properties,
+      description: initialData.description,
+      features: initialData.properties,
       amountPerSqFt: initialData.amountPerSqFt,
       lotArea: initialData.lotArea,
       status: initialData.status,
@@ -177,13 +178,14 @@ export class ListingDetailsDialogComponent implements IComponentData {
       bathrooms: ['', [Validators.required, Validators.max(100)]],
       hasGarage: [false, Validators.required],
       numberOfGarageSpace: [
-        { value: '', disabled: true },
+        { value: 0, disabled: true },
         [Validators.max(20)]
       ],
       hasFireplace: [false, Validators.required],
-      numberOfFireplace: [{ value: '', disabled: true }, [Validators.max(20)]],
+      numberOfFireplace: [{ value: 0, disabled: true }, [Validators.max(20)]],
       hasPool: [false, Validators.required],
-      remarks: ['', Validators.maxLength(2000)]
+      description: ['', Validators.maxLength(2000)],
+      features: ['', Validators.maxLength(10000)]
     });
   }
 
@@ -253,7 +255,9 @@ export class ListingDetailsDialogComponent implements IComponentData {
     formData.append('ListingPrice', this.postForm.get('price')?.value);
     formData.append('Area', this.postForm.get('area')?.value);
     formData.append('ContactNumber', this.postForm.get('contactNumber')?.value);
-    formData.append('Properties', this.postForm.get('remarks')?.value);
+    // formData.append('Properties', this.postForm.get('remarks')?.value);
+    formData.append('Description', this.postForm.get('description')?.value);
+    formData.append('Properties', this.postForm.get('features')?.value);
     formData.append('CoordinateX', this.coordinatex as any);
     formData.append('CoordinateY', this.coordinatey as any);
     formData.append('Status', this.postForm.get('status')?.value);

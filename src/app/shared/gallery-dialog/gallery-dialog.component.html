@@ -1,0 +1,9 @@
+<button mat-icon-button class="close-button" (click)="onCloseClick({})" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+</button>
+<mat-grid-list cols="4" rowHeight="180px" gutterSize="8px" class="gallery-grid">
+    <mat-grid-tile *ngFor="let p of data.photos; let i = index">
+        <img *ngIf="p.mediaType === 'image'" [src]="p.media" [alt]="'Photo ' + (i + 1)">
+        <video *ngIf="p.mediaType === 'video'" [src]="p.media" controls></video>
+    </mat-grid-tile>
+</mat-grid-list>
