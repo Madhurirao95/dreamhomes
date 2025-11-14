@@ -60,6 +60,7 @@
                         <span> At least 1 lowercase letter and 1 uppercase letter</span>
                     </mat-hint>
                 </mat-form-field>
+                <mat-checkbox class="i-am-an-agent-checkbox" formControlName="isAnAgent">I am an Agent</mat-checkbox>
                 <div class="submit-button">
                     <button mat-raised-button color="primary" type="submit" class="button"
                         [disabled]="!createAccountForm.valid">Submit</button>

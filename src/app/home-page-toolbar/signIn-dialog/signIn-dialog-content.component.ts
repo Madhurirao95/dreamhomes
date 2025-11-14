@@ -18,8 +18,7 @@ export class SignInDialogContentComponent {
   createAccountForm!: FormGroup;
   hasServiceError = false;
   serviceErrorMessage = '';
-
-  constructor (
+  constructor(
     private readonly formBuilder: FormBuilder,
     private readonly dialogComponent: DialogComponent,
     private readonly authService: AuthenticationService
@@ -28,19 +27,20 @@ export class SignInDialogContentComponent {
     this.createNewAccountForm();
   }
 
-  createSignInForm (): void {
+  createSignInForm(): void {
     this.signInForm = this.getNewAccountForm();
   }
 
-  createNewAccountForm (): void {
+  createNewAccountForm(): void {
     this.createAccountForm = this.getNewAccountForm();
   }
 
-  getNewAccountForm (): FormGroup {
+  getNewAccountForm(): FormGroup {
     return this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
-        '', Validators.compose([
+        '',
+        Validators.compose([
           // 1. Password Field is Required
           Validators.required,
           // 2. check whether the entered password has a number
@@ -50,28 +50,46 @@ export class SignInDialogContentComponent {
           // 4. check whether the entered password has a lower-case letter
           patternValidator(/[a-z]/, { hasSmallCase: true }),
           // 5. check whether the entered password has a special character
-          patternValidator(/[@_!#$%^&*()<>?/|}{~:]/, { hasSpecialCharacters: true }),
+          patternValidator(/[@_!#$%^&*()<>?/|}{~:]/, {
+            hasSpecialCharacters: true
+          }),
           // 6. Has a minimum length of 8 characters
-          Validators.minLength(8)])
-      ]
+          Validators.minLength(8)
+        ])
+      ],
+      isAnAgent: [false]
     });
   }
 
-  onSubmit (): void {
+  onSubmit(): void {
     const obj = {
       Email: this.createAccountForm.get('email')?.value,
       Password: this.createAccountForm.get('password')?.value
     };
 
-    this.authService.createAccount(obj).subscribe({
-      next: () => {
-        this.signInService(obj);
-      },
-      error: err => { this.handleErrors(err); }
-    });
+    const isAnAgent = this.createAccountForm.get('isAnAgent')?.value;
+    if (isAnAgent) {
+      this.authService.createAccountForAgent(obj).subscribe({
+        next: () => {
+          this.signInService(obj);
+        },
+        error: (err) => {
+          this.handleErrors(err);
+        }
+      });
+    } else {
+      this.authService.createAccountForUser(obj).subscribe({
+        next: () => {
+          this.signInService(obj);
+        },
+        error: (err) => {
+          this.handleErrors(err);
+        }
+      });
+    }
   }
 
-  onSignIn (): void {
+  onSignIn(): void {
     const obj = {
       Email: this.signInForm.get('email')?.value,
       Password: this.signInForm.get('password')?.value
@@ -80,7 +98,7 @@ export class SignInDialogContentComponent {
     this.signInService(obj);
   }
 
-  signInService (obj: any): void {
+  signInService(obj: any): void {
     this.authService.signIn(obj).subscribe({
       next: (res) => {
         if (res.token !== undefined && res.token !== null) {
@@ -99,7 +117,7 @@ export class SignInDialogContentComponent {
     });
   }
 
-  onTabChange (): void {
+  onTabChange(): void {
     this.signInForm.get('email')?.setErrors(null);
     this.signInForm.get('password')?.setErrors(null);
 
@@ -119,7 +137,7 @@ export class SignInDialogContentComponent {
     this.createAccountForm.get('password')?.updateValueAndValidity();
   }
 
-  handleErrors (error: HttpErrorResponse): void {
+  handleErrors(error: HttpErrorResponse): void {
     this.hasServiceError = true;
     this.serviceErrorMessage = error.error.message;
   }

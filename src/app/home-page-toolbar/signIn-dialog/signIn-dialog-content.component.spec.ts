@@ -97,7 +97,7 @@ describe('SignInDialogComponent', () => {
 
   it('onSubmit - should submit valid form on click of Submit without any errors', () => {
     // ARRANGE
-    authServiceSpy.createAccount.and.returnValue(of(true));
+    authServiceSpy.createAccountForUser.and.returnValue(of(true));
     authServiceSpy.signIn.and.returnValue(of({ token: 'sample' }));
 
     const obj = {
@@ -108,7 +108,7 @@ describe('SignInDialogComponent', () => {
     component.onSubmit();
 
     // ASSERT
-    expect(authServiceSpy.createAccount).toHaveBeenCalledOnceWith(obj);
+    expect(authServiceSpy.createAccountForUser).toHaveBeenCalledOnceWith(obj);
     expect(authServiceSpy.signIn).toHaveBeenCalledOnceWith(obj);
     expect(authServiceSpy.setAuthToken).toHaveBeenCalledOnceWith('sample');
     expect(authServiceSpy.setIsAuthorized).toHaveBeenCalledOnceWith(true);
@@ -122,7 +122,7 @@ describe('SignInDialogComponent', () => {
   it('onSubmit - should handle errors on submit of invalid form on click of Submit', () => {
     // ARRANGE
     const err = new HttpErrorResponse({ error: 'some error' });
-    authServiceSpy.createAccount.and.returnValue(throwError(() => err));
+    authServiceSpy.createAccountForUser.and.returnValue(throwError(() => err));
 
     const obj = {
       Email: component.createAccountForm.get('email')?.value,
@@ -132,7 +132,7 @@ describe('SignInDialogComponent', () => {
     component.onSubmit();
 
     // ASSERT
-    expect(authServiceSpy.createAccount).toHaveBeenCalledOnceWith(obj);
+    expect(authServiceSpy.createAccountForUser).toHaveBeenCalledOnceWith(obj);
     expect(authServiceSpy.signIn).not.toHaveBeenCalled();
     expect(authServiceSpy.setAuthToken).not.toHaveBeenCalled();
     expect(authServiceSpy.setIsAuthorized).not.toHaveBeenCalled();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,9 +25,14 @@ export class HomePageToolBarComponent {
 
   showSignInButton = true;
   showProfileButton = false;
+  showAgentPageButton = false;
 
   userName = '';
-  constructor (public dialog: MatDialog, private readonly router: Router, private readonly authService: AuthenticationService) {
+  constructor(
+    public dialog: MatDialog,
+    private readonly router: Router,
+    private readonly authService: AuthenticationService
+  ) {
     this.authService.isAuthorized$.subscribe((res) => {
       if (res) {
         this.showProfileButton = true;
@@ -39,7 +45,23 @@ export class HomePageToolBarComponent {
     });
   }
 
-  openDialog (): void {
+  ngOnInit(): void {
+    this.authService
+      .isAgent(this.authService.getEmail())
+      .subscribe((isAgent) => {
+        if (isAgent) {
+          this.showAgentPageButton = true;
+        } else {
+          this.showAgentPageButton = false;
+        }
+      });
+  }
+
+  openAgentPage(): void {
+    this.router.navigate(['/agent-dashboard']);
+  }
+
+  openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: this.title,
@@ -59,7 +81,7 @@ export class HomePageToolBarComponent {
     });
   }
 
-  openProfileDialog (): void {
+  openProfileDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Hey ' + this.userName.toLocaleUpperCase() + '!',
@@ -83,13 +105,11 @@ export class HomePageToolBarComponent {
     return parts[0].toLocaleUpperCase();
   }
 
-  goToSellPage (): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  goToSellPage(): void {
     this.router.navigate(['/sell']);
   }
 
-  goToBuyPage (): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  goToBuyPage(): void {
     this.router.navigate(['/buy']);
   }
 }

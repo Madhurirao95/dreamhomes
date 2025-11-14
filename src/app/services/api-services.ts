@@ -10,26 +10,29 @@ import { Observable } from 'rxjs';
 export class ApiService {
   apiUrl = 'https://localhost:9000';
 
-  constructor (private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  getAll (api: string, params?: any): Observable<any[]> {
+  getAll(api: string, params?: any): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${api}`, { params });
   }
 
-  getById (api: string, id: number): Observable<any> {
+  getById(api: string, id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${api}/${id}`);
   }
 
-  add (api: string, obj: any): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/${api}`, obj);
+  get(api: string, params?: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${api}`, { params });
   }
 
-  update (api: string, id: number, obj: any): Observable<any> {
+  add(api: string, obj: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${api}`, obj);
+  }
+
+  update(api: string, id: number, obj: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${api}/${id}`, obj);
   }
 
-  delete (api: string, id: number): Observable<any> {
+  delete(api: string, id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${api}/${id}`);
   }
 }

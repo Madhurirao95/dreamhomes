@@ -21,6 +21,7 @@ import { PostedListingDetailsModule } from './sell-page/posted-listing-details/p
 import { BuyPageService } from './services/buy-page-service';
 import { MapModule } from './shared/map/map.module';
 import { ViewListingModule } from './view-listing/view-listing.module';
+import { ChatService } from './services/chat-service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,8 +48,9 @@ import { ViewListingModule } from './view-listing/view-listing.module';
   providers: [
     ApiService,
     AuthenticationService,
-    SellPageService,
     BuyPageService,
+    ChatService,
+    SellPageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

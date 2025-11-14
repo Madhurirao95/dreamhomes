@@ -12,6 +12,10 @@
     <button *ngIf="showSignInButton" mat-raised-button class="signIn-button" (click)="openDialog()">
         <span>Sign In</span>
     </button>
+    <button *ngIf="showAgentPageButton" mat-raised-button class="profile-button" (click)="openAgentPage()">
+        <div class="profile-button-div"><mat-icon class="profile-icon">real_estate_agent</mat-icon>
+        </div>
+    </button>
     <button *ngIf="showProfileButton" mat-raised-button class="profile-button" (click)="openProfileDialog()">
         <div class="profile-button-div"><mat-icon class="profile-icon">insert_emoticon</mat-icon>
             <div class="ellipsis">Hey {{userName}}!</div>

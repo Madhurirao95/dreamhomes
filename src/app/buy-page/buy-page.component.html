@@ -28,7 +28,6 @@
         <div class="no-search-results" *ngIf="defaultView === 'List' && listings.length === 0">
             No results with the given criteria. Try other locations.
         </div>
-
         <mat-paginator *ngIf="listings && listings.length > 0 && defaultView === 'List'" #paginator
             class="buy-page-paginator" (page)="handlePageEvent($event)" [pageSize]="pageSize" [hidePageSize]="false"
             [showFirstLastButtons]="true" [length]="length" [pageSizeOptions]="pageSizeOptions">

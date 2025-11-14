@@ -3,6 +3,7 @@
 .signIn-dialog-content-wrapper {
     width: 50%;
     display: contents;
+
     .error-message {
         font-size: small;
         color: red;
@@ -58,16 +59,40 @@
         padding-top: 20px;
     }
 
+    .i-am-an-agent-checkbox {
+        .mdc-form-field>label {
+            font-size: 18px;
+            color: $primaryColor;
+            font-weight: 600;
+        }
+
+        .mdc-checkbox__background:not(:checked) {
+            border-width: 3px !important;
+            border-color: $primaryColor !important;
+        }
+
+        .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
+            background-color: $primaryColor !important;
+        }
+
+        margin-top: 12%;
+    }
+
     .mdc-line-ripple {
         display: none;
     }
 
 
-    .mat-mdc-raised-button {
-        background-color: $primaryColor;
-        width: 100%;
-        height: 50px;
+    .submit-button {
+        margin-top: 12% !important;
+
+        .mat-mdc-raised-button {
+            background-color: $primaryColor !important;
+            width: 100% !important;
+            height: 50px !important;
+        }
     }
+
 
     .mdc-text-field--focused {
         background-color: whitesmoke;
@@ -78,8 +103,13 @@
         color: $accentColor;
     }
 
-    .mat-mdc-raised-button:disabled {
-        opacity: 0.3;
+    .submit-button {
+        .mat-mdc-raised-button:disabled {
+            background-color: $primaryColor !important;
+            width: 100% !important;
+            height: 50px !important;
+            opacity: 0.3 !important;
+        }
     }
 
     .mat-mdc-form-field-hint-wrapper,

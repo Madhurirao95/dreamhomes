@@ -1,0 +1,98 @@
+<div class="agent-dashboard">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div>
+            <h2>Agent Dashboard</h2>
+            <small>{{ agentEmail }}</small>
+        </div>
+        <div class="header-actions">
+            <div class="status">
+                <span [class.online]="isConnected" class="status-indicator"></span>
+                {{ isConnected ? 'Online' : 'Offline' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Queue Section -->
+            <div class="section">
+                <h3>Waiting Users ({{ queueCount }})</h3>
+                <div class="waiting-list">
+                    <div *ngFor="let user of waitingUsers" class="waiting-user">
+                        <div class="user-info">
+                            <strong>{{ user.userName }}</strong>
+                            <small>{{ user.userEmail }}</small>
+                            <small>Waiting since {{ user.waitingSince | date:'short' }}</small>
+                        </div>
+                        <button (click)="acceptChat(user.userId)" class="accept-btn">
+                            Accept
+                        </button>
+                    </div>
+                    <div *ngIf="waitingUsers.length === 0" class="empty-state">
+                        No users waiting
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Chats -->
+            <div class="section">
+                <h3>Active Chats ({{ activeChats.length }})</h3>
+                <div class="chat-list">
+                    <div *ngFor="let chat of activeChats" class="chat-item"
+                        [class.active]="selectedChatId === chat.conversationId"
+                        (click)="selectChat(chat.conversationId)">
+                        <strong>{{ chat.userName }}</strong>
+                        <small>{{ chat.userEmail }}</small>
+                        <span *ngIf="chat.messages.length > 0" class="last-message">
+                            {{ chat.messages[chat.messages.length - 1].content.substring(0, 30) }}...
+                        </span>
+                        <span *ngIf="chat.isTyping" class="typing">typing...</span>
+                    </div>
+                    <div *ngIf="activeChats.length === 0" class="empty-state">
+                        No active chats
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div *ngIf="selectedChatId && getSelectedChat()" class="active-conversation">
+                <div class="chat-header">
+                    <div>
+                        <h3>{{ getSelectedChat()?.userName }}</h3>
+                        <small>{{ getSelectedChat()?.userEmail }}</small>
+                    </div>
+                    <button (click)="endChat(selectedChatId)" class="end-chat-btn">
+                        End Chat
+                    </button>
+                </div>
+
+                <div class="messages-container">
+                    <div *ngFor="let msg of getSelectedChat()?.messages"
+                        [class]="msg.isFromAgent ? 'message agent' : 'message user'">
+                        <div class="message-content">{{ msg.content }}</div>
+                        <div class="message-time">{{ msg.timestamp | date:'short' }}</div>
+                    </div>
+
+                    <div *ngIf="getSelectedChat()?.isTyping" class="typing-indicator">
+                        User is typing...
+                    </div>
+                </div>
+
+                <div class="message-input">
+                    <input type="text" [(ngModel)]="messageInput[selectedChatId]"
+                        (keyup.enter)="sendMessage(selectedChatId)" (input)="sendTypingIndicator(selectedChatId)"
+                        placeholder="Type a message...">
+                    <button (click)="sendMessage(selectedChatId)">Send</button>
+                </div>
+            </div>
+
+            <div *ngIf="!selectedChatId" class="empty-chat">
+                <p>Select a chat or accept a waiting user to start messaging</p>
+            </div>
+        </div>
+    </div>
+</div>

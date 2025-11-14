@@ -134,12 +134,15 @@ export class BuyPageComponent implements OnInit {
             this.listings.push(listing);
           });
         }
-
+        this.loading = false;
         this.length = res.totalCount;
         if (this.mapComponent) {
-          this.mapComponent.displayMarkers([this.coordinatey, this.coordinatex], this.mapComponent.zoom, this.listings);
+          this.mapComponent.displayMarkers(
+            [this.coordinatey, this.coordinatex],
+            this.mapComponent.zoom,
+            this.listings
+          );
         }
-        this.loading = false;
       });
   }
 

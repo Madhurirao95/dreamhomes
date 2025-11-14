@@ -1,0 +1,59 @@
+<div class="chat-widget" [class.open]="isOpen">
+  <!-- Chat Button -->
+  <button *ngIf="!isOpen" class="chat-button" (click)="toggleChat()">
+    <span>💬</span>
+    Chat with a Local Expert!
+  </button>
+
+  <!-- Chat Window -->
+  <div *ngIf="isOpen" class="chat-window">
+    <!-- Header -->
+    <div class="chat-header">
+      <h3>Let’s Talk Real Estate!</h3>
+      <button mat-icon-button (click)="toggleChat()" class="close-btn"><mat-icon>close</mat-icon></button>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span *ngIf="!connectionStatus.connected && connectionStatus.queuePosition">
+        Position in queue: {{ connectionStatus.queuePosition }}
+      </span>
+      <span *ngIf="connectionStatus.connected && connectionStatus.agentName">
+        Connected with {{ connectionStatus.agentName }}
+      </span>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-container">
+      <div *ngFor="let msg of messages" 
+           [class]="msg.isFromAgent ? 'message agent' : 'message user'">
+        <div class="message-content">{{ msg.content }}</div>
+        <div class="message-time">{{ msg.timestamp | date:'short' }}</div>
+      </div>
+<!--       
+      <div *ngIf="isTyping" class="typing-indicator">
+        Agent is typing...
+      </div> -->
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input">
+      <input 
+        type="text" 
+        [(ngModel)]="messageInput"
+        (keyup.enter)="sendMessage()"
+        [disabled]="!connectionStatus.connected"
+        placeholder="Type a message...">
+      <button (click)="sendMessage()" [disabled]="!connectionStatus.connected">
+        Send
+      </button>
+    </div>
+
+    <!-- End Chat -->
+    <div class="chat-footer">
+      <button (click)="endChat()" *ngIf="connectionStatus.connected">
+        End Chat
+      </button>
+    </div>
+  </div>
+</div>

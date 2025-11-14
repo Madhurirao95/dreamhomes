@@ -8,7 +8,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private readonly isAuthorizedSubject = new BehaviorSubject<boolean>(this.getIsAuthorized());
+  private readonly isAuthorizedSubject = new BehaviorSubject<boolean>(
+    this.getIsAuthorized()
+  );
+
   isAuthorized$ = this.isAuthorizedSubject.asObservable();
   constructor(private readonly apiService: ApiService) {}
 
@@ -31,8 +34,8 @@ export class AuthenticationService {
     return '';
   }
 
-  setAuthToken(val: string): void {
-    localStorage.setItem('token', val);
+  setAuthToken(val: any): void {
+    localStorage.setItem('token', val.result);
   }
 
   getEmail(): string {
@@ -50,11 +53,19 @@ export class AuthenticationService {
     this.setEmail('');
   }
 
-  createAccount(info: any): Observable<any> {
-    return this.apiService.add('Authentication/createAccount', info);
+  createAccountForUser(info: any): Observable<any> {
+    return this.apiService.add('Authentication/createAccount/user', info);
+  }
+
+  createAccountForAgent(info: any): Observable<any> {
+    return this.apiService.add('Authentication/createAccount/agent', info);
   }
 
   signIn(info: any): Observable<any> {
     return this.apiService.add('Authentication/signIn', info);
+  }
+
+  isAgent(email: string): Observable<any> {
+    return this.apiService.get('Authentication/isAgent', { email });
   }
 }
