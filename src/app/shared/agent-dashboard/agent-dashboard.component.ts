@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import * as signalR from '@microsoft/signalr';
 import { AuthenticationService } from 'src/app/services/authentication-service';
-import { ActiveChat, ChatMessage, WaitingUser } from 'src/app/services/chat-service';
+import { ActiveChat, ChatMessage, QueueSync, WaitingUser } from 'src/app/services/chat-service';
 import { SharedModule } from '../shared.module';
 
 @Component({
@@ -82,6 +82,12 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       console.log('Agent connected:', data);
     });
 
+    this.hubConnection.on('QueueSync', (data: QueueSync) => {
+      console.log('Queue synced:', data.count, 'users at', data.timestamp);
+      this.waitingUsers.push(...data.users);
+      this.queueCount = data.count;
+    });
+
     // New user waiting
     this.hubConnection.on('NewUserWaiting', (data: WaitingUser) => {
       // Check if user already in list
@@ -91,22 +97,10 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Queue updated
-    this.hubConnection.on('QueueUpdated', (count: number) => {
-      this.queueCount = count;
-    });
-
     // Chat accepted
-    this.hubConnection.on('ChatAccepted', (data: any) => {
-      const newChat: ActiveChat = {
-        conversationId: data.conversationId,
-        userId: data.userId,
-        userName: data.userName || data.userEmail,
-        userEmail: data.userEmail,
-        messages: [],
-        isTyping: false
-      };
-      this.activeChats.push(newChat);
+    this.hubConnection.on('ChatAccepted', (data: ActiveChat) => {
+      data.isTyping = false;
+      this.activeChats.push(data);
       this.selectedChatId = data.conversationId;
 
       // Remove from waiting users
@@ -120,7 +114,12 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       const chat = this.activeChats.find(
         (c) => c.conversationId === message.conversationId
       );
-      if (chat) {
+      if (chat && chat.messages) {
+        chat.messages = Array.isArray(chat.messages) ? chat.messages : [];
+        chat.messages.push(message);
+        this.scrollToBottom();
+      } else if (chat) {
+        chat.messages = [];
         chat.messages.push(message);
         this.scrollToBottom();
       }
@@ -139,11 +138,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
 
     // User typing
     this.hubConnection.on('UserTyping', (data: any) => {
-      const chat = this.activeChats.find(
-        (c) =>
-          c.messages.length > 0 &&
-          c.messages[0].conversationId === data.conversationId
-      );
+      const chat = this.getSelectedChat();
       if (chat) {
         chat.isTyping = data.isTyping;
       }
@@ -165,7 +160,6 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
     // Error handling
     this.hubConnection.on('Error', (errorMessage: string) => {
       console.error('SignalR Error:', errorMessage);
-      alert(`Error: ${errorMessage}`);
     });
 
     // Reconnection
@@ -187,7 +181,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
 
   async acceptChat(userId: string): Promise<void> {
     if (!this.hubConnection) {
-      alert('Not connected to chat hub');
+      console.log('Not connected to chat hub');
       return;
     }
 
@@ -195,7 +189,6 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       await this.hubConnection.invoke('AgentAcceptChat', userId);
     } catch (err) {
       console.error('Error accepting chat:', err);
-      alert('Failed to accept chat. Please try again.');
     }
   }
 
@@ -221,7 +214,6 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       this.messageInput[conversationId] = '';
     } catch (err) {
       console.error('Error sending message:', err);
-      alert('Failed to send message. Please try again.');
     }
   }
 
@@ -237,7 +229,6 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       await this.hubConnection.invoke('EndConversation', conversationId);
     } catch (err) {
       console.error('Error ending conversation:', err);
-      alert('Failed to end conversation. Please try again.');
     }
   }
 

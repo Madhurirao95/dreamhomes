@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
+
 import { AuthenticationService } from './authentication-service';
 
 export interface ChatMessage {
   id?: string
   conversationId: string
-  senderId: string
+  userId: string
   content: string
   isFromAgent: boolean
   timestamp: Date
@@ -37,19 +38,26 @@ export interface ActiveChat {
   isTyping: boolean
 }
 
+export interface QueueSync {
+  users: WaitingUser[]
+  count: number
+  timestamp: Date
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   private hubConnection: signalR.HubConnection | null = null;
-  private readonly messagesSubject = new BehaviorSubject<any[]>([]);
+  private readonly messagesSubject = new BehaviorSubject<string[]>([]);
   private readonly connectionStatusSubject =
     new BehaviorSubject<ConnectionStatus>({ connected: false });
-  // private readonly typingSubject = new BehaviorSubject<boolean>(false);
+
+  private readonly typingSubject = new BehaviorSubject<boolean>(false);
 
   public messages$ = this.messagesSubject.asObservable();
   public connectionStatus$ = this.connectionStatusSubject.asObservable();
-  // public typing$ = this.typingSubject.asObservable();
+  public typing$ = this.typingSubject.asObservable();
 
   constructor(private readonly authService: AuthenticationService) {}
 
@@ -90,9 +98,9 @@ export class ChatService {
       console.error('Error connecting to SignalR:', err);
       // Retry after 5 seconds
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    //   setTimeout(async () => {
-    //     await this.startConnection();
-    //   }, 5000);
+      //   setTimeout(async () => {
+      //     await this.startConnection();
+      //   }, 5000);
     }
   }
 
@@ -100,27 +108,27 @@ export class ChatService {
     if (!this.hubConnection) return;
 
     // Receive messages
-    this.hubConnection.on('ReceiveMessage', (message: any) => {
+    this.hubConnection.on('ReceiveMessage', (message: string) => {
       const currentMessages = this.messagesSubject.value;
       this.messagesSubject.next([...currentMessages, message]);
     });
 
     // Message sent confirmation
-    this.hubConnection.on('MessageSent', (message: any) => {
+    this.hubConnection.on('MessageSent', (message: string) => {
       const currentMessages = this.messagesSubject.value;
       this.messagesSubject.next([...currentMessages, message]);
     });
 
     // Agent assigned (for users)
-    this.hubConnection.on('AgentAssigned', (data: any) => {
+    this.hubConnection.on('AgentAssigned', (data: ActiveChat) => {
       this.connectionStatusSubject.next({
         connected: true,
         conversationId: data.conversationId,
-        agentId: data.agentId,
-        agentName: data.agentName,
-        agentEmail: data.agentEmail
+        agentId: data.userId,
+        agentName: data.userName,
+        agentEmail: data.userEmail
       });
-      console.log('Connected to agent:', data.agentName);
+      console.log('Connected to agent:', data.userName);
     });
 
     // Added to queue (for users)
@@ -133,13 +141,12 @@ export class ChatService {
     });
 
     // Typing indicator
-    // this.hubConnection.on('UserTyping', (data: any) => {
-    //   this.typingSubject.next(data.isTyping);
-    // });
+    this.hubConnection.on('UserTyping', (data: any) => {
+      this.typingSubject.next(data.isTyping);
+    });
 
     // Agent disconnected
     this.hubConnection.on('AgentDisconnected', () => {
-      alert('Your agent has disconnected. You will be reassigned shortly.');
       this.connectionStatusSubject.next({ connected: false });
     });
 
@@ -153,7 +160,6 @@ export class ChatService {
     // Error handling
     this.hubConnection.on('Error', (errorMessage: string) => {
       console.error('SignalR Error:', errorMessage);
-      alert(`Error: ${errorMessage}`);
     });
 
     // Reconnection handling
@@ -185,15 +191,22 @@ export class ChatService {
     }
   }
 
-  //   async sendTypingIndicator(conversationId: string, isTyping: boolean): Promise<void> {
-  //     if (!this.hubConnection) return;
+  async sendTypingIndicator(
+    conversationId: string,
+    isTyping: boolean
+  ): Promise<void> {
+    if (!this.hubConnection) return;
 
-  //     try {
-  //       await this.hubConnection.invoke('SendTypingIndicator', conversationId, isTyping);
-  //     } catch (err) {
-  //       console.error('Error sending typing indicator:', err);
-  //     }
-  //   }
+    try {
+      await this.hubConnection.invoke(
+        'SendTypingIndicator',
+        conversationId,
+        isTyping
+      );
+    } catch (err) {
+      console.error('Error sending typing indicator:', err);
+    }
+  }
 
   async endConversation(conversationId: string): Promise<void> {
     if (!this.hubConnection) {

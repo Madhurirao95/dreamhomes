@@ -3,7 +3,7 @@
   <button class="carousel-nav prev" (click)="prevSlide()">&#10094;</button>
   <div #carouselInner class="carousel-inner">
     <div *ngFor="let item of items" class="carousel-item">
-      <img *ngIf="item.mediaType === 'image'" [src]="item.media">
+      <img *ngIf="item.mediaType === 'image'" [src]="item.media" width="400" height="400">
       <video *ngIf="item.mediaType === 'video'" [src]="item.media" controls></video>
     </div>
   </div>

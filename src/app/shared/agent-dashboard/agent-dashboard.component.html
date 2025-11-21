@@ -45,7 +45,7 @@
                         (click)="selectChat(chat.conversationId)">
                         <strong>{{ chat.userName }}</strong>
                         <small>{{ chat.userEmail }}</small>
-                        <span *ngIf="chat.messages.length > 0" class="last-message">
+                        <span *ngIf="chat.messages && chat.messages.length > 0" class="last-message">
                             {{ chat.messages[chat.messages.length - 1].content.substring(0, 30) }}...
                         </span>
                         <span *ngIf="chat.isTyping" class="typing">typing...</span>

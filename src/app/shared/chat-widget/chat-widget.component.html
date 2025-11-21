@@ -30,10 +30,10 @@
         <div class="message-content">{{ msg.content }}</div>
         <div class="message-time">{{ msg.timestamp | date:'short' }}</div>
       </div>
-<!--       
+      
       <div *ngIf="isTyping" class="typing-indicator">
         Agent is typing...
-      </div> -->
+      </div>
     </div>
 
     <!-- Input -->
@@ -41,6 +41,7 @@
       <input 
         type="text" 
         [(ngModel)]="messageInput"
+        (input)="onTyping()"
         (keyup.enter)="sendMessage()"
         [disabled]="!connectionStatus.connected"
         placeholder="Type a message...">

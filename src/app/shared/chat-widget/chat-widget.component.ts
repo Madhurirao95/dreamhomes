@@ -21,7 +21,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   messageInput = '';
   isTyping = false;
   private readonly destroy$ = new Subject<void>();
-  // private typingTimeout: any;
+  private typingTimeout: any;
 
   constructor(
     private readonly chatService: ChatService,
@@ -42,11 +42,11 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
         this.connectionStatus = status;
       });
 
-    // this.chatService.typing$
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((typing) => {
-    //     this.isTyping = typing;
-    //   });
+    this.chatService.typing$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((typing) => {
+        this.isTyping = typing;
+      });
   }
 
   ngOnDestroy(): void {
@@ -87,24 +87,26 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
         this.messageInput
       );
       this.messageInput = '';
-      // this.onTyping(); // Stop typing indicator
+      await this.onTyping(); // Stop typing indicator
     } catch (err) {
       console.error('Failed to send message:', err);
       alert('Failed to send message. Please try again.');
     }
   }
 
-  // onTyping() {
-  //   if (!this.connectionStatus.conversationId) return;
+  async onTyping(): Promise<void> {
+    if (!this.connectionStatus.conversationId) return;
 
-  //   clearTimeout(this.typingTimeout);
+    clearTimeout(this.typingTimeout);
 
-  //   this.chatService.sendTypingIndicator(this.connectionStatus.conversationId, true);
+    await this.chatService.sendTypingIndicator(this.connectionStatus.conversationId, true);
 
-  //   this.typingTimeout = setTimeout(() => {
-  //     this.chatService.sendTypingIndicator(this.connectionStatus.conversationId!, false);
-  //   }, 1000);
-  // }
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.typingTimeout = setTimeout(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await this.chatService.sendTypingIndicator(this.connectionStatus.conversationId!, false);
+    }, 1000);
+  }
 
   async endChat(): Promise<void> {
     if (this.connectionStatus.conversationId) {
