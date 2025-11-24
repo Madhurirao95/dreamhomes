@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BuyPageService } from '../services/buy-page-service';
 import { IListingWithMediaList } from '../shared/Interfaces/IListing';
