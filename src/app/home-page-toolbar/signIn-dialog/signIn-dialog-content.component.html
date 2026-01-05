@@ -24,6 +24,10 @@
                     || signInForm.get('password')?.hasError('hasSpecialCharacters')">Password is
                         invalid.</mat-error>
                 </mat-form-field>
+                <a class="forgot-password-link" (click)="onForgotPassword()">
+                    Forgot password?
+                </a>
+
                 <div class="submit-button">
                     <button mat-raised-button color="primary" type="submit" class="button signIn-button-text"
                         [disabled]="!signInForm.valid">Sign In</button>
@@ -49,10 +53,11 @@
                     || createAccountForm.get('password')?.hasError('hasNumber')
                     || createAccountForm.get('password')?.hasError('hasCapitalCase')
                     || createAccountForm.get('password')?.hasError('hasSmallCase')
-                    || createAccountForm.get('password')?.hasError('hasSpecialCharacters')"><span>At least 8 characters</span><br>
-                    <span> Mix of letters and numbers</span><br>
-                    <span>At least 1 special character</span><br>
-                    <span> At least 1 lowercase letter and 1 uppercase letter</span></mat-error>
+                    || createAccountForm.get('password')?.hasError('hasSpecialCharacters')"><span>At least 8
+                            characters</span><br>
+                        <span> Mix of letters and numbers</span><br>
+                        <span>At least 1 special character</span><br>
+                        <span> At least 1 lowercase letter and 1 uppercase letter</span></mat-error>
                     <mat-hint>
                         <span>At least 8 characters</span><br>
                         <span> Mix of letters and numbers</span><br>

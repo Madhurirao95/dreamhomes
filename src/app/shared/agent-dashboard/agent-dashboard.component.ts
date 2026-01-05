@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import * as signalR from '@microsoft/signalr';
 import { AuthenticationService } from 'src/app/services/authentication-service';
-import { ActiveChat, ChatMessage, QueueSync, WaitingUser } from 'src/app/services/chat-service';
+import {
+  ActiveChat,
+  ChatMessage,
+  QueueSync,
+  WaitingUser,
+} from 'src/app/services/chat-service';
 import { SharedModule } from '../shared.module';
 
 @Component({
@@ -10,7 +16,7 @@ import { SharedModule } from '../shared.module';
   standalone: true,
   imports: [SharedModule],
   templateUrl: './agent-dashboard.component.html',
-  styleUrl: './agent-dashboard.component.scss'
+  styleUrl: './agent-dashboard.component.scss',
 })
 export class AgentDashboardComponent implements OnInit, OnDestroy {
   private hubConnection: signalR.HubConnection | null = null;
@@ -28,8 +34,16 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
   constructor(private readonly authService: AuthenticationService) {}
 
   async ngOnInit(): Promise<void> {
-    if (this.authService.isAgent(this.authService.getEmail())) {
-      await this.startConnection();
+    const email = this.authService.getEmail();
+    if (email) {
+      this.authService
+        .isAgent(this.authService.getEmail())
+        .subscribe(async (isAgent) => {
+          localStorage.setItem('isAgent', JSON.stringify(isAgent));
+          if (isAgent) {
+            await this.startConnection();
+          }
+        });
     }
   }
 
@@ -55,7 +69,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
         skipNegotiation: false,
         transport:
           signalR.HttpTransportType.WebSockets |
-          signalR.HttpTransportType.ServerSentEvents
+          signalR.HttpTransportType.ServerSentEvents,
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
@@ -69,7 +83,9 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.error('Error connecting:', err);
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      setTimeout(async () => { await this.startConnection(); }, 5000);
+      setTimeout(async () => {
+        await this.startConnection();
+      }, 5000);
     }
   }
 
@@ -194,7 +210,9 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
 
   selectChat(conversationId: string): void {
     this.selectedChatId = conversationId;
-    setTimeout(() => { this.scrollToBottom(); }, 100);
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 100);
   }
 
   getSelectedChat(): ActiveChat | undefined {

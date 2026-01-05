@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../services/authentication-service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ListingDetailsDialogComponent } from './listing-details/listing-details.component';
 import { DialogComponent } from '../shared/dialog/dialog.component';
 import { IListingWithMediaFile } from '../shared/Interfaces/IListing';
+import { PostedListingDetailsComponent } from './posted-listing-details/posted-listing-details.component';
 
 @Component({
   selector: 'app-sell-page',
@@ -13,6 +14,8 @@ import { IListingWithMediaFile } from '../shared/Interfaces/IListing';
   styleUrls: ['./sell-page.component.scss']
 })
 export class SellPageComponent {
+  @ViewChild(PostedListingDetailsComponent) postedListingComponent!: PostedListingDetailsComponent;
+
   items: IListingWithMediaFile[] = [];
 
   titleStyle = {
@@ -63,6 +66,7 @@ export class SellPageComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
+      this.postedListingComponent.loadListings();
     });
   }
 }

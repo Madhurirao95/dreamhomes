@@ -13,6 +13,13 @@ export class AuthenticationService {
   );
 
   isAuthorized$ = this.isAuthorizedSubject.asObservable();
+
+  private readonly agentStatusSubject = new BehaviorSubject<boolean>(
+    this.getIsAgent()
+  );
+
+  agentStatus$ = this.agentStatusSubject.asObservable();
+
   constructor(private readonly apiService: ApiService) {}
 
   getIsAuthorized(): boolean {
@@ -35,7 +42,7 @@ export class AuthenticationService {
   }
 
   setAuthToken(val: any): void {
-    localStorage.setItem('token', val.result);
+    localStorage.setItem('token', val);
   }
 
   getEmail(): string {
@@ -47,9 +54,20 @@ export class AuthenticationService {
     localStorage.setItem('email', val);
   }
 
+  getIsAgent(): boolean {
+    const storedItem = localStorage.getItem('isAgent');
+    return storedItem !== null ? JSON.parse(storedItem) : false;
+  }
+
+  setIsAgent(val: boolean): void {
+    localStorage.setItem('isAgent', JSON.stringify(val));
+    this.agentStatusSubject.next(val);
+  }
+
   signOut(): void {
     this.setAuthToken('');
     this.setIsAuthorized(false);
+    this.setIsAgent(false);
     this.setEmail('');
   }
 
@@ -65,7 +83,15 @@ export class AuthenticationService {
     return this.apiService.add('Authentication/signIn', info);
   }
 
+  resetPassword(info: any): Observable<any> {
+    return this.apiService.add('Authentication/resetPassword', info);
+  }
+
   isAgent(email: string): Observable<any> {
     return this.apiService.get('Authentication/isAgent', { email });
+  }
+
+  isAnExistingUser(email: string): Observable<any> {
+    return this.apiService.get('Authentication/isExistingUser', { email });
   }
 }

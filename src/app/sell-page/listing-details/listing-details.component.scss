@@ -17,6 +17,14 @@
     // color: var(--color-text);
     transition: clip-path 500ms;
 
+    .area-unit-select {
+        min-width: 90px;
+        .mat-mdc-select-trigger {
+            padding: 10px !important;
+        }
+    }
+
+
     .post-form {
         padding: 15px;
     }

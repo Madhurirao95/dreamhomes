@@ -26,6 +26,9 @@ export class UploadDocumentsComponent implements OnInit {
 
   selectFiles(event: any): void {
     this.selectedFileNames = [];
+    this.selectedFiles = [];
+    this.previews.clear();
+    this.videoPreviews.clear();
     this.selectedFiles.push(...Array.from<File>(event.target.files));
     this.processFiles();
     this.selectedFilesEvent.emit(this.selectedFiles);

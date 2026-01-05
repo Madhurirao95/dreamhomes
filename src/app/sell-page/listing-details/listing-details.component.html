@@ -100,7 +100,7 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Listing Price</mat-label>
-                            <input matInput type="number" [appMaxDigits]="8" placeholder="Listing Price(in dollars)"
+                            <input matInput type="text" [appMaxDigits]="9" commaFormatter placeholder="Listing Price(in dollars)"
                                 formControlName="price">
                             <mat-error *ngIf="postForm.get('price')?.errors?.['required']">Listing Price is
                                 required.</mat-error>
@@ -109,7 +109,7 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Area</mat-label>
-                            <input matInput type="number" [appMaxDigits]="5"
+                            <input matInput type="text" [appMaxDigits]="5" commaFormatter
                                 placeholder="Area of your Listing(in sq ft)" formControlName="area">
                             <mat-error *ngIf="postForm.get('area')?.errors?.['required']">Area is required.</mat-error>
                         </mat-form-field>
@@ -117,15 +117,18 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Lot Area</mat-label>
-                            <input matInput type="number" [appMaxDigits]="5" placeholder="Area of your Lot(in sq ft)"
+                            <input matInput type="text" decimal [decimalDigits]="2" commaFormatter placeholder="Area of your Lot"
                                 formControlName="lotArea">
+                                 <mat-select matSuffix formControlName="lotAreaUnit" class="area-unit-select">
+                                <mat-option *ngFor="let u of units" [value]="u">{{ u }}</mat-option>
+                            </mat-select>
                             <mat-error *ngIf="postForm.get('lotArea')?.errors?.['required']">Lot Area is
                                 required.</mat-error>
                         </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
-                            <input matInput type="number" [appMaxDigits]="4" placeholder="HOA Fees"
+                            <input matInput type="number" [appMaxDigits]="4" placeholder="HOA Amount(in dollars)"
                                 formControlName="hoa">
                             <mat-error *ngIf="postForm.get('hoa')?.errors?.['required']">HOA is
                                 required.</mat-error>
@@ -201,7 +204,8 @@
                             <mat-label>Other Features</mat-label>
                             <textarea matInput maxlength="10000" formControlName="features"
                                 placeholder="Features of your Listing!"></textarea>
-                            <mat-hint align="end"><mat-icon class="info-icon">info</mat-icon>Add each feature in 'key: value' format (e.g. Roof: Shingles) in new line.</mat-hint>
+                            <mat-hint align="end"><mat-icon class="info-icon">info</mat-icon>Add each feature in 'key:
+                                value' format (e.g. Roof: Shingles) in new line.</mat-hint>
                         </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="2" rowspan="1">

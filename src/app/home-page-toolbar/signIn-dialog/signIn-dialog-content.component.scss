@@ -59,6 +59,14 @@
         padding-top: 20px;
     }
 
+    .forgot-password-link {
+        color: $primaryColor;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
     .i-am-an-agent-checkbox {
         .mdc-form-field>label {
             font-size: 18px;
@@ -118,19 +126,19 @@
     }
 
     .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
-        color: $primaryColor;
+        color: $primaryColor !important;
 
     }
 
     .mdc-text-field .mdc-text-field__input {
-        caret-color: $primaryColor;
+        caret-color: $primaryColor !important;
     }
 
 
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-        border-color: $primaryColor;
+        border-color: $primaryColor !important;
     }
 
     .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/services/authentication-service';
 import { SellPageService } from 'src/app/services/sell-page-service';
@@ -15,6 +15,8 @@ import { IListingWithMediaFile } from 'src/app/shared/Interfaces/IListing';
   styleUrls: ['./posted-listing-details.component.scss']
 })
 export class PostedListingDetailsComponent {
+  @Output() postComplete = new EventEmitter<boolean>();
+
   isAuthorized = false;
   listings: IListingWithMediaFile[] = [];
   titleStyle = {
@@ -30,18 +32,22 @@ export class PostedListingDetailsComponent {
     private readonly sellPageService: SellPageService,
     public readonly authService: AuthenticationService
   ) {
+    this.loadListings();
+  }
+
+  loadListings(): void {
     this.authService.isAuthorized$.subscribe((res) => {
       this.isAuthorized = res;
+      if (this.isAuthorized) {
+        this.sellPageService.getAllListing().subscribe((res) => {
+          this.buildTiles(res);
+        });
+      }
     });
-
-    if (this.isAuthorized) {
-      this.sellPageService.getAllListing().subscribe((res) => {
-        this.buildTiles(res);
-      });
-    }
   }
 
   buildTiles(results: []): void {
+    this.listings = [];
     results.forEach((res: any) => {
       const listing = {} as IListingWithMediaFile;
       listing.text = res.unit

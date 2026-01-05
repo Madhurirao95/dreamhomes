@@ -11,7 +11,7 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
 @Component({
   selector: 'home-page-toolbar',
   templateUrl: './home-page-toolbar.component.html',
-  styleUrls: ['./home-page-toolbar.component.scss']
+  styleUrls: ['./home-page-toolbar.component.scss'],
 })
 export class HomePageToolBarComponent {
   title = 'Welcome to DreamHomes!';
@@ -20,7 +20,7 @@ export class HomePageToolBarComponent {
     'font-size.px': 25,
     'margin-top.px': 25,
     'margin-bottom.px': 0,
-    'font-family': '"Protest Revolution", sans-serif'
+    'font-family': '"Protest Revolution", sans-serif',
   };
 
   showSignInButton = true;
@@ -43,18 +43,10 @@ export class HomePageToolBarComponent {
         this.showProfileButton = false;
       }
     });
-  }
 
-  ngOnInit(): void {
-    this.authService
-      .isAgent(this.authService.getEmail())
-      .subscribe((isAgent) => {
-        if (isAgent) {
-          this.showAgentPageButton = true;
-        } else {
-          this.showAgentPageButton = false;
-        }
-      });
+    this.authService.agentStatus$.subscribe((isAgent) => {
+      this.showAgentPageButton = isAgent;
+    });
   }
 
   openAgentPage(): void {
@@ -67,8 +59,8 @@ export class HomePageToolBarComponent {
         title: this.title,
         titleStyle: this.titleStyle,
         contentComponent: SignInDialogContentComponent,
-        showCloseButton: true
-      }
+        showCloseButton: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -87,8 +79,8 @@ export class HomePageToolBarComponent {
         title: 'Hey ' + this.userName.toLocaleUpperCase() + '!',
         titleStyle: this.titleStyle,
         contentComponent: ProfileDialogComponent,
-        showCloseButton: true
-      }
+        showCloseButton: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

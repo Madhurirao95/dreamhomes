@@ -44,7 +44,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
   );
 
   public typeOfListing = Object.values(TypeOfListing).filter(
-    (value) => typeof value !== 'number'
+    (value) => typeof value !== 'number' && value !== 'None'
   );
 
   public statusOfListing = Object.values(StatusOfListing).filter(
@@ -57,6 +57,10 @@ export class ListingDetailsDialogComponent implements IComponentData {
 
   public typeOfBuildings = Object.values(TypeOfBuilding).filter(
     (value) => typeof value !== 'number' && value !== 'None'
+  );
+
+  public units = Object.values(AreaUnit).filter(
+    (value) => typeof value !== 'number'
   );
 
   constructor(
@@ -107,6 +111,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
       features: initialData.properties,
       amountPerSqFt: initialData.amountPerSqFt,
       lotArea: initialData.lotArea,
+      lotAreaUnit: AreaUnit[initialData.lotAreaUnit as keyof typeof AreaUnit],
       status: initialData.status,
       typeOfBuilding: initialData.buildingType,
       yearBuilt: initialData.yearBuilt,
@@ -165,13 +170,14 @@ export class ListingDetailsDialogComponent implements IComponentData {
       zipCode: ['', [Validators.required]],
       city: ['', Validators.required],
       state: [null, Validators.required],
-      price: [null, [Validators.required, Validators.max(99999999)]],
-      amountPerSqFt: [0, [Validators.required, Validators.max(99999999)]],
-      area: [0, [Validators.required, Validators.max(99999)]],
-      lotArea: [0, [Validators.required, Validators.max(99999)]],
+      price: [null, [Validators.required, Validators.max(999999999)]],
+      amountPerSqFt: [null, [Validators.required, Validators.max(99999999)]],
+      area: [null, [Validators.required, Validators.max(99999)]],
+      lotAreaUnit: [AreaUnit.SqFt, Validators.required],
+      lotArea: [null, [Validators.required]],
       contactNumber: ['', Validators.maxLength(10)],
-      status: ['Active', Validators.required],
-      typeOfBuilding: ['Resale', Validators.required],
+      status: [StatusOfListing.Active, Validators.required],
+      typeOfBuilding: [TypeOfBuilding.Resale, Validators.required],
       yearBuilt: [null, Validators.required],
       hoa: [0, [Validators.required, Validators.max(5000)]],
       bedrooms: ['', [Validators.required, Validators.max(100)]],
@@ -229,12 +235,9 @@ export class ListingDetailsDialogComponent implements IComponentData {
   }
 
   onDocumentsReceived(event: File[]): void {
-    if (
-      this.initialData &&
-      event.length !== this.initialData.documents.length
-    ) {
-      this.postForm.markAsDirty();
-    }
+    this.postForm.markAsDirty();
+
+    this.uploadedDocuments = event;
   }
 
   onPostOrUpdate(): void {
@@ -264,6 +267,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
     formData.append('BuildingType', this.postForm.get('typeOfBuilding')?.value);
     formData.append('YearBuilt', this.postForm.get('yearBuilt')?.value);
     formData.append('LotArea', this.postForm.get('lotArea')?.value);
+    formData.append('LotAreaUnit', this.postForm.get('lotAreaUnit')?.value);
     formData.append('HOA', this.postForm.get('hoa')?.value);
     formData.append('BedRooms', this.postForm.get('bedrooms')?.value);
     formData.append('BathRooms', this.postForm.get('bathrooms')?.value);
@@ -271,7 +275,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
     formData.append('HasFirePlace', this.postForm.get('hasFireplace')?.value);
     formData.append('NumberOfFirePlace', this.postForm.get('numberOfFireplace')?.value);
     formData.append('HasGarage', this.postForm.get('hasFireplace')?.value);
-    formData.append('NumberOfGarageSpace', this.postForm.get('numberOfFireplace')?.value);
+    formData.append('NumberOfGarageSpace', this.postForm.get('numberOfGarageSpace')?.value);
     formData.append('HasPool', this.postForm.get('hasPool')?.value);
     console.log(formData);
 
@@ -331,6 +335,11 @@ export class ListingDetailsDialogComponent implements IComponentData {
   }
 }
 
+export enum AreaUnit {
+  SqFt = 'SqFt',
+  Acres = 'Acres'
+}
+
 export enum TypeOfListing {
   None,
   House,
@@ -340,11 +349,11 @@ export enum TypeOfListing {
 }
 
 export enum StatusOfListing {
-  None,
-  Active,
-  ComingSoon,
-  UnderContractOrPending,
-  Sold
+  None = 'None',
+  Active = 'Active',
+  ComingSoon = 'ComingSoon',
+  UnderContractOrPending = 'UnderContractOrPending',
+  Sold = 'Sold'
 }
 
 export enum TypeOfBuilding {
