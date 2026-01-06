@@ -12,7 +12,7 @@ import { MapComponent } from '../shared/map/map.component';
 @Component({
   selector: 'buy-page',
   templateUrl: './buy-page.component.html',
-  styleUrls: ['./buy-page.component.scss']
+  styleUrls: ['./buy-page.component.scss'],
 })
 export class BuyPageComponent implements OnInit {
   @ViewChild(MapComponent) mapComponent!: MapComponent;
@@ -34,7 +34,7 @@ export class BuyPageComponent implements OnInit {
     'font-size.px': 25,
     'margin-top.px': 25,
     'margin-bottom.px': 0,
-    'font-family': '"Protest Revolution", sans-serif'
+    'font-family': '"Protest Revolution", sans-serif',
   };
 
   mapPopupComponent = ImageCardComponent;
@@ -115,34 +115,39 @@ export class BuyPageComponent implements OnInit {
         this.page,
         this.pageSize
       )
-      .subscribe((res) => {
-        console.log(res);
-        this.listings = [];
-        if (res && res.results && res.results.length > 0) {
-          res.results.forEach((item: any) => {
-            const listing = {} as IListingWithMediaList;
-            listing.area = item.area;
-            listing.text = item.unit
-              ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
-              : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
-            listing.price = item.listingPrice;
-            listing.id = item.id;
-            listing.latitude = item.coordinateY;
-            listing.longitude = item.coordinateX;
-            listing.mediaList = [];
-            listing.mediaList.push(...getMediaList(item));
-            this.listings.push(listing);
-          });
-        }
-        this.loading = false;
-        this.length = res.totalCount;
-        if (this.mapComponent) {
-          this.mapComponent.displayMarkers(
-            [this.coordinatey, this.coordinatex],
-            this.mapComponent.zoom,
-            this.listings
-          );
-        }
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.listings = [];
+          if (res && res.results && res.results.length > 0) {
+            res.results.forEach((item: any) => {
+              const listing = {} as IListingWithMediaList;
+              listing.area = item.area;
+              listing.text = item.unit
+                ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
+                : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
+              listing.price = item.listingPrice;
+              listing.id = item.id;
+              listing.latitude = item.coordinateY;
+              listing.longitude = item.coordinateX;
+              listing.mediaList = [];
+              listing.mediaList.push(...getMediaList(item));
+              this.listings.push(listing);
+            });
+          }
+          this.loading = false;
+          this.length = res.totalCount;
+          if (this.mapComponent) {
+            this.mapComponent.displayMarkers(
+              [this.coordinatey, this.coordinatex],
+              this.mapComponent.zoom,
+              this.listings
+            );
+          }
+        },
+        error: () => {
+          this.loading = false;
+        },
       });
   }
 
