@@ -45,6 +45,7 @@ export class BuyPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (navigator.geolocation) {
+      // If location access is provided by user, get listing based on that location
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.loadAllMatchingListing(
@@ -54,6 +55,7 @@ export class BuyPageComponent implements OnInit {
         },
         (error) => {
           console.error('Error getting location:', error);
+          // If location access is denied by user, get listing based on last searched location
           this.searchLocation = localStorage.getItem('buySearchLocation');
           this.searchLocationLng = localStorage.getItem(
             'buyCoordinateX'
@@ -83,6 +85,7 @@ export class BuyPageComponent implements OnInit {
     // }
   }
 
+  // Pagination event handler
   handlePageEvent(e: PageEvent): void {
     console.log(e);
     this.page = e.pageIndex;
@@ -90,6 +93,7 @@ export class BuyPageComponent implements OnInit {
     this.loadAllMatchingListing(this.coordinatex, this.coordinatey);
   }
 
+  // Handler for place selected event from location search component
   placeSelected(event: any): void {
     console.log(event);
     if (event && event.properties) {
@@ -105,6 +109,7 @@ export class BuyPageComponent implements OnInit {
     }
   }
 
+  // Load all listings matching the given coordinates
   loadAllMatchingListing(coordinatex: number, coordinatey: number): void {
     this.loading = true;
 
@@ -137,6 +142,7 @@ export class BuyPageComponent implements OnInit {
           }
           this.loading = false;
           this.length = res.totalCount;
+          // Display markers on map
           if (this.mapComponent) {
             this.mapComponent.displayMarkers(
               [this.coordinatey, this.coordinatex],
@@ -151,6 +157,7 @@ export class BuyPageComponent implements OnInit {
       });
   }
 
+  // Navigate to listing details page
   viewListing(listing: IListingWithMediaList): void {
     // this.sellPageService
     //   .getSellerInformationById(listing.id)
@@ -159,6 +166,7 @@ export class BuyPageComponent implements OnInit {
     // });
   }
 
+  // Navigate to listing details page
   goToListingDetailsPage(id: number): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.router.navigate(['/view-listing', id]);
