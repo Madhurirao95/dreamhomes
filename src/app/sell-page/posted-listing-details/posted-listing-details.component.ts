@@ -50,7 +50,7 @@ export class PostedListingDetailsComponent {
     this.listings = [];
     results.forEach((res: any) => {
       const listing = {} as IListingWithMediaFile;
-      listing.text = res.unit
+      listing.text = res.unit && res.unit.trim() !== 'undefined'
         ? `${res.unit}, ${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`
         : `${res.streetAddress}, ${res.city}, ${res.state}, ${res.zipCode}, ${res.country}`;
       listing.media = `data:${res.randomDocument.documentType};base64,${res.randomDocument.documentBase64}`;

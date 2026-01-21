@@ -117,7 +117,7 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Lot Area</mat-label>
-                            <input matInput type="text" decimal [decimalDigits]="2" commaFormatter placeholder="Area of your Lot"
+                            <input matInput type="text" decimalCommaFormatter [appMaxDigits]="6" [decimalDigits]="2" placeholder="Area of your Lot"
                                 formControlName="lotArea">
                                  <mat-select matSuffix formControlName="lotAreaUnit" class="area-unit-select">
                                 <mat-option *ngFor="let u of units" [value]="u">{{ u }}</mat-option>

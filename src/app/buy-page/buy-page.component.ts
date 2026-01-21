@@ -128,7 +128,7 @@ export class BuyPageComponent implements OnInit {
             res.results.forEach((item: any) => {
               const listing = {} as IListingWithMediaList;
               listing.area = item.area;
-              listing.text = item.unit
+              listing.text = item.unit && item.unit.trim() !== 'undefined'
                 ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
                 : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
               listing.price = item.listingPrice;

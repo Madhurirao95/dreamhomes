@@ -14,7 +14,7 @@
                 </mat-form-field>
                 <mat-label class="label-text">Password</mat-label>
                 <mat-form-field floatLabel="always" appearance="outline">
-                    <input matInput placeholder="Enter your Password" formControlName="password">
+                    <input matInput type="password" placeholder="Enter your Password" formControlName="password">
                     <mat-error *ngIf="signInForm.get('password')?.errors?.['required']">Password is
                         required.</mat-error>
                     <mat-error *ngIf="signInForm.get('password')?.hasError('minLength')
@@ -46,7 +46,7 @@
                 </mat-form-field>
                 <mat-label class="label-text">Password</mat-label>
                 <mat-form-field floatLabel="always" appearance="outline">
-                    <input matInput placeholder="Create your Password" formControlName="password">
+                    <input matInput type="password" placeholder="Create your Password" formControlName="password">
                     <mat-error *ngIf="createAccountForm.get('password')?.errors?.['required']">Password is
                         required.</mat-error>
                     <mat-error *ngIf="createAccountForm.get('password')?.hasError('minLength')
