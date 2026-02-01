@@ -251,16 +251,16 @@ export class ListingDetailsDialogComponent implements IComponentData {
 
     formData.append('Type', this.postForm.get('type')?.value);
     formData.append('StreetAddress', this.postForm.get('streetAddress')?.value);
-    formData.append('Unit', this.postForm.get('unit')?.value);
+    formData.append('Unit', this.postForm.get('unit')?.value ? this.postForm.get('unit')?.value : '');
     formData.append('ZipCode', this.postForm.get('zipCode')?.value);
     formData.append('City', this.postForm.get('city')?.value);
     formData.append('State', this.postForm.get('state')?.value);
     formData.append('ListingPrice', this.postForm.get('price')?.value);
     formData.append('Area', this.postForm.get('area')?.value);
-    formData.append('ContactNumber', this.postForm.get('contactNumber')?.value);
+    formData.append('ContactNumber', this.postForm.get('contactNumber')?.value ? this.postForm.get('contactNumber')?.value : '');
     // formData.append('Properties', this.postForm.get('remarks')?.value);
-    formData.append('Description', this.postForm.get('description')?.value);
-    formData.append('Properties', this.postForm.get('features')?.value);
+    formData.append('Description', this.postForm.get('description')?.value ? this.postForm.get('description')?.value : '');
+    formData.append('Properties', this.postForm.get('features')?.value ? this.postForm.get('features')?.value : '');
     formData.append('CoordinateX', this.coordinatex as any);
     formData.append('CoordinateY', this.coordinatey as any);
     formData.append('Status', this.postForm.get('status')?.value);
