@@ -16,6 +16,7 @@ import { SharedModule } from '../shared.module';
 })
 export class ChatWidgetComponent implements OnInit, OnDestroy {
   isOpen = false;
+  showChatButton = true;
   messages: any[] = [];
   connectionStatus: ConnectionStatus = { connected: false };
   messageInput = '';
@@ -26,7 +27,11 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   constructor(
     private readonly chatService: ChatService,
     private readonly authService: AuthenticationService
-  ) {}
+  ) {
+    this.authService.agentStatus$.subscribe((isAgent) => {
+      this.showChatButton = !isAgent;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.chatService.messages$

@@ -1,4 +1,4 @@
-<div class="chat-widget" [class.open]="isOpen">
+<div class="chat-widget" *ngIf="showChatButton" [class.open]="isOpen">
   <!-- Chat Button -->
   <button *ngIf="!isOpen" class="chat-button" (click)="toggleChat()">
     <span>💬</span>
