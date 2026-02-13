@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  apiUrl = 'https://localhost:9000';
+  apiUrl = 'https://dreamhomes-api-amcne6h2a3h8fjh7.canadacentral-01.azurewebsites.net';
 
   constructor(private readonly http: HttpClient) {}
 

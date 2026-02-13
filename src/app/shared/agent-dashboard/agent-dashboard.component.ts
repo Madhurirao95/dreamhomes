@@ -64,7 +64,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
     }
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:9000/chathub', {
+      .withUrl('https://dreamhomes-api-amcne6h2a3h8fjh7.canadacentral-01.azurewebsites.net/chathub', {
         accessTokenFactory: () => token,
         skipNegotiation: false,
         transport:
