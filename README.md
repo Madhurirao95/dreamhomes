@@ -17,7 +17,7 @@ A modern web application for discovering and managing dream homes, built with An
 
 ## 🏠 About
 
-DREAMHOMES is an application designed to help users find and explore their ideal homes. Built with Angular 17, it features interactive maps, location-based search with geocoding, and real-time updates through SignalR integration.
+DREAMHOMES is a frontend application designed to help users find and explore their ideal homes. Built with Angular 17, it features interactive maps, location-based search with geocoding, and real-time updates through SignalR integration.
 
 ## ✨ Features
 
@@ -26,6 +26,7 @@ DREAMHOMES is an application designed to help users find and explore their ideal
 - 🎨 Modern UI with Angular Material components
 - 🔄 Real-time updates via SignalR
 - 📱 Responsive design for all devices
+- 🔍 Advanced property search and filtering
 
 ## 🛠️ Tech Stack
 
@@ -210,6 +211,52 @@ Leaflet map settings can be customized in the respective component files. Refer 
 - [Leaflet Documentation](https://leafletjs.com/)
 - [Geoapify Documentation](https://www.geoapify.com/docs)
 - [SignalR Documentation](https://docs.microsoft.com/en-us/aspnet/core/signalr/)
+
+## 🌐 Live Demo
+
+The application is deployed and accessible at:
+- **Live Application**: [https://dreamhomes-7hqb.vercel.app/](https://dreamhomes-7hqb.vercel.app/)
+- **Frontend Hosting**: Vercel
+- **Backend Hosting**: Azure
+
+### Testing Real-Time Chat Feature
+
+DREAMHOMES includes real-time chat functionality powered by SignalR, allowing buyers to connect with agents instantly. To test this feature:
+
+#### Setup Instructions
+
+1. **Open two separate browser sessions:**
+   - Browser A: Normal window
+   - Browser B: Incognito/Private window (or different browser)
+
+2. **Login with test accounts:**
+   - **Browser A (Buyer)**: 
+     - Email: `test@gmail.com`
+     - Password: `Test@123`
+   - **Browser B (Agent)**: 
+     - Email: `agent@gmail.com`
+     - Password: `Test@123`
+
+#### Testing the Chat
+
+**In Browser A (Buyer Account):**
+1. Browse available property listings
+2. Click on any property address to view details
+3. Scroll to the bottom of the property details page
+4. Click the **"Chat with a Local Expert!"** button in the bottom-right corner
+5. The chat dialog will open
+
+**In Browser B (Agent Account):**
+1. You will see an incoming chat request from `test@gmail.com`
+2. Click **"Accept"** to start the conversation
+
+**Observe Real-Time Features:**
+- ✅ Messages appear instantly on both sides
+- ✅ No page refresh required
+- ✅ Live typing indicators
+- ✅ Real-time connection status
+
+This demonstrates the SignalR integration enabling seamless communication between users.
 
 ## 👨‍💻 Author
 
