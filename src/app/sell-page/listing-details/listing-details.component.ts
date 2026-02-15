@@ -13,7 +13,7 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
   selector: 'app-listing-details',
   templateUrl: './listing-details.component.html',
   styleUrls: ['./listing-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ListingDetailsDialogComponent implements IComponentData {
   postForm!: FormGroup;
@@ -34,17 +34,17 @@ export class ListingDetailsDialogComponent implements IComponentData {
     'font-size.px': 25,
     'margin-top.px': 25,
     'margin-bottom.px': 0,
-    'font-family': '"Protest Revolution", sans-serif'
+    'font-family': '"Protest Revolution", sans-serif',
   };
 
   years: number[] = [];
 
   public states = Object.values(States).filter(
-    (value) => typeof value !== 'number'
+    (value) => typeof value !== 'number',
   );
 
   public typeOfListing = Object.values(TypeOfListing).filter(
-    (value) => typeof value !== 'number' && value !== 'None'
+    (value) => typeof value !== 'number' && value !== 'None',
   );
 
   public statusOfListing = Object.values(StatusOfListing).filter(
@@ -52,22 +52,22 @@ export class ListingDetailsDialogComponent implements IComponentData {
       typeof value !== 'number' &&
       value !== 'None' &&
       value !== 'UnderContractOrPending' &&
-      value !== 'Sold'
+      value !== 'Sold',
   );
 
   public typeOfBuildings = Object.values(TypeOfBuilding).filter(
-    (value) => typeof value !== 'number' && value !== 'None'
+    (value) => typeof value !== 'number' && value !== 'None',
   );
 
   public units = Object.values(AreaUnit).filter(
-    (value) => typeof value !== 'number'
+    (value) => typeof value !== 'number',
   );
 
   constructor(
     public dialog: MatDialog,
     private readonly formBuilder: FormBuilder,
     private readonly sellPageService: SellPageService,
-    public readonly authService: AuthenticationService
+    public readonly authService: AuthenticationService,
   ) {
     this.postForm = this.getNewPostForm();
     this.authService.isAuthorized$.subscribe((res) => {
@@ -81,6 +81,56 @@ export class ListingDetailsDialogComponent implements IComponentData {
     for (let i = currentYear; i >= currentYear - 200; i--) {
       this.years.push(i);
     }
+  }
+
+  // Responsive grid column methods
+  getGridCols(): number {
+    if (typeof window === 'undefined') return 5;
+    const width = window.innerWidth;
+    if (width < 600) return 1; // Mobile: 1 column
+    if (width < 768) return 2; // Mobile medium: 2 columns
+    if (width < 1024) return 3; // Tablet: 3 columns
+    if (width < 1440) return 4; // Desktop: 4 columns
+    return 5; // Large desktop: 5 columns
+  }
+
+  getDescriptionGridCols(): number {
+    if (typeof window === 'undefined') return 3;
+    const width = window.innerWidth;
+    if (width < 600) return 1; // Mobile: 1 column
+    if (width < 768) return 2; // Mobile medium: 2 columns
+    return 3; // Tablet and above: 3 columns
+  }
+
+  getFeatureGridCols(): number {
+    if (typeof window === 'undefined') return 4;
+    const width = window.innerWidth;
+    if (width < 600) return 1; // Mobile: 1 column
+    if (width < 768) return 2; // Mobile medium: 2 columns
+    if (width < 1024) return 2; // Tablet: 2 columns
+    return 4; // Desktop and above: 4 columns
+  }
+
+  getTextAreaGridCols(): number {
+    if (typeof window === 'undefined') return 2;
+    const width = window.innerWidth;
+    if (width < 768) return 1; // Mobile: 1 column (stack vertically)
+    return 2; // Tablet and above: 2 columns
+  }
+
+  getTextAreaColspan(): number {
+    if (typeof window === 'undefined') return 2;
+    const width = window.innerWidth;
+    if (width < 768) return 1; // Mobile: full width
+    return 1; // Tablet and above: half width each
+  }
+
+  getRowHeight(): string {
+    if (typeof window === 'undefined') return '140px';
+    const width = window.innerWidth;
+    if (width < 600) return '120px'; // Mobile: shorter rows
+    if (width < 768) return '130px'; // Mobile medium
+    return '140px'; // Tablet and above: more height
   }
 
   initializeControls(initialData: any): void {
@@ -122,7 +172,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
       numberOfGarageSpace: initialData.numberOfGarageSpace,
       hasFireplace: initialData.hasFirePlace,
       numberOfFireplace: initialData.numberOfFirePlace,
-      hasPool: initialData.hasPool
+      hasPool: initialData.hasPool,
     });
 
     initialData.documentList.forEach((doc: any) => {
@@ -130,8 +180,8 @@ export class ListingDetailsDialogComponent implements IComponentData {
         this.convertBase64ToFile(
           doc.documentBase64,
           doc.documentName,
-          doc.documentType
-        )
+          doc.documentType,
+        ),
       );
     });
     this.coordinatex = initialData.coordinateX;
@@ -150,7 +200,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
   convertBase64ToFile(
     base64String: string,
     filename: string,
-    fileType: string
+    fileType: string,
   ): File {
     const byteCharacters = atob(base64String);
     const byteNumbers = new Array(byteCharacters.length);
@@ -183,15 +233,12 @@ export class ListingDetailsDialogComponent implements IComponentData {
       bedrooms: ['', [Validators.required, Validators.max(100)]],
       bathrooms: ['', [Validators.required, Validators.max(100)]],
       hasGarage: [false, Validators.required],
-      numberOfGarageSpace: [
-        { value: 0, disabled: true },
-        [Validators.max(20)]
-      ],
+      numberOfGarageSpace: [{ value: 0, disabled: true }, [Validators.max(20)]],
       hasFireplace: [false, Validators.required],
       numberOfFireplace: [{ value: 0, disabled: true }, [Validators.max(20)]],
       hasPool: [false, Validators.required],
       description: ['', Validators.maxLength(2000)],
-      features: ['', Validators.maxLength(10000)]
+      features: ['', Validators.maxLength(10000)],
     });
   }
 
@@ -227,7 +274,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
       streetAddress: event.properties.address_line1,
       zipCode: event.properties.postcode,
       city: event.properties.city,
-      state: event.properties.state_code
+      state: event.properties.state_code,
     });
 
     this.coordinatex = event.geometry.coordinates[0];
@@ -251,16 +298,34 @@ export class ListingDetailsDialogComponent implements IComponentData {
 
     formData.append('Type', this.postForm.get('type')?.value);
     formData.append('StreetAddress', this.postForm.get('streetAddress')?.value);
-    formData.append('Unit', this.postForm.get('unit')?.value ? this.postForm.get('unit')?.value : '');
+    formData.append(
+      'Unit',
+      this.postForm.get('unit')?.value ? this.postForm.get('unit')?.value : '',
+    );
     formData.append('ZipCode', this.postForm.get('zipCode')?.value);
     formData.append('City', this.postForm.get('city')?.value);
     formData.append('State', this.postForm.get('state')?.value);
     formData.append('ListingPrice', this.postForm.get('price')?.value);
     formData.append('Area', this.postForm.get('area')?.value);
-    formData.append('ContactNumber', this.postForm.get('contactNumber')?.value ? this.postForm.get('contactNumber')?.value : '');
+    formData.append(
+      'ContactNumber',
+      this.postForm.get('contactNumber')?.value
+        ? this.postForm.get('contactNumber')?.value
+        : '',
+    );
     // formData.append('Properties', this.postForm.get('remarks')?.value);
-    formData.append('Description', this.postForm.get('description')?.value ? this.postForm.get('description')?.value : '');
-    formData.append('Properties', this.postForm.get('features')?.value ? this.postForm.get('features')?.value : '');
+    formData.append(
+      'Description',
+      this.postForm.get('description')?.value
+        ? this.postForm.get('description')?.value
+        : '',
+    );
+    formData.append(
+      'Properties',
+      this.postForm.get('features')?.value
+        ? this.postForm.get('features')?.value
+        : '',
+    );
     formData.append('CoordinateX', this.coordinatex as any);
     formData.append('CoordinateY', this.coordinatey as any);
     formData.append('Status', this.postForm.get('status')?.value);
@@ -273,9 +338,15 @@ export class ListingDetailsDialogComponent implements IComponentData {
     formData.append('BathRooms', this.postForm.get('bathrooms')?.value);
     formData.append('AmountPerSqFt', this.postForm.get('amountPerSqFt')?.value);
     formData.append('HasFirePlace', this.postForm.get('hasFireplace')?.value);
-    formData.append('NumberOfFirePlace', this.postForm.get('numberOfFireplace')?.value);
+    formData.append(
+      'NumberOfFirePlace',
+      this.postForm.get('numberOfFireplace')?.value,
+    );
     formData.append('HasGarage', this.postForm.get('hasFireplace')?.value);
-    formData.append('NumberOfGarageSpace', this.postForm.get('numberOfGarageSpace')?.value);
+    formData.append(
+      'NumberOfGarageSpace',
+      this.postForm.get('numberOfGarageSpace')?.value,
+    );
     formData.append('HasPool', this.postForm.get('hasPool')?.value);
     console.log(formData);
 
@@ -294,7 +365,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
             console.log(err.error);
             this.openErrorDialog(err.error);
           }
-        }
+        },
       });
     } else if (this.submitButtonText === 'Update') {
       this.sellPageService
@@ -313,7 +384,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
               console.log(err.error);
               this.openErrorDialog(err.error);
             }
-          }
+          },
         });
     }
   }
@@ -325,8 +396,8 @@ export class ListingDetailsDialogComponent implements IComponentData {
         title: 'Error!',
         titleStyle: this.titleStyle,
         messages: error,
-        showCloseButton: true
-      }
+        showCloseButton: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -337,7 +408,7 @@ export class ListingDetailsDialogComponent implements IComponentData {
 
 export enum AreaUnit {
   SqFt = 'SqFt',
-  Acres = 'Acres'
+  Acres = 'Acres',
 }
 
 export enum TypeOfListing {
@@ -345,7 +416,7 @@ export enum TypeOfListing {
   House,
   TownHouse,
   Condominium,
-  Land
+  Land,
 }
 
 export enum StatusOfListing {
@@ -353,13 +424,13 @@ export enum StatusOfListing {
   Active = 'Active',
   ComingSoon = 'ComingSoon',
   UnderContractOrPending = 'UnderContractOrPending',
-  Sold = 'Sold'
+  Sold = 'Sold',
 }
 
 export enum TypeOfBuilding {
   None,
   Resale,
-  NewConstruction
+  NewConstruction,
 }
 
 export enum States {
@@ -413,5 +484,5 @@ export enum States {
   WA,
   WV,
   WI,
-  WY
+  WY,
 }

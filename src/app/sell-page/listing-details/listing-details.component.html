@@ -10,7 +10,7 @@
                 </geoapify-geocoder-autocomplete>
             </fieldset>
             <form class="post-form" [formGroup]="postForm">
-                <mat-grid-list cols="5" rowHeight="120px">
+                <mat-grid-list [cols]="getGridCols()" [rowHeight]="getRowHeight()">
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-select formControlName="type">
@@ -74,7 +74,7 @@
                 <div class="stepper-label">Description & Other Details</div>
             </ng-template>
             <form class="post-form" [formGroup]="postForm">
-                <mat-grid-list cols="3" rowHeight="120px">
+                <mat-grid-list [cols]="getDescriptionGridCols()" [rowHeight]="getRowHeight()">
                     <mat-grid-tile colspan="1" rowspan="1">
                         <label id="radio-button">Status:</label>
                         <mat-radio-group aria-labelledby="radio-button" formControlName="status">
@@ -167,7 +167,7 @@
                         <mat-slide-toggle formControlName="hasPool">Has Pool</mat-slide-toggle>
                     </mat-grid-tile>
                 </mat-grid-list>
-                <mat-grid-list cols="4" rowHeight="120px">
+                <mat-grid-list [cols]="getFeatureGridCols()" [rowHeight]="getRowHeight()">
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-slide-toggle (change)="onHasGarageChange($event)" formControlName="hasGarage">Has
                             Garage</mat-slide-toggle>
@@ -198,8 +198,8 @@
                         </mat-form-field>
                     </mat-grid-tile>
                 </mat-grid-list>
-                <mat-grid-list cols="4" rowHeight="120px">
-                    <mat-grid-tile colspan="2" rowspan="1">
+                <mat-grid-list [cols]="getTextAreaGridCols()" rowHeight="200px">
+                    <mat-grid-tile [colspan]="getTextAreaColspan()" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Other Features</mat-label>
                             <textarea matInput maxlength="10000" formControlName="features"
@@ -208,7 +208,7 @@
                                 value' format (e.g. Roof: Shingles) in new line.</mat-hint>
                         </mat-form-field>
                     </mat-grid-tile>
-                    <mat-grid-tile colspan="2" rowspan="1">
+                    <mat-grid-tile [colspan]="getTextAreaColspan()" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Description</mat-label>
                             <textarea matInput maxlength="2000" formControlName="description"
