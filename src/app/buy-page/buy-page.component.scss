@@ -25,13 +25,6 @@
         width: 100%;
     }
 
-    // .grid-container {
-    //     display: grid;
-    //     grid-template-columns: repeat(5, 1fr);
-    //     grid-gap: 20px;
-    //     padding: 10px;
-    // }
-
     .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -60,6 +53,7 @@
     .load-spinner {
         display: flex;
         justify-content: center;
+        padding: 20px 0;
     }
 
     .no-search-results {
@@ -74,7 +68,9 @@
         display: flex;
         justify-content: flex-end;
         padding-top: 10px;
-        width: 99%;
+        padding-right: 16px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .mat-button-toggle-group {
@@ -108,7 +104,6 @@
         height: 300px !important;
     }
 
-
     ::ng-deep .geoapify-autocomplete-input {
         width: 100%;
         border-radius: 50px;
@@ -121,5 +116,171 @@
     ::ng-deep .geoapify-autocomplete-items {
         width: 100%;
         z-index: 1000;
+    }
+
+    // Responsive breakpoints
+    
+    // Mobile - Extra Small (< 480px)
+    @media screen and (max-width: 479px) {
+        .image-main-text {
+            font-size: 24px;
+        }
+
+        .image-sub-text {
+            font-size: 14px;
+        }
+
+        .buy-page-address {
+            width: 90%;
+            top: 5%;
+        }
+
+        .right-align-buttons {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .mat-button-toggle-group {
+            width: 80%;
+            max-width: 280px;
+        }
+
+        .grid-container {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        ::ng-deep .mat-mdc-paginator-page-size {
+            display: none !important;
+        }
+    }
+
+    // Mobile - Small (480px - 599px)
+    @media screen and (min-width: 480px) and (max-width: 599px) {
+        .image-main-text {
+            font-size: 28px;
+        }
+
+        .image-sub-text {
+            font-size: 16px;
+        }
+
+        .buy-page-address {
+            width: 85%;
+            top: 8%;
+        }
+
+        .right-align-buttons {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .mat-button-toggle-group {
+            width: 70%;
+            max-width: 300px;
+        }
+
+        .grid-container {
+            grid-template-columns: 1fr;
+            gap: 14px;
+            padding: 14px;
+        }
+    }
+
+    // Mobile - Medium (600px - 767px)
+    @media screen and (min-width: 600px) and (max-width: 767px) {
+        .image-main-text {
+            font-size: 32px;
+        }
+
+        .image-sub-text {
+            font-size: 18px;
+        }
+
+        .buy-page-address {
+            width: 75%;
+        }
+
+        .right-align-buttons {
+            justify-content: flex-end;
+            padding-right: 12px;
+        }
+
+        .mat-button-toggle-group {
+            width: 40%;
+            max-width: 320px;
+        }
+
+        .grid-container {
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+            padding: 14px;
+        }
+    }
+
+    // Tablet (768px - 1023px)
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        .image-main-text {
+            font-size: 40px;
+        }
+
+        .image-sub-text {
+            font-size: 20px;
+        }
+
+        .buy-page-address {
+            width: 60%;
+        }
+
+        .mat-button-toggle-group {
+            width: 30%;
+        }
+
+        .grid-container {
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        }
+    }
+
+    // Desktop (1024px - 1439px)
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        .buy-page-address {
+            width: 45%;
+        }
+
+        .mat-button-toggle-group {
+            width: 25%;
+        }
+
+        .grid-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+    }
+
+    // Large Desktop (1440px - 1919px)
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+        .buy-page-address {
+            width: 35%;
+        }
+
+        .mat-button-toggle-group {
+            width: 20%;
+        }
+    }
+
+    // Extra Large (≥ 1920px)
+    @media screen and (min-width: 1920px) {
+        .buy-page-address {
+            width: 25%;
+        }
+
+        .mat-button-toggle-group {
+            width: 15%;
+        }
+
+        .grid-container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
     }
 }

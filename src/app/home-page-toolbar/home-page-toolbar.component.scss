@@ -6,11 +6,16 @@
     left: 0;
     right: 0;
     height: 7%;
+    min-height: 50px;
+    max-height: 70px;
     display: flex;
     align-items: center;
     color: $accentColor;
     font-weight: 600;
     background: $primaryColor;
+    z-index: 100;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .mat-button-toggle-checked {
@@ -30,8 +35,9 @@
     color: $accentColor;
     margin-left: 30px;
     border-left: none !important;
-    font-size: 20px;
+    font-size: clamp(14px, 2vw, 20px);
     font-weight: 500;
+    padding: 8px 12px;
 }
 
 .menu-buttons {
@@ -44,59 +50,46 @@
 }
 
 .signIn-button {
-    border: 2px solid blue !important;
-    border-color: $accentColor !important;
+    border: 2px solid $accentColor !important;
     border-radius: 0px !important;
     color: $accentColor !important;
-    margin: 10px;
+    margin: 0 5px;
+    padding: 8px 16px;
+    font-size: clamp(12px, 1.5vw, 14px);
+    white-space: nowrap;
 }
-
-// .profile-button {
-//     width: 8%;
-//     height: 70%;
-//     border: 2px solid blue !important;
-//     border-color: $accentColor !important;
-//     border-radius: 50px !important;
-//     color: $accentColor !important;
-//     margin: 10px;
-// }
-
-// .profile-button-div {
-//     font-size: 15px;
-//     display: flex;
-//     align-items: center;
-// }
-
-.profile-icon {
-    margin: 4px;
-    line-height: 1;
-}
-
-// .ellipsis {
-//     white-space: nowrap;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     width: 100px;
-//   }
 
 .profile-button {
-    border: 2px solid blue;
-    border-color: $accentColor;
+    border: 2px solid $accentColor;
     border-radius: 50px;
     color: $accentColor;
     max-width: 200px;
-    /* Adjust as needed */
-    padding: 0 12px;
+    padding: 6px 12px;
     overflow: hidden;
-    margin: 10px;
+    margin: 0 5px;
 }
 
 .profile-button-div {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
     color: $accentColor;
+}
+
+.profile-icon {
+    margin: 0;
+    line-height: 1;
+    font-size: clamp(18px, 2vw, 20px);
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+    display: inline-block;
+    font-size: clamp(12px, 1.5vw, 15px);
 }
 
 .ellipsis-text {
@@ -104,22 +97,149 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 120px;
-    /* Adjust based on button width and icon size */
     display: inline-block;
 }
 
-
 .home-icon {
-    font-size: xx-large;
-    width: 30px;
+    font-size: clamp(24px, 3vw, 32px) !important;
+    width: auto;
+    height: auto;
 }
 
 .dreamhomes-title {
     padding: 5px;
-    font-size: 30px;
+    font-size: clamp(20px, 3vw, 30px);
     font-family: auto;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 
 .mat-mdc-raised-button:not(:disabled) {
     background-color: transparent;
+}
+
+// Mobile - Small (< 600px)
+@media screen and (max-width: 599px) {
+    .toolbar {
+        padding: 0 8px;
+        min-height: 48px;
+    }
+
+    .dreamhomes-title {
+        font-size: 18px;
+        padding: 2px;
+    }
+
+    .home-icon {
+        font-size: 20px !important;
+    }
+
+    .toggle-button {
+        margin-left: 10px;
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+
+    .signIn-button {
+        font-size: 11px;
+        padding: 6px 10px;
+        margin: 0 2px;
+    }
+
+    .profile-button {
+        padding: 4px 8px;
+        max-width: 120px;
+        margin: 0 2px;
+    }
+
+    .ellipsis {
+        display: none;
+    }
+
+    .profile-icon {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .spacer {
+        flex: 0.5;
+    }
+}
+
+// Mobile - Medium (600px - 767px)
+@media screen and (min-width: 600px) and (max-width: 767px) {
+    .toolbar {
+        min-height: 52px;
+        padding: 0 10px;
+    }
+
+    .dreamhomes-title {
+        font-size: 22px;
+    }
+
+    .toggle-button {
+        margin-left: 15px;
+        font-size: 15px;
+        padding: 7px 10px;
+    }
+
+    .signIn-button {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .profile-button {
+        padding: 5px 10px;
+        max-width: 150px;
+    }
+
+    .ellipsis {
+        max-width: 80px;
+        font-size: 12px;
+    }
+}
+
+// Tablet (768px - 1023px)
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .toolbar {
+        min-height: 56px;
+        padding: 0 12px;
+    }
+
+    .dreamhomes-title {
+        font-size: 26px;
+    }
+
+    .toggle-button {
+        margin-left: 20px;
+        font-size: 17px;
+    }
+
+    .signIn-button {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .profile-button {
+        padding: 6px 12px;
+        max-width: 180px;
+    }
+
+    .ellipsis {
+        max-width: 100px;
+        font-size: 13px;
+    }
+}
+
+// Desktop (1024px+)
+@media screen and (min-width: 1024px) {
+    .toolbar {
+        min-height: 60px;
+        padding: 0 15px;
+    }
+
+    .toggle-button {
+        margin-left: 30px;
+    }
 }

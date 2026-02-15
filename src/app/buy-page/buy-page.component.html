@@ -11,14 +11,14 @@
                 </geoapify-geocoder-autocomplete>
             </div>
         </div>
-        <div class="load-spinner" *ngIf="loading">
-            <mat-spinner [strokeWidth]="5" [diameter]="70"></mat-spinner>
-        </div>
         <div class="right-align-buttons">
             <mat-button-toggle-group class="toggle-buttons" [(ngModel)]="defaultView">
                 <mat-button-toggle class="toggle-button" value="List">List</mat-button-toggle>
                 <mat-button-toggle class="toggle-button" value="Map">Map</mat-button-toggle>
             </mat-button-toggle-group>
+        </div>
+        <div class="load-spinner" *ngIf="loading">
+            <mat-spinner [strokeWidth]="5" [diameter]="70"></mat-spinner>
         </div>
         <div class="grid-container" *ngIf="defaultView === 'List'">
             <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card" (view)="viewListing($event)">

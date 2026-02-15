@@ -25,13 +25,16 @@ $beige: #cfb09545;
   width: 100%;
 }
 
+// Responsive dialog container
 .cdk-overlay-pane {
-    width: 30%;
-    // height: 80%;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__content {
     height: auto;
+    overflow-y: auto;
 }
 
 .content {
@@ -163,4 +166,120 @@ $beige: #cfb09545;
 
 .cdk-global-overlay-wrapper {
     justify-content: center !important;
+    align-items: center !important;
+}
+
+// Responsive breakpoints for dialog
+@media screen and (max-width: 599px) {
+    .cdk-overlay-pane {
+        width: 95%;
+        max-width: none;
+        margin: 16px;
+    }
+
+    .mat-mdc-dialog-container {
+        max-height: 90vh;
+    }
+
+    .label-text {
+        font-size: 13px;
+    }
+
+    .geoapify-autocomplete-input {
+        width: 85%;
+        height: 48px;
+        font-size: 15px;
+        border-width: 3px;
+    }
+
+    .geoapify-autocomplete-items {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 767px) {
+    .cdk-overlay-pane {
+        width: 85%;
+        max-width: 480px;
+    }
+
+    .mat-mdc-dialog-container {
+        max-height: 85vh;
+    }
+
+    .label-text {
+        font-size: 14px;
+    }
+
+    .geoapify-autocomplete-input {
+        width: 60%;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .geoapify-autocomplete-items {
+        width: 65%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .cdk-overlay-pane {
+        width: 60%;
+        max-width: 520px;
+    }
+
+    .mat-mdc-dialog-container {
+        max-height: 80vh;
+    }
+
+    .geoapify-autocomplete-input {
+        width: 50%;
+        height: 52px;
+    }
+
+    .geoapify-autocomplete-items {
+        width: 55%;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+    .cdk-overlay-pane {
+        width: 45%;
+        max-width: 550px;
+    }
+
+    .geoapify-autocomplete-input {
+        width: 40%;
+    }
+
+    .geoapify-autocomplete-items {
+        width: 45%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .cdk-overlay-pane {
+        width: 35%;
+        max-width: 600px;
+        min-width: 500px;
+    }
+
+    .geoapify-autocomplete-input {
+        width: 30%;
+    }
+
+    .geoapify-autocomplete-items {
+        width: 33%;
+    }
+}
+
+// Ensure dialogs are scrollable on very small screens
+@media screen and (max-height: 600px) {
+    .mat-mdc-dialog-container {
+        max-height: 95vh;
+    }
+
+    .mat-mdc-dialog-content {
+        max-height: 60vh !important;
+    }
 }

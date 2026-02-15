@@ -1,23 +1,26 @@
 @import '../../../styles.scss';
 
 .signIn-dialog-content-wrapper {
-    width: 50%;
+    width: 100%;
     display: contents;
 
     .error-message {
-        font-size: small;
+        font-size: clamp(12px, 3vw, 14px);
         color: red;
         text-align: center;
         margin: 0;
+        padding: 8px 16px;
+        word-wrap: break-word;
     }
 
     .mdc-tab__text-label {
-        font-size: 16px;
+        font-size: clamp(14px, 3.5vw, 16px);
     }
 
     .mat-mdc-tab.mdc-tab {
         border-radius: 15px;
         margin: 4px;
+        min-height: 44px; // Improved touch target
     }
 
     .mat-mdc-tab .mdc-tab-indicator__content--underline {
@@ -41,8 +44,9 @@
     }
 
     .mat-mdc-form-field {
-        margin-top: 2%;
-        width: 99%;
+        margin-top: 8px;
+        margin-bottom: 4px;
+        width: 100%;
     }
 
     .mat-mdc-tab-group {
@@ -51,25 +55,31 @@
 
     .mat-mdc-tab-body-wrapper {
         height: 100%;
+        padding: 0 4px;
     }
 
     .submit-form {
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
+        padding: 16px 12px 12px 12px;
     }
 
     .forgot-password-link {
         color: $primaryColor;
         cursor: pointer;
         text-decoration: underline;
-        font-size: 14px;
+        font-size: clamp(12px, 3vw, 14px);
         font-weight: 700;
+        margin-top: 8px;
+        padding: 4px 0;
+        min-height: 44px; // Touch-friendly
+        display: flex;
+        align-items: center;
     }
 
     .i-am-an-agent-checkbox {
         .mdc-form-field>label {
-            font-size: 18px;
+            font-size: clamp(14px, 3.5vw, 18px);
             color: $primaryColor;
             font-weight: 600;
         }
@@ -83,31 +93,32 @@
             background-color: $primaryColor !important;
         }
 
-        margin-top: 12%;
+        margin-top: 40px;
+        padding-top: 8px;
     }
 
     .mdc-line-ripple {
         display: none;
     }
 
-
     .submit-button {
-        margin-top: 12% !important;
+        margin-top: 24px !important;
 
         .mat-mdc-raised-button {
             background-color: $primaryColor !important;
             width: 100% !important;
-            height: 50px !important;
+            min-height: 48px !important;
+            height: auto !important;
+            padding: 12px 16px !important;
         }
     }
-
 
     .mdc-text-field--focused {
         background-color: whitesmoke;
     }
 
     .mdc-button__label {
-        font-size: 20px;
+        font-size: clamp(16px, 4vw, 20px);
         color: $accentColor;
     }
 
@@ -115,7 +126,8 @@
         .mat-mdc-raised-button:disabled {
             background-color: $primaryColor !important;
             width: 100% !important;
-            height: 50px !important;
+            min-height: 48px !important;
+            height: auto !important;
             opacity: 0.3 !important;
         }
     }
@@ -123,17 +135,18 @@
     .mat-mdc-form-field-hint-wrapper,
     .mat-mdc-form-field-error-wrapper {
         padding: 0;
+        padding-bottom: 12px;
+        font-size: clamp(11px, 2.5vw, 12px);
     }
 
     .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
         color: $primaryColor !important;
-
     }
 
     .mdc-text-field .mdc-text-field__input {
         caret-color: $primaryColor !important;
+        font-size: clamp(14px, 3.5vw, 16px);
     }
-
 
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
@@ -145,5 +158,144 @@
     .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
     .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
         border-color: $primaryColor !important;
+    }
+
+    // Label text responsive
+    .label-text {
+        font-size: clamp(13px, 3vw, 15px);
+    }
+}
+
+// Mobile - Small screens (< 600px)
+@media screen and (max-width: 599px) {
+    .signIn-dialog-content-wrapper {
+        .submit-form {
+            padding: 12px 8px 8px 8px;
+        }
+
+        .mat-mdc-form-field {
+            margin-top: 6px;
+        }
+
+        .i-am-an-agent-checkbox {
+            margin-top: 32px;
+            padding-top: 8px;
+            
+            .mdc-form-field>label {
+                font-size: 14px;
+            }
+        }
+
+        .submit-button {
+            margin-top: 20px !important;
+        }
+
+        .forgot-password-link {
+            font-size: 12px;
+        }
+
+        .mat-mdc-tab.mdc-tab {
+            margin: 2px;
+        }
+    }
+}
+
+// Mobile - Medium screens (600px - 767px)
+@media screen and (min-width: 600px) and (max-width: 767px) {
+    .signIn-dialog-content-wrapper {
+        .submit-form {
+            padding: 16px 12px 12px 12px;
+        }
+
+        .mat-mdc-form-field {
+            margin-top: 8px;
+        }
+
+        .i-am-an-agent-checkbox {
+            margin-top: 36px;
+            padding-top: 8px;
+            
+            .mdc-form-field>label {
+                font-size: 16px;
+            }
+        }
+
+        .submit-button {
+            margin-top: 22px !important;
+        }
+    }
+}
+
+// Tablet (768px - 1023px)
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .signIn-dialog-content-wrapper {
+        .submit-form {
+            padding: 18px 16px 16px 16px;
+        }
+
+        .mat-mdc-form-field {
+            margin-top: 10px;
+        }
+
+        .i-am-an-agent-checkbox {
+            margin-top: 38px;
+            padding-top: 8px;
+            
+            .mdc-form-field>label {
+                font-size: 17px;
+            }
+        }
+
+        .submit-button {
+            margin-top: 24px !important;
+            
+            .mat-mdc-raised-button {
+                min-height: 50px !important;
+            }
+        }
+    }
+}
+
+// Desktop (1024px+)
+@media screen and (min-width: 1024px) {
+    .signIn-dialog-content-wrapper {
+        .submit-form {
+            padding: 20px 20px 16px 20px;
+        }
+
+        .mat-mdc-form-field {
+            margin-top: 12px;
+            width: 99%;
+        }
+
+        .i-am-an-agent-checkbox {
+            margin-top: 40px;
+            padding-top: 8px;
+            
+            .mdc-form-field>label {
+                font-size: 18px;
+            }
+        }
+
+        .submit-button {
+            margin-top: 28px !important;
+            
+            .mat-mdc-raised-button {
+                height: 50px !important;
+            }
+        }
+    }
+}
+
+// Large Desktop (1440px+)
+@media screen and (min-width: 1440px) {
+    .signIn-dialog-content-wrapper {
+        .submit-form {
+            padding: 24px 24px 20px 24px;
+        }
+
+        .mat-mdc-form-field {
+            margin-top: 14px;
+        }
     }
 }
