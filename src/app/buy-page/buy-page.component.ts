@@ -40,7 +40,7 @@ export class BuyPageComponent implements OnInit {
   mapPopupComponent = ImageCardComponent;
   constructor(
     private readonly buyPageService: BuyPageService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -50,29 +50,36 @@ export class BuyPageComponent implements OnInit {
         (position) => {
           this.loadAllMatchingListing(
             position.coords.longitude,
-            position.coords.latitude
+            position.coords.latitude,
           );
         },
         (error) => {
           console.error('Error getting location:', error);
           // If location access is denied by user, get listing based on last searched location
-          this.searchLocation = localStorage.getItem('buySearchLocation');
-          this.searchLocationLng = localStorage.getItem(
-            'buyCoordinateX'
-          ) as any;
-          this.searchLocationLat = localStorage.getItem(
-            'buyCoordinateY'
-          ) as any;
+          // Defaulting to Richmond, VA as it is setup with test data in prod.
+          this.searchLocation = localStorage.getItem('buySearchLocation')
+            ? localStorage.getItem('buySearchLocation')
+            : 'Richmond, VA, United States of America';
+          this.searchLocationLng = (localStorage.getItem(
+            'buyCoordinateX',
+          ) as any)
+            ? (localStorage.getItem('buyCoordinateX') as any)
+            : -77.43428;
+          this.searchLocationLat = (localStorage.getItem(
+            'buyCoordinateY',
+          ) as any)
+            ? (localStorage.getItem('buyCoordinateY') as any)
+            : 37.5385087;
           if (
             this.searchLocationLng != null &&
             this.searchLocationLat != null
           ) {
             this.loadAllMatchingListing(
               this.searchLocationLng,
-              this.searchLocationLat
+              this.searchLocationLat,
             );
           }
-        }
+        },
       );
     }
 
@@ -118,7 +125,7 @@ export class BuyPageComponent implements OnInit {
         coordinatex,
         coordinatey,
         this.page,
-        this.pageSize
+        this.pageSize,
       )
       .subscribe({
         next: (res) => {
@@ -128,9 +135,10 @@ export class BuyPageComponent implements OnInit {
             res.results.forEach((item: any) => {
               const listing = {} as IListingWithMediaList;
               listing.area = item.area;
-              listing.text = item.unit && item.unit.trim() !== 'undefined'
-                ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
-                : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
+              listing.text =
+                item.unit && item.unit.trim() !== 'undefined'
+                  ? `${item.unit}, ${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`
+                  : `${item.streetAddress}, ${item.city}, ${item.state}, ${item.zipCode}, ${item.country}`;
               listing.price = item.listingPrice;
               listing.id = item.id;
               listing.latitude = item.coordinateY;
@@ -147,7 +155,7 @@ export class BuyPageComponent implements OnInit {
             this.mapComponent.displayMarkers(
               [this.coordinatey, this.coordinatex],
               this.mapComponent.zoom,
-              this.listings
+              this.listings,
             );
           }
         },
