@@ -29,6 +29,8 @@ export class BuyPageComponent implements OnInit {
   searchLocationLat: number = 0;
   searchLocationLng: number = 0;
   defaultView = 'List';
+  // Banner state
+  bannerDismissed = false;
   titleStyle = {
     'font-weight': 500,
     'font-size.px': 25,
@@ -44,6 +46,9 @@ export class BuyPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Check if user previously dismissed the banner
+    const dismissed = localStorage.getItem('azureQuotaBannerDismissed');
+    this.bannerDismissed = dismissed === 'true';
     if (navigator.geolocation) {
       // If location access is provided by user, get listing based on that location
       navigator.geolocation.getCurrentPosition(
@@ -90,6 +95,12 @@ export class BuyPageComponent implements OnInit {
     //   const y = localStorage.getItem('buyCoordinateY') as any;
     //   this.loadAllMatchingListing(x, y);
     // }
+  }
+
+  // Dismiss the info banner
+  dismissBanner(): void {
+    this.bannerDismissed = true;
+    localStorage.setItem('azureQuotaBannerDismissed', 'true');
   }
 
   // Pagination event handler

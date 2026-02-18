@@ -1,5 +1,23 @@
 <span class="buy-page-wrapper">
     <div class="content" role="main">
+         <!-- INFO BANNER -->
+        <div class="info-banner" *ngIf="!bannerDismissed">
+            <div class="banner-content">
+                <mat-icon class="banner-icon">info</mat-icon>
+                <div class="banner-text">
+                    <strong>Important Notice:</strong> This application runs on Azure's free tier with daily quota limits. 
+                    If the app is unavailable or not responding, the daily quota may have been exceeded. 
+                    For a personal demo, please contact 
+                    <a href="mailto:madhurirao95&#64;gmail.com">madhurirao95&#64;gmail.com</a> 
+                    or view the source code on 
+                    <a href="https://github.com/Madhurirao95" target="_blank" rel="noopener">GitHub <mat-icon class="external-link-icon">open_in_new</mat-icon></a>.
+                </div>
+                <button mat-icon-button class="banner-close" (click)="dismissBanner()" aria-label="Close notice">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- END INFO BANNER -->
         <div class="background-image">
             <div class="buy-page-heading">
                 <h1 class="image-main-text">Home isn't a place, it's a feeling!</h1>
