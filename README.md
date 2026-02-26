@@ -1,6 +1,6 @@
-# DREAMHOMES Server
+# DREAMHOMES
 
-Backend API for the DREAMHOMES application, built with ASP.NET Core 10.0 and Entity Framework Core.
+A modern web application for discovering and managing dream homes, built with Angular 17 and integrated mapping capabilities.
 
 ## 📋 Table of Contents
 
@@ -8,56 +8,51 @@ Backend API for the DREAMHOMES application, built with ASP.NET Core 10.0 and Ent
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-- [Configuration](#configuration)
-- [Database Setup](#database-setup)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
+- [Development](#development)
+- [Build](#build)
 - [Testing](#testing)
 - [Project Structure](#project-structure)
-- [Architecture](#architecture)
+- [Available Scripts](#available-scripts)
 - [Contributing](#contributing)
+- [Live Demo](#live-demo)
 
 ## 🏠 About
 
-DREAMHOMES Server is a RESTful API backend that powers the DREAMHOMES property management application. It provides secure authentication, property management, user management, and real-time communication capabilities through SignalR integration.
+DREAMHOMES is a frontend application designed to help users find and explore their ideal homes. Built with Angular 17, it features interactive maps, location-based search with geocoding, and real-time updates through SignalR integration.
 
 ## ✨ Features
 
-- 🔐 **JWT Authentication** - Secure token-based authentication
-- 👤 **Identity Management** - ASP.NET Core Identity for user management
-- 🗺️ **Geospatial Support** - NetTopologySuite for location-based queries
-- 📊 **Entity Framework Core** - Code-first database approach with SQL Server
-- ✅ **Input Validation** - Custom validator pattern for request validation
-- 🔄 **AutoMapper** - Object-to-object mapping
-- 📝 **API Documentation** - Swagger/OpenAPI documentation
-- 🧪 **Comprehensive Testing** - Unit tests with NUnit/Moq and BDD integration tests with SpecFlow
+- 🗺️ Interactive maps powered by Leaflet
+- 📍 Location-based search with Geoapify geocoding autocomplete
+- 🎨 Modern UI with Angular Material components
+- 🔄 Real-time updates via SignalR
+- 📱 Responsive design for all devices
+- 🔍 Advanced property search and filtering
 
 ## 🛠️ Tech Stack
 
 ### Core Framework
-- **.NET**: 10.0
-- **C#**: 12.0
-- **ASP.NET Core**: 10.0
+- **Angular**: 17.3.12
+- **TypeScript**: 5.4.5
+- **RxJS**: 7.8.0
 
-### Database & ORM
-- **SQL Server**: Database engine
-- **Entity Framework Core**: 10.0.2
-- **NetTopologySuite**: 10.0.2 - Geospatial data support
+### UI & Styling
+- **Angular Material**: 17.3.10
+- **Angular CDK**: 17.3.10
+- **SCSS**: For custom styling
 
-### Authentication & Security
-- **ASP.NET Core Identity**: 10.0.2 - User management
-- **JWT Bearer Authentication**: 10.0.2 - Token-based auth
+### Mapping & Geolocation
+- **Leaflet**: 1.9.4 - Interactive maps
+- **Leaflet GeoSearch**: 4.2.2 - Location search functionality
+- **Geoapify Geocoder**: 2.0.3 - Geocoding autocomplete
 
-### Libraries & Tools
-- **AutoMapper**: 16.0.0 - Object mapping
-- **Swashbuckle (Swagger)**: 10.1.0 - API documentation
+### Real-time Communication
+- **Microsoft SignalR**: 9.0.6 - Real-time updates
 
-### Testing Frameworks
-- **NUnit**: 4.4.0 - Unit testing framework
-- **Moq**: 4.20.70 - Mocking library
-- **SpecFlow**: 3.9.74 - BDD testing with Gherkin
-- **FluentAssertions**: 8.8.0 - Assertion library
-- **Coverlet**: 3.2.0 - Code coverage
+### Development Tools
+- **Angular CLI**: 17.3.9
+- **ESLint**: Code quality and linting
+- **Karma & Jasmine**: Testing framework
 
 ## 🚀 Getting Started
 
@@ -65,399 +60,206 @@ DREAMHOMES Server is a RESTful API backend that powers the DREAMHOMES property m
 
 Before you begin, ensure you have the following installed:
 
-- **.NET SDK**: 10.0 or higher - [Download here](https://dotnet.microsoft.com/download)
-- **SQL Server**: 2019 or higher (Express edition works fine)
-- **Visual Studio 2022** (17.12+) or **VS Code** with C# extension
-- **SQL Server Management Studio (SSMS)** - Optional but recommended
+- **Node.js**: v18.13.0 or higher (recommended for Angular 17)
+- **npm**: v9.0.0 or higher
+- **Angular CLI**: Install globally with `npm install -g @angular/cli`
 
 ### Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/Madhurirao95/dreamhomesserver.git
-cd dreamhomesserver
+git clone https://github.com/Madhurirao95/dreamhomes.git
+cd dreamhomes
 ```
 
-2. **Restore NuGet packages**
+2. **Install dependencies**
 ```bash
-dotnet restore
+npm install
 ```
 
-3. **Update the connection string**
-
-Edit `appsettings.json` and update the connection string to match your SQL Server instance:
-```json
-"ConnectionStrings": {
-  "SqlConnection": "Server=YOUR_SERVER_NAME;Database=DreamHomes;Trusted_Connection=True;TrustServerCertificate=True"
-}
-```
-
-4. **Apply database migrations**
+3. **Start the development server**
 ```bash
-cd DREAMHOMES
-dotnet ef database update
+npm start
 ```
 
-If migrations don't exist yet, create them:
+4. **Open your browser**
+Navigate to `http://localhost:4200/`
+
+The application will automatically reload when you make changes to the source files.
+
+## 💻 Development
+
+### Development Server
+
+Run the development server:
 ```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+npm start
+# or
+ng serve
 ```
 
-5. **Run the application**
-```bash
-dotnet run
-```
+Navigate to `http://localhost:4200/`. The application will hot-reload on file changes.
 
-The API will be available at `https://localhost:9000` (or the port specified in launchSettings.json)
+### Code Scaffolding
 
-## ⚙️ Configuration
-
-### JWT Settings
-
-Configure JWT authentication in `appsettings.json`:
-
-```json
-"JwtBearerTokenSettings": {
-  "SecretKey": "YOUR_SECRET_KEY_HERE",
-  "Audience": "https://localhost:4200",
-  "Issuer": "https://localhost:9000",
-  "ExpiryTimeInMinutes": 1440
-}
-```
-
-**Security Note**: 
-- Change the `SecretKey` to a strong, unique value in production
-- Never commit sensitive keys to source control
-- Use environment variables or Azure Key Vault for production secrets
-
-### CORS Configuration
-
-The API is configured to allow requests from the Angular frontend at `https://localhost:4200`. Update CORS settings in `Program.cs` or `Startup.cs` if your frontend runs on a different port.
-
-### Connection String
-
-Update the SQL Server connection string for your environment:
-
-**Development (Windows Authentication)**:
-```json
-"SqlConnection": "Server=YOUR_SERVER;Database=DreamHomes;Trusted_Connection=True;TrustServerCertificate=True"
-```
-
-**Production (SQL Authentication)**:
-```json
-"SqlConnection": "Server=YOUR_SERVER;Database=DreamHomes;User Id=YOUR_USER;Password=YOUR_PASSWORD;TrustServerCertificate=True"
-```
-
-## 🗄️ Database Setup
-
-### Using Entity Framework Migrations
-
-1. **Create a new migration**
-```bash
-dotnet ef migrations add MigrationName
-```
-
-2. **Update the database**
-```bash
-dotnet ef database update
-```
-
-3. **Remove last migration** (if needed)
-```bash
-dotnet ef migrations remove
-```
-
-### Database Features
-
-- **Identity Tables**: User authentication and authorization
-- **Geospatial Data**: Location-based property queries using NetTopologySuite
-- **Code-First Approach**: Database schema defined in C# models
-
-## 🏃 Running the Application
-
-### Development Mode
+Generate new components, services, and other Angular elements:
 
 ```bash
-dotnet run
+# Generate a new component
+ng generate component components/component-name
+
+# Generate a service
+ng generate service services/service-name
+
+# Generate other elements
+ng generate directive|pipe|guard|interface|enum|module
 ```
 
-Or with watch mode (auto-restart on file changes):
+### Code Quality
+
+This project uses **ESLint** with TypeScript configuration for code quality and consistency. The linting rules follow the Standard TypeScript configuration.
+
+To run the linter:
 ```bash
-dotnet watch run
+ng lint
+```
+
+## 🏗️ Build
+
+### Development Build
+```bash
+npm run build
+# or
+ng build
 ```
 
 ### Production Build
-
 ```bash
-dotnet publish -c Release -o ./publish
+ng build --configuration production
 ```
 
-## 📚 API Documentation
+The build artifacts will be stored in the `dist/` directory.
 
-Once the application is running, access the Swagger UI documentation at:
-
+### Watch Mode
+For continuous building during development:
+```bash
+npm run watch
 ```
-https://localhost:9000/swagger
-```
-
-Swagger provides:
-- Interactive API documentation
-- Request/response examples
-- Try-it-out functionality for testing endpoints
 
 ## 🧪 Testing
 
-The solution includes comprehensive test coverage across multiple projects:
+### Unit Tests
 
-### Test Projects
-
-1. **DREAMHOMESTEST** - Unit Tests
-   - Framework: NUnit 3.13.3
-   - Mocking: Moq 4.20.70
-   - Coverage: Coverlet 3.2.0
-   - Tests business logic, services, and repositories
-
-2. **Integration Tests** - BDD Tests
-   - Framework: SpecFlow 3.9.74 with NUnit
-   - Assertions: FluentAssertions 8.8.0
-   - Tests API endpoints and workflows using Gherkin syntax
-   - Living documentation support
-
-### Running Tests
-
-**Run all tests**:
+Execute unit tests via Karma:
 ```bash
-dotnet test
+npm test
+# or
+ng test
 ```
 
-**Run unit tests only**:
+Tests run in watch mode by default and will re-execute on file changes.
+
+### Test Coverage
+
+Generate code coverage reports:
 ```bash
-dotnet test DREAMHOMESTEST/DREAMHOMESTEST.csproj
+ng test --code-coverage
 ```
 
-**Run integration tests only**:
-```bash
-dotnet test "Integration Tests/IntegrationTests.csproj"
-```
-
-**Run tests with code coverage**:
-```bash
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-```
-
-**Run tests with detailed output**:
-```bash
-dotnet test --verbosity normal
-```
-
-### Test Structure
-
-**Unit Tests (DREAMHOMESTEST)**:
-- Service layer tests
-- Repository layer tests
-- Validator tests
-- AutoMapper profile tests
-- Uses Moq for dependency mocking
-
-**Integration Tests**:
-- Feature files written in Gherkin syntax
-- Step definitions for API testing
-- End-to-end workflow validation
-- Database integration testing
+Coverage reports will be generated in the `coverage/` directory.
 
 ## 📁 Project Structure
 
 ```
-dreamhomesserver/
-├── DREAMHOMES/              # Main API project (.NET 10.0)
-│   ├── Controllers/         # API endpoints
-│   ├── Models/             # Domain models and entities
-│   │   └── Enums/          # Enumeration types
-│   ├── Services/           # Business logic layer
-│   ├── Repositories/       # Data access layer
-│   ├── Data/               # DbContext and configurations
-│   ├── DTOs/               # Data Transfer Objects
-│   ├── Validators/         # FluentValidation validators
-│   ├── Profiles/           # AutoMapper profiles
-│   └── Program.cs          # Application entry point
-├── DREAMHOMESTEST/         # Unit tests (NUnit + Moq)
-│   ├── Services/           # Service layer tests
-│   ├── Repositories/       # Repository tests
-│   └── Validators/         # Validation tests
-├── Integration Tests/      # BDD tests (SpecFlow + NUnit)
-│   ├── Features/           # Gherkin feature files
-│   ├── StepDefinitions/    # Step definition classes
-│   ├── Drivers/            # Test infrastructure
-│   └── Support/            # Helper classes
-└── DREAMHOMES.sln          # Solution file
+dreamhomes/
+├── .vscode/              # VS Code workspace settings
+├── src/
+│   ├── app/             # Application components, services, and modules
+│   ├── assets/          # Static assets (images, icons, etc.)
+│   ├── environments/    # Environment configurations
+│   └── styles/          # Global styles
+├── angular.json         # Angular CLI configuration
+├── package.json         # Project dependencies and scripts
+├── tsconfig.json        # TypeScript configuration
+├── .eslintrc.json       # ESLint configuration
+└── README.md           # Project documentation
 ```
 
-## 🏗️ Architecture
+## 📜 Available Scripts
 
-### Layered Architecture
+| Script | Command | Description |
+|--------|---------|-------------|
+| `npm start` | `ng serve` | Start development server |
+| `npm run build` | `ng build` | Build the project |
+| `npm run watch` | `ng build --watch --configuration development` | Build in watch mode |
+| `npm test` | `ng test` | Run unit tests |
+| `npm run lint` | `ng lint` | Run ESLint |
 
-The application follows a clean architecture pattern:
+## 🔧 Configuration
 
-1. **Controllers Layer**: HTTP request handling and routing
-2. **Services Layer**: Business logic and orchestration
-3. **Repository Layer**: Data access and persistence
-4. **Models Layer**: Domain entities and DTOs
+### API Keys
 
-### Key Patterns
+If you're using Geoapify services, you may need to configure API keys. Check the environment files in `src/environments/` for configuration options.
 
-- **Repository Pattern**: Data access abstraction
-- **Dependency Injection**: Built-in ASP.NET Core DI
-- **DTO Pattern**: Data Transfer Objects for API contracts
-- **Mapper Pattern**: AutoMapper for object transformations
-- **Validator Pattern**: Custom validation for input validation
+### Map Configuration
 
-### Authentication Flow
+Leaflet map settings can be customized in the respective component files. Refer to the [Leaflet documentation](https://leafletjs.com/) for available options.
 
-1. User sends credentials to `/api/auth/login`
-2. Server validates credentials against Identity database
-3. JWT token generated with claims
-4. Client includes token in `Authorization: Bearer {token}` header
-5. Middleware validates token on protected endpoints
+## 📚 Additional Resources
 
-## 🔐 Security
+- [Angular Documentation](https://angular.io/docs)
+- [Angular Material Components](https://material.angular.io/components)
+- [Leaflet Documentation](https://leafletjs.com/)
+- [Geoapify Documentation](https://www.geoapify.com/docs)
+- [SignalR Documentation](https://docs.microsoft.com/en-us/aspnet/core/signalr/)
 
-- JWT token-based authentication
-- Password hashing via ASP.NET Core Identity
-- HTTPS enforcement
-- CORS policy configuration
-- SQL injection protection via parameterized queries (EF Core)
+## 🌐 Live Demo
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Coding Standards
-
-- Follow C# coding conventions
-- Write unit tests for new features
-- Add integration tests for new endpoints
-- Update API documentation
-- Use meaningful commit messages
-
-### Testing Requirements
-
-- Maintain test coverage above 80%
-- Write unit tests using NUnit and Moq
-- Add integration tests using SpecFlow for new features
-- Ensure all tests pass before submitting PR
-
-## 📄 Related Projects
-
-- **Frontend Repository**: [dreamhomes](https://github.com/Madhurirao95/dreamhomes) - Angular 17 client application
-
-## 🌐 Live Demo & Deployment
-
-The API is deployed on Azure and serves the DREAMHOMES frontend application.
-
+The application is deployed and accessible at:
 - **Live Application**: [https://dreamhomes-7hqb.vercel.app/](https://dreamhomes-7hqb.vercel.app/)
-- **Frontend**: Vercel
+- **Frontend Hosting**: Vercel
 - **Backend API**: Azure App Service (Free Tier)
 
 > **Important**: This API is hosted on Azure's free tier, which has daily usage quotas and resource limitations. If the API is unresponsive or the live demo is not working, the daily quota may have been exceeded. For local setup instructions, please refer to the [Getting Started](#getting-started) section, or contact [madhurirao95@gmail.com](mailto:madhurirao95@gmail.com) to schedule a personal demonstration.
 
-### Real-Time Chat Feature
+### Testing Real-Time Chat Feature
 
-The backend includes SignalR hub implementation for real-time communication between buyers and agents.
+DREAMHOMES includes real-time chat functionality powered by SignalR, allowing buyers to connect with agents instantly. To test this feature:
 
-#### Testing Real-Time Chat
+#### Setup Instructions
 
-To test the chat functionality with multiple users:
+1. **Open two separate browser sessions:**
+   - Browser A: Normal window
+   - Browser B: Incognito/Private window (or different browser)
 
-**Setup:**
-1. Open the application in two separate browsers (or one normal + one incognito window)
-2. **Browser A**: Login as buyer
-   - Email: `test@gmail.com`
-   - Password: `Test@123`
-3. **Browser B**: Login as agent
-   - Email: `agent@gmail.com`
-   - Password: `Test@123`
+2. **Login with test accounts:**
+   - **Browser A (Buyer)**: 
+     - Email: `test@gmail.com`
+     - Password: `Test@123`
+   - **Browser B (Agent)**: 
+     - Email: `agent@gmail.com`
+     - Password: `Test@123`
 
-**Testing Flow:**
+#### Testing the Chat
 
-**Buyer Side (Browser A):**
-1. Navigate to any property listing
-2. Click on the property address to view details
-3. Scroll to the bottom of the page
-4. Click **"Chat with a Local Expert!"** button (bottom-right corner)
-5. Chat dialog opens
+**In Browser A (Buyer Account):**
+1. Browse available property listings
+2. Click on any property address to view details
+3. Scroll to the bottom of the property details page
+4. Click the **"Chat with a Local Expert!"** button in the bottom-right corner
+5. The chat dialog will open
 
-**Agent Side (Browser B):**
-1. Incoming chat request appears from `test@gmail.com`
-2. Click **"Accept"** to establish connection
+**In Browser B (Agent Account):**
+1. You will see an incoming chat request from `test@gmail.com`
+2. Click **"Accept"** to start the conversation
 
-**Real-Time Features:**
-- ✅ Instant message delivery via SignalR
-- ✅ No polling or page refresh required
-- ✅ WebSocket connection for low-latency communication
-- ✅ Connection state management
-- ✅ Message persistence
+**Observe Real-Time Features:**
+- ✅ Messages appear instantly on both sides
+- ✅ No page refresh required
+- ✅ Live typing indicators
+- ✅ Real-time connection status
 
-#### SignalR Configuration
-
-The backend handles:
-- WebSocket connections
-- Message routing between users
-- Connection lifecycle management
-- User presence tracking
-- Chat session management
-
-See the SignalR hub implementation in the codebase for technical details.
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**Database connection fails**:
-- Verify SQL Server is running
-- Check connection string in appsettings.json
-- Ensure database exists or run migrations
-
-**JWT authentication fails**:
-- Verify SecretKey matches between configuration and token generation
-- Check token expiry time
-- Ensure Audience and Issuer URLs are correct
-
-**Migration errors**:
-- Delete existing migrations and recreate
-- Check for model configuration conflicts
-- Ensure database provider (SQL Server) is correct
-
-**Test failures**:
-- Ensure test database is accessible
-- Check that all NuGet packages are restored
-- Verify mock configurations in unit tests
-
-**SignalR connection issues**:
-- Verify WebSocket support is enabled
-- Check CORS configuration for SignalR endpoints
-- Ensure firewall allows WebSocket connections
-- Check Azure configuration for WebSocket support
-
-## 📊 Version Information
-
-- **.NET Version**: 10.0
-- **Entity Framework Core**: 10.0.2
-- **C# Language Version**: 12.0
-- **Test Framework**: NUnit 4.4.0 / NUnit 3.13.3
-- **BDD Framework**: SpecFlow 3.9.74
-
-## 📞 Support
-
-For issues and questions:
-- Open an issue on GitHub
-- Check existing issues for solutions
+This demonstrates the SignalR integration enabling seamless communication between users.
 
 ## 👨‍💻 Author
 
@@ -467,4 +269,4 @@ For issues and questions:
 
 ---
 
-Built with ❤️ using ASP.NET Core 10.0
+Built with ❤️ using Angular 17

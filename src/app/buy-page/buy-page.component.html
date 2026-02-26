@@ -1,16 +1,20 @@
 <span class="buy-page-wrapper">
     <div class="content" role="main">
-         <!-- INFO BANNER -->
+        <!-- INFO BANNER -->
         <div class="info-banner" *ngIf="!bannerDismissed">
             <div class="banner-content">
                 <mat-icon class="banner-icon">info</mat-icon>
                 <div class="banner-text">
-                    <strong>Important Notice:</strong> This application runs on Azure's free tier with daily quota limits. 
-                    If the app is unavailable or not responding, the daily quota may have been exceeded. 
-                    For a personal demo, please contact 
-                    <a href="mailto:madhurirao95&#64;gmail.com">madhurirao95&#64;gmail.com</a> 
-                    or view the source code on 
-                    <a href="https://github.com/Madhurirao95" target="_blank" rel="noopener">GitHub <mat-icon class="external-link-icon">open_in_new</mat-icon></a>.
+                    <strong>Important Notice:</strong> This application runs on Azure's free tier with daily quota
+                    limits.
+                    If the app is unavailable or not responding, the daily quota may have been exceeded.
+                    For a personal demo, please contact
+                    <a href="mailto:madhurirao95&#64;gmail.com">madhurirao95&#64;gmail.com</a>
+                    or view the source code on
+                    <a href="https://github.com/Madhurirao95" target="_blank" rel="noopener">GitHub <mat-icon
+                            class="external-link-icon">open_in_new</mat-icon></a>.
+                    <br>
+                    <strong>Give real-time chat a try! See the GitHub <a href="https://github.com/Madhurirao95/dreamhomes/blob/main/README.md" target="_blank" rel="noopener">README </a> to get started.</strong>                  
                 </div>
                 <button mat-icon-button class="banner-close" (click)="dismissBanner()" aria-label="Close notice">
                     <mat-icon>close</mat-icon>
@@ -39,10 +43,12 @@
             <mat-spinner [strokeWidth]="5" [diameter]="70"></mat-spinner>
         </div>
         <div class="grid-container" *ngIf="defaultView === 'List'">
-            <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card" (view)="viewListing($event)">
+            <app-image-card *ngFor="let listing of listings" [listing]="listing" class="listing-card"
+                (view)="viewListing($event)">
             </app-image-card>
         </div>
-        <app-map *ngIf="defaultView === 'Map'" [center]="[searchLocationLat, searchLocationLng]" [mapLocations]="listings" [popupComponent]="mapPopupComponent"></app-map>
+        <app-map *ngIf="defaultView === 'Map'" [center]="[searchLocationLat, searchLocationLng]"
+            [mapLocations]="listings" [popupComponent]="mapPopupComponent"></app-map>
         <div class="no-search-results" *ngIf="defaultView === 'List' && listings.length === 0">
             No results with the given criteria. Try other locations.
         </div>
