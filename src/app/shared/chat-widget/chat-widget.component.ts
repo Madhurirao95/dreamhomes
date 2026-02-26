@@ -68,6 +68,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     } else {
       // Disconnect when closing
       await this.chatService.disconnect();
+      this.chatService.resetState();
     }
   }
 

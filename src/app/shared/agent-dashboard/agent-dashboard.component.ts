@@ -147,6 +147,7 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
         (c) => c.conversationId === message.conversationId
       );
       if (chat) {
+        chat.messages = Array.isArray(chat.messages) ? chat.messages : [];
         chat.messages.push(message);
         this.scrollToBottom();
       }
