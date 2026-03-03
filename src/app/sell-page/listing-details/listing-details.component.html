@@ -100,8 +100,8 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Listing Price</mat-label>
-                            <input matInput type="text" [appMaxDigits]="9" commaFormatter placeholder="Listing Price(in dollars)"
-                                formControlName="price">
+                            <input matInput type="text" [appMaxDigits]="9" commaFormatter
+                                placeholder="Listing Price(in dollars)" formControlName="price">
                             <mat-error *ngIf="postForm.get('price')?.errors?.['required']">Listing Price is
                                 required.</mat-error>
                         </mat-form-field>
@@ -117,9 +117,11 @@
                     <mat-grid-tile colspan="1" rowspan="1">
                         <mat-form-field appearance="outline">
                             <mat-label>Lot Area</mat-label>
-                            <input matInput type="text" decimalCommaFormatter [appMaxDigits]="6" [decimalDigits]="2" placeholder="Area of your Lot"
+                            <input matInput type="text" decimalCommaFormatter [allowDecimals]="lotAreaAllowDecimals"
+                                [decimalDigits]="2" [appMaxDigits]="lotAreaMaxDigits"
+                                [placeholder]="lotAreaUnit === 'Acres' ? 'Area of your Lot (max 99.99 ac)' : 'Area of your Lot (max 99,999 sq ft)'"
                                 formControlName="lotArea">
-                                 <mat-select matSuffix formControlName="lotAreaUnit" class="area-unit-select">
+                            <mat-select matSuffix formControlName="lotAreaUnit" class="area-unit-select">
                                 <mat-option *ngFor="let u of units" [value]="u">{{ u }}</mat-option>
                             </mat-select>
                             <mat-error *ngIf="postForm.get('lotArea')?.errors?.['required']">Lot Area is
@@ -164,12 +166,13 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile colspan="1" rowspan="1">
-                        <mat-slide-toggle formControlName="hasPool">Has Pool</mat-slide-toggle>
+                        <mat-slide-toggle hideIcon="true" formControlName="hasPool">Has Pool</mat-slide-toggle>
                     </mat-grid-tile>
                 </mat-grid-list>
                 <mat-grid-list [cols]="getFeatureGridCols()" [rowHeight]="getRowHeight()">
                     <mat-grid-tile colspan="1" rowspan="1">
-                        <mat-slide-toggle (change)="onHasGarageChange($event)" formControlName="hasGarage">Has
+                        <mat-slide-toggle (change)="onHasGarageChange($event)" hideIcon="true"
+                            formControlName="hasGarage">Has
                             Garage</mat-slide-toggle>
                     </mat-grid-tile>
                     <mat-grid-tile colspan="1" rowspan="1">
@@ -213,6 +216,14 @@
                             <mat-label>Description</mat-label>
                             <textarea matInput maxlength="2000" formControlName="description"
                                 placeholder="Description of your Listing!"></textarea>
+                            <mat-hint align="start">
+                                <button mat-stroked-button color="primary" type="button"
+                                    [disabled]="!canGenerateDescription()" (click)="generateDescription()"
+                                    class="generate-btn">
+                                    <mat-icon>auto_awesome</mat-icon>
+                                    {{ isGenerating ? 'Generating...' : 'Generate with AI' }}
+                                </button>
+                            </mat-hint>
                         </mat-form-field>
                     </mat-grid-tile>
                 </mat-grid-list>

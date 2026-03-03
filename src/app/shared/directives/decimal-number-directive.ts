@@ -7,6 +7,7 @@ import { NgControl } from '@angular/forms';
 })
 export class DecimalCommaFormatterDirective {
   @Input() decimalDigits: number = 2;
+  @Input() allowDecimals: boolean = true; // NEW — false = integer-only mode
 
   constructor(
     private readonly el: ElementRef,
@@ -38,40 +39,44 @@ export class DecimalCommaFormatterDirective {
 
     const newLength = this.el.nativeElement.value.length;
     const lengthDiff = newLength - originalLength;
-    const newPosition = cursorPosition + lengthDiff;
-    this.el.nativeElement.setSelectionRange(newPosition, newPosition);
+    this.el.nativeElement.setSelectionRange(
+      cursorPosition + lengthDiff,
+      cursorPosition + lengthDiff,
+    );
   }
 
   @HostListener('blur', ['$event'])
   onBlur(event: any): void {
     const value = event.target.value;
+    if (!value) return;
 
-    if (value) {
-      // Remove commas for parsing
-      const numericValue = value.replace(/,/g, '');
+    const numericValue = value.replace(/,/g, '');
+    if (isNaN(numericValue) || numericValue === '') return;
 
-      if (!isNaN(numericValue) && numericValue !== '') {
-        const num = parseFloat(numericValue);
-        const formatted = num.toFixed(this.decimalDigits);
+    const num = parseFloat(numericValue);
 
-        // Add commas to the integer part
-        const parts = formatted.split('.');
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        this.el.nativeElement.value = parts.join('.');
+    let formatted: string;
+    if (this.allowDecimals) {
+      // Round to decimalDigits and re-add commas
+      const fixed = num.toFixed(this.decimalDigits);
+      const parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      formatted = parts.join('.');
+    } else {
+      // Integer only — no decimal places
+      formatted = Math.trunc(num)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
-        if (this.ngControl?.control) {
-          this.ngControl.control.setValue(this.el.nativeElement.value, {
-            emitEvent: false,
-          });
-        }
-      }
+    this.el.nativeElement.value = formatted;
+    if (this.ngControl?.control) {
+      this.ngControl.control.setValue(formatted, { emitEvent: false });
     }
   }
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    const key = event.key;
-
     const allowedKeys = [
       'Backspace',
       'Delete',
@@ -86,59 +91,51 @@ export class DecimalCommaFormatterDirective {
       'ArrowDown',
     ];
 
-    if (allowedKeys.includes(key)) {
-      return;
-    }
+    if (allowedKeys.includes(event.key)) return;
+    if (event.ctrlKey || event.metaKey) return;
 
-    if (event.ctrlKey || event.metaKey) {
-      return;
-    }
-
-    // Allow decimal point only if not already present
-    if (key === '.' || key === ',') {
-      const currentValue = this.el.nativeElement.value;
-      if (currentValue.includes('.')) {
+    // Block decimal input entirely when allowDecimals is false
+    if (event.key === '.' || event.key === ',') {
+      if (!this.allowDecimals || this.el.nativeElement.value.includes('.')) {
         event.preventDefault();
       }
       return;
     }
 
-    // Allow only numeric digits
-    if (!/^\d$/.test(key)) {
+    if (!/^\d$/.test(event.key)) {
       event.preventDefault();
     }
   }
 
   private formatValue(value: string): void {
-    // Remove all characters except digits and decimal point
-    let cleanValue = value.replace(/[^0-9.]/g, '');
+    if (this.allowDecimals) {
+      // Original decimal formatting logic
+      let cleanValue = value.replace(/[^0-9.]/g, '');
+      const parts = cleanValue.split('.');
+      if (parts.length > 2) {
+        cleanValue = parts[0] + '.' + parts.slice(1).join('');
+      }
+      const finalParts = cleanValue.split('.');
+      if (
+        finalParts.length === 2 &&
+        finalParts[1].length > this.decimalDigits
+      ) {
+        cleanValue =
+          finalParts[0] + '.' + finalParts[1].substring(0, this.decimalDigits);
+      }
+      const [intPart, decPart] = cleanValue.split('.');
+      const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      const formattedValue =
+        decPart !== undefined ? `${formattedInt}.${decPart}` : formattedInt;
 
-    // Ensure only one decimal point
-    const parts = cleanValue.split('.');
-    if (parts.length > 2) {
-      cleanValue = parts[0] + '.' + parts.slice(1).join('');
-    }
-
-    // Limit decimal places
-    const finalParts = cleanValue.split('.');
-    if (finalParts.length === 2 && finalParts[1].length > this.decimalDigits) {
-      cleanValue =
-        finalParts[0] + '.' + finalParts[1].substring(0, this.decimalDigits);
-    }
-
-    // Add commas to the integer part only
-    const [integerPart, decimalPart] = cleanValue.split('.');
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-    const formattedValue =
-      decimalPart !== undefined
-        ? `${formattedInteger}.${decimalPart}`
-        : formattedInteger;
-
-    this.el.nativeElement.value = formattedValue;
-
-    if (this.ngControl?.control) {
-      this.ngControl.control.setValue(formattedValue, { emitEvent: false });
+      this.el.nativeElement.value = formattedValue;
+      this.ngControl?.control?.setValue(formattedValue, { emitEvent: false });
+    } else {
+      // Integer-only: strip everything except digits
+      const cleanValue = value.replace(/[^0-9]/g, '');
+      const formatted = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      this.el.nativeElement.value = formatted;
+      this.ngControl?.control?.setValue(formatted, { emitEvent: false });
     }
   }
 }

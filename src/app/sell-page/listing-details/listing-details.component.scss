@@ -16,6 +16,18 @@
     transition: clip-path 500ms;
     padding-bottom: 20px;
 
+    .mdc-switch:enabled .mdc-switch__track::after {
+        background: $primaryColor !important;
+    }
+
+    .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+        background: $primaryColor !important;
+    }
+
+    .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::after {
+        background: $primaryColor !important;
+    }
+
     .area-unit-select {
         min-width: 70px;
         .mat-mdc-select-trigger {
@@ -179,6 +191,10 @@
         font-weight: 600;
         margin-bottom: 8px;
         display: block;
+    }
+
+    .mat-mdc-form-field-hint-wrapper {
+        padding: 5px 0 0 0 !important;
     }
 }
 

@@ -28,6 +28,7 @@ DREAMHOMES is a frontend application designed to help users find and explore the
 - 🔄 Real-time updates via SignalR
 - 📱 Responsive design for all devices
 - 🔍 Advanced property search and filtering
+- 🤖 AI-powered property description generation using Google Gemini
 
 ## 🛠️ Tech Stack
 
@@ -220,7 +221,7 @@ The application is deployed and accessible at:
 - **Frontend Hosting**: Vercel
 - **Backend API**: Azure App Service (Free Tier)
 
-> **Important**: This API is hosted on Azure's free tier, which has daily usage quotas and resource limitations. If the API is unresponsive or the live demo is not working, the daily quota may have been exceeded. For local setup instructions, please refer to the [Getting Started](#getting-started) section, or contact [madhurirao95@gmail.com](mailto:madhurirao95@gmail.com) to schedule a personal demonstration.
+> **Note**: The backend API is hosted on Azure's free tier, which has usage quotas. If the application is not responding, the quota may have been exceeded. In this case, please refer to the [source code](https://github.com/Madhurirao95/dreamhomesserver) or contact [madhurirao95@gmail.com](mailto:madhurirao95@gmail.com) for a personal demo.
 
 ### Testing Real-Time Chat Feature
 
@@ -260,6 +261,36 @@ DREAMHOMES includes real-time chat functionality powered by SignalR, allowing bu
 - ✅ Real-time connection status
 
 This demonstrates the SignalR integration enabling seamless communication between users.
+
+### Testing AI-Powered Description Generation
+
+DREAMHOMES features AI-powered property description generation to help sellers create compelling listings effortlessly.
+
+**To test this feature:**
+
+1. **Login**: Use the account credentials
+   - Email: `test@gmail.com`
+   - Password: `Test@123`
+
+2. **Navigate to Sell Page**: Click on the **"Sell"** option in the navigation menu
+
+3. **Start New Listing**: Click the **"Post A Listing"** button
+
+4. **Fill Property Details**: Complete all required property information fields (address, price, bedrooms, bathrooms, etc.)
+
+5. **Generate AI Description**: 
+   - Scroll to the bottom of the form
+   - Locate the **"Description"** field
+   - Click the **"Generate with AI"** button
+   - The AI will automatically generate a professional, engaging property description based on your entered details
+
+**What to expect:**
+- ✅ Contextual description generated from property data
+- ✅ Professional, marketing-ready content
+- ✅ Instant generation without page reload
+- ✅ Editable output for customization
+
+This showcases the AI integration for enhancing user experience and productivity.
 
 ## 👨‍💻 Author
 

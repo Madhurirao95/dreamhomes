@@ -22,6 +22,7 @@ import { BuyPageService } from './services/buy-page-service';
 import { MapModule } from './shared/map/map.module';
 import { ViewListingModule } from './view-listing/view-listing.module';
 import { ChatService } from './services/chat-service';
+import { AIService } from './services/ai-service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +52,7 @@ import { ChatService } from './services/chat-service';
     BuyPageService,
     ChatService,
     SellPageService,
+    AIService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

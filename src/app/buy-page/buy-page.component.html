@@ -2,19 +2,31 @@
     <div class="content" role="main">
         <!-- INFO BANNER -->
         <div class="info-banner" *ngIf="!bannerDismissed">
+            <div class="banner-background"></div>
             <div class="banner-content">
-                <mat-icon class="banner-icon">info</mat-icon>
+                <div class="banner-icon-wrapper">
+                    <mat-icon class="banner-icon">info</mat-icon>
+                </div>
                 <div class="banner-text">
-                    <strong>Important Notice:</strong> This application runs on Azure's free tier with daily quota
-                    limits.
-                    If the app is unavailable or not responding, the daily quota may have been exceeded.
-                    For a personal demo, please contact
-                    <a href="mailto:madhurirao95&#64;gmail.com">madhurirao95&#64;gmail.com</a>
-                    or view the source code on
-                    <a href="https://github.com/Madhurirao95" target="_blank" rel="noopener">GitHub <mat-icon
-                            class="external-link-icon">open_in_new</mat-icon></a>.
-                    <br>
-                    <strong>Give real-time chat a try! See the GitHub <a href="https://github.com/Madhurirao95/dreamhomes/blob/main/README.md" target="_blank" rel="noopener">README </a> to get started.</strong>                  
+                    <div class="banner-main-title">Important Notice</div>
+                    <p class="banner-main-text">This application runs on Azure's free tier with daily quota limits. If the app is unavailable or not responding, the daily quota may have been exceeded.</p>
+                    <div class="banner-links">
+                        <span class="banner-label">For a personal demo, please contact:</span>
+                        <a href="mailto:madhurirao95&#64;gmail.com" class="banner-link">
+                            <mat-icon>mail</mat-icon>
+                            madhurirao95&#64;gmail.com
+                        </a>
+                        <span class="banner-separator">•</span>
+                        <span class="banner-label">or view the source code on</span>
+                        <a href="https://github.com/Madhurirao95" target="_blank" rel="noopener" class="banner-link">
+                            <mat-icon>code</mat-icon>
+                            GitHub
+                        </a>
+                    </div>
+                    <div class="banner-highlight">
+                        <mat-icon>star</mat-icon>
+                        <span>Give real-time chat a try — and don't forget to explore the AI feature! See the <a href="https://github.com/Madhurirao95/dreamhomes/blob/main/README.md" target="_blank" rel="noopener">README</a> to get started.</span>
+                    </div>
                 </div>
                 <button mat-icon-button class="banner-close" (click)="dismissBanner()" aria-label="Close notice">
                     <mat-icon>close</mat-icon>

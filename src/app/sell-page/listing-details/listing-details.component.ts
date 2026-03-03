@@ -2,8 +2,14 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { AIService } from 'src/app/services/ai-service';
 import { AuthenticationService } from 'src/app/services/authentication-service';
 import { SellPageService } from 'src/app/services/sell-page-service';
 import { IComponentData } from 'src/app/shared/Interfaces/IComponentData';
@@ -25,6 +31,8 @@ export class ListingDetailsDialogComponent implements IComponentData {
   submitButtonText = 'Post';
 
   areDocumentsChanged = false;
+
+  isGenerating = false;
 
   initialData: any;
   coordinatex: number = 0.0;
@@ -63,13 +71,31 @@ export class ListingDetailsDialogComponent implements IComponentData {
     (value) => typeof value !== 'number',
   );
 
+  get lotAreaUnit(): string {
+    return this.postForm.get('lotAreaUnit')?.value ?? 'SqFt';
+  }
+
+  get lotAreaAllowDecimals(): boolean {
+    return this.lotAreaUnit === 'Acres';
+  }
+
+  get lotAreaMaxDigits(): number {
+    // SqFt: 5 integer digits (max 99,999)
+    // Acres: 2 integer digits (max 99.xx)
+    return this.lotAreaUnit === 'Acres' ? 2 : 5;
+  }
+
   constructor(
     public dialog: MatDialog,
     private readonly formBuilder: FormBuilder,
     private readonly sellPageService: SellPageService,
     public readonly authService: AuthenticationService,
+    private readonly aiService: AIService,
   ) {
     this.postForm = this.getNewPostForm();
+    this.postForm.get('lotAreaUnit')?.valueChanges.subscribe(() => {
+      this.postForm.get('lotArea')?.setValue(null, { emitEvent: false });
+    });
     this.authService.isAuthorized$.subscribe((res) => {
       if (!res) {
         this.postForm.disable();
@@ -81,6 +107,74 @@ export class ListingDetailsDialogComponent implements IComponentData {
     for (let i = currentYear; i >= currentYear - 200; i--) {
       this.years.push(i);
     }
+  }
+
+  // checks all other controls are filled before enabling the button
+  canGenerateDescription(): boolean {
+    const controls = [
+      'type',
+      'streetAddress',
+      'zipCode',
+      'city',
+      'state',
+      'price',
+      'area',
+      'lotArea',
+      'lotAreaUnit',
+      'status',
+      'typeOfBuilding',
+      'yearBuilt',
+      'hoa',
+      'bedrooms',
+      'bathrooms',
+    ];
+    return controls.every((ctrl) => this.postForm.get(ctrl)?.valid);
+  }
+
+  generateDescription(): void {
+    this.isGenerating = true;
+
+    const formValue = this.postForm.value;
+
+    const request = {
+      streetAddress: formValue.streetAddress,
+      city: formValue.city,
+      state: formValue.state,
+      zipCode: formValue.zipCode,
+      unit: formValue.unit ?? '',
+      type: formValue.type,
+      listingPrice: this.parseNumber(formValue.price),
+      area: this.parseNumber(formValue.area),
+      buildingType: formValue.typeOfBuilding,
+      yearBuilt: formValue.yearBuilt,
+      lotArea: this.parseNumber(formValue.lotArea),
+      lotAreaUnit: formValue.lotAreaUnit,
+      hoa: formValue.hoa,
+      bedRooms: formValue.bedrooms,
+      bathRooms: formValue.bathrooms,
+      amountPerSqFt: formValue.amountPerSqFt,
+      hasFirePlace: formValue.hasFireplace,
+      numberOfFirePlace: formValue.numberOfFireplace,
+      hasGarage: formValue.hasGarage,
+      numberOfGarageSpace: formValue.numberOfGarageSpace,
+      hasPool: formValue.hasPool,
+      properties: formValue.features ?? '',
+    };
+
+    this.aiService.generateDescription(request).subscribe({
+      next: (res) => {
+        this.postForm.patchValue({ description: res.description });
+        this.isGenerating = false;
+      },
+      error: () => {
+        this.isGenerating = false;
+      },
+    });
+  }
+
+  // helper to strip commas from formatted number fields like "1,200"
+  private parseNumber(value: string): number {
+    return value ? parseFloat(value.toString().replace(/,/g, '')) : 0;
   }
 
   // Responsive grid column methods
@@ -160,8 +254,8 @@ export class ListingDetailsDialogComponent implements IComponentData {
       description: initialData.description,
       features: initialData.properties,
       amountPerSqFt: initialData.amountPerSqFt,
-      lotArea: initialData.lotArea,
       lotAreaUnit: AreaUnit[initialData.lotAreaUnit as keyof typeof AreaUnit],
+      lotArea: initialData.lotArea,
       status: initialData.status,
       typeOfBuilding: initialData.buildingType,
       yearBuilt: initialData.yearBuilt,
@@ -243,21 +337,25 @@ export class ListingDetailsDialogComponent implements IComponentData {
   }
 
   onHasGarageChange(event: any): void {
-    if (event.checked === false) {
-      this.postForm.get('numberOfGarageSpace')?.setValue(null);
-      this.postForm.get('numberOfGarageSpace')?.disable();
-    } else {
-      this.postForm.get('numberOfGarageSpace')?.enable();
-    }
+    const control = this.postForm.get('numberOfGarageSpace');
+    this.onToggleChange(event, control);
   }
 
   onHasFireplaceChange(event: any): void {
+    const control = this.postForm.get('numberOfFireplace');
+    this.onToggleChange(event, control);
+  }
+
+  onToggleChange(event: any, control: AbstractControl | null): void {
     if (event.checked === false) {
-      this.postForm.get('numberOfFireplace')?.setValue(null);
-      this.postForm.get('numberOfFireplace')?.disable();
+      control?.setValue(0);
+      control?.disable();
+      control?.removeValidators(Validators.required);
     } else {
-      this.postForm.get('numberOfFireplace')?.enable();
+      control?.enable();
+      control?.addValidators(Validators.required);
     }
+    control?.updateValueAndValidity();
   }
 
   suggestionsChanged(event: any): void {
