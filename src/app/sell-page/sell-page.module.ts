@@ -5,11 +5,20 @@ import { ListingDetailsDialogModule } from './listing-details/listing-details.mo
 import { ImageCarouselModule } from '../shared/image-carousel/image-carousel.module';
 import { PostedListingDetailsModule } from './posted-listing-details/posted-listing-details.module';
 import { FooterModule } from '../footer/footer.module';
+import { RouterModule, Routes } from '@angular/router';
 
+const routes: Routes = [{ path: '', component: SellPageComponent }];
 @NgModule({
   declarations: [SellPageComponent],
-  imports: [SharedModule, ListingDetailsDialogModule, ImageCarouselModule, PostedListingDetailsModule, FooterModule],
-  exports: [SellPageComponent],
-  providers: []
+  imports: [
+    RouterModule.forChild(routes),
+    SharedModule,
+    ListingDetailsDialogModule,
+    ImageCarouselModule,
+    PostedListingDetailsModule,
+    FooterModule,
+  ],
+  exports: [SellPageComponent, RouterModule],
+  providers: [],
 })
 export class SellPageModule {}
